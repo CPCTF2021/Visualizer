@@ -309,8 +309,9 @@ GameObject:
   - component: {fileID: 947240758}
   - component: {fileID: 947240760}
   - component: {fileID: 947240759}
+  - component: {fileID: 947240763}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -329,9 +330,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   branchSegment: 3
-  branchNum: 5
-  branchDelta: 0.8
-  radius: 0.02
+  branchNum: 7
+  branchDelta: 1.5
+  radius: 0.04
 --- !u!65 &947240759
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -406,3 +407,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &947240763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947240757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e085bacfa74ba0e47a90570d02e0a243, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progress: 0
