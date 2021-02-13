@@ -5,43 +5,132 @@ using UnityEngine;
 public class ProcLegacy : MonoBehaviour
 {
     [SerializeField]
-    int segmentNum = 30;
+    int branchSegment = 10;
     [SerializeField]
-    float width = 0.04f;
+    int branchNum = 5;
+    [SerializeField]
+    float branchDelta = 1f;
+    [SerializeField]
+    float radius = 0.04f;
 
-    void Start()
+    protected class Coordinate {
+        public Vector3 normal;
+        public Vector3 binormal;
+        public Vector3 front;
+        public Coordinate() {
+            normal = new Vector3(1f, 0f, 0f);
+            binormal = new Vector3(0f, 0f, 1f);
+            front = new Vector3(0f, 1f, 0f);
+        }
+
+        public Coordinate(Vector3 normal, Vector3 binormal, Vector3 front) {
+            this.normal = normal;
+            this.binormal = binormal;
+            this.front = front;
+        }
+
+        public void Rotate(float branchDelta) {
+            Vector3 prevDir = front;
+            front = Random.Range(-branchDelta, branchDelta) * normal + Random.Range(-branchDelta, branchDelta) * binormal + front;
+            front = front.normalized;
+            Quaternion rotation = Quaternion.FromToRotation(prevDir, front);
+            normal = rotation * normal;
+            binormal = rotation * binormal;
+        }
+
+        public Coordinate Copy() {
+            return new Coordinate(this.normal, this.binormal, this.front);
+        }
+    }
+
+    void BuildBranch(int branchIndex, List<Vector3> vertices, List<int> triangles, List<Vector3> normals, List<Vector2> uv2, Vector3 offset, Coordinate _coord)
     {
+        if(branchIndex >= branchNum) return;
+        Coordinate coord = _coord.Copy();
         float delta = 0f;
-        Vector3[] vertices = new Vector3[segmentNum * 5];
-        for(int i=0;i<segmentNum;i++) {
+        int indexOffset = vertices.Count;
+        for(int i=0;i<branchSegment;i++) {
             for(int j=0;j<5;j++) {
-                vertices[i*5+j] = new Vector3(
-                    Mathf.Cos(Mathf.PI / 5f * j + delta) * width,
-                    i / (float)segmentNum,
-                    Mathf.Sin(Mathf.PI / 5f * j + delta) * width
+                float rad = Mathf.PI * 2f / 5f * (float)j + delta;
+                vertices.Add(
+                    coord.normal * Mathf.Cos(rad) * radius +
+                    coord.binormal * Mathf.Sin(rad) * radius +
+                    offset
                 );
-                delta += Mathf.PI / 5f;
+                normals.Add(
+                    coord.normal * Mathf.Cos(rad) +
+                    coord.binormal * Mathf.Sin(rad)
+                );
+                uv2.Add(new Vector2(1f - (branchIndex + i / (float)(branchSegment - 1)) / (float)branchNum, 0f));
             }
+            if(i == branchSegment - 1) break;
+            offset += coord.front / (float)(branchNum * branchSegment);
+            delta += Mathf.PI / 5f;
+
+            coord.Rotate(branchDelta * (branchIndex / (float)branchNum));
         }
-        int[] triangles = new int[(segmentNum - 1) * 10 * 3];
-        for(int i=1;i<segmentNum;i++) {
+        for(int i=1;i<branchSegment;i++) {
             for(int j=0;j<5;j++) {
-                triangles[((i - 1) * 10 + j) * 3    ] = i * 5 + j;
-                triangles[((i - 1) * 10 + j) * 3 + 1] = i * 5 + (j + 1) % 5;
-                triangles[((i - 1) * 10 + j) * 3 + 2] = (i - 1) * 5 + (j + 3) % 5;
-            }
-            for(int j=0;j<5;j++) {
-                triangles[((i - 1) * 10 + j + 5) * 3    ] = (i - 1) * 5 + j;
-                triangles[((i - 1) * 10 + j + 5) * 3 + 1] = i * 5 + (j + 3) % 5;
-                triangles[((i - 1) * 10 + j + 5) * 3 + 2] = (i - 1) * 5 + (j + 1) % 5;
+                triangles.Add(indexOffset + (i - 1) * 5 + j);
+                triangles.Add(indexOffset + i * 5 + j);
+                triangles.Add(indexOffset + (i - 1) * 5 + (j + 1) % 5);
+
+                triangles.Add(indexOffset + i * 5 + (j + 1) % 5);
+                triangles.Add(indexOffset + (i - 1) * 5 + (j + 1) % 5);
+                triangles.Add(indexOffset + i * 5 + j);
             }
         }
 
+        indexOffset += branchSegment * 5;
+
+        BuildBranch(branchIndex + 1, vertices, triangles, normals, uv2,  offset, coord);
+        BuildBranch(branchIndex + 1, vertices, triangles, normals, uv2, offset, coord);
+
+    }
+
+    Mesh FlatShading(Mesh mesh) {
+        Vector3[] oldVerts = mesh.vertices;
+		int[] newTriangles = mesh.triangles;
+		Vector3[] newVertices = new Vector3[newTriangles.Length];
+
+		for (int i = 0; i < newTriangles.Length; i++) 
+		{
+			newVertices[i] = oldVerts[newTriangles[i]];
+			newTriangles[i] = i;
+		}
+
+        Mesh newMesh = new Mesh();
+        newMesh.SetVertices(newVertices);
+        newMesh.SetTriangles(newTriangles, 0);
+        return newMesh;
+    }
+
+    Mesh BuildMesh() {
+
+        List<Vector3> vertices = new List<Vector3>();
+        List<int> triangles = new List<int>();
+        List<Vector3> normals = new List<Vector3>();
+        List<Vector2> uv2 = new List<Vector2>();
+        BuildBranch(0, vertices, triangles, normals, uv2, Vector3.zero, new Coordinate());
         Mesh mesh = new Mesh();
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-        mesh.RecalculateNormals();
-        GetComponent<MeshFilter>().sharedMesh = mesh;
+        mesh.SetVertices(vertices.ToArray());
+        mesh.SetTriangles(triangles.ToArray(), 0);
+        mesh.SetNormals(normals.ToArray());
+        mesh.SetUVs(1, uv2);
+        // mesh = FlatShading(mesh);
+        GetComponent<Renderer>().material.SetFloat("_Radius", radius);
+        // mesh.RecalculateNormals();
+        // mesh.SetIndices(mesh.GetIndices(0),MeshTopology.LineStrip,0);
+        return mesh;
+
+    }
+
+    void Start() {
+        GetComponent<MeshFilter>().sharedMesh = BuildMesh();
+    }
+
+    public Mesh Build() {
+        return BuildMesh();
     }
 
     // Update is called once per frame
