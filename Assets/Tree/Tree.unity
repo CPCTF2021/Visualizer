@@ -330,9 +330,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   branchSegment: 3
-  branchNum: 7
-  branchDelta: 1.5
-  radius: 0.04
+  branchNum: 6
+  branchDelta: 2.5
+  radius: 0.05
+  leaves: {fileID: 8986219150911301738, guid: 2be894b7b6384454287b48cb992bc2cf, type: 3}
+  leavesList: []
+  leavesProgress: []
 --- !u!65 &947240759
 BoxCollider:
   m_ObjectHideFlags: 0

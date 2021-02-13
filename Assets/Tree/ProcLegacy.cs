@@ -6,12 +6,16 @@ public class ProcLegacy : MonoBehaviour
 {
     [SerializeField]
     int branchSegment = 10;
-    [SerializeField]
-    int branchNum = 5;
+    public int branchNum = 5;
     [SerializeField]
     float branchDelta = 1f;
+    public float radius = 0.04f;
+
     [SerializeField]
-    float radius = 0.04f;
+    GameObject leaves;
+
+    public List<Transform> leavesList;
+    public List<float> leavesProgress;
 
     protected class Coordinate {
         public Vector3 normal;
@@ -45,7 +49,15 @@ public class ProcLegacy : MonoBehaviour
 
     void BuildBranch(int branchIndex, List<Vector3> vertices, List<int> triangles, List<Vector3> normals, List<Vector2> uv2, Vector3 offset, Coordinate _coord)
     {
+        
         if(branchIndex >= branchNum) return;
+        if(branchIndex >= branchNum - 3) {
+            GameObject leef = Instantiate(leaves, transform);
+            leef.transform.position = offset + _coord.front / (float)branchNum * 0.5f;
+            leef.transform.localScale = new Vector3(1f, 1f, 1f) * radius * 200f;
+            leavesList.Add(leef.transform);
+            leavesProgress.Add(branchIndex / (float)branchNum);
+        }
         Coordinate coord = _coord.Copy();
         float delta = 0f;
         int indexOffset = vertices.Count;
