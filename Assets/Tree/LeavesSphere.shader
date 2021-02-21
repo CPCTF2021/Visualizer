@@ -1,10 +1,8 @@
-﻿Shader "Unlit/Tree"
+﻿Shader "Unlit/LeavesSphere"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Radius ("Radius", Float) = 0.1
-        _Progress ("Progress", Range(0, 1)) = 0
         _MainColor("MainColor", Color) = (0.0, 0.0, 0.0, 0.0)
     }
     SubShader
@@ -26,8 +24,6 @@
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float2 uv2 : TEXCOORD1;
-                float2 uv3 : TEXCOORD2;
                 float3 normal: NORMAL;
             };
 
@@ -41,14 +37,12 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float _Radius;
-            float _Progress;
             float4 _MainColor;
 
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex - float3(v.uv2.y, v.uv3.x, v.uv3.y) * _Radius * (1.0 - max(min(v.uv2.x - (1 - _Progress), 1.0), 0.0)));
+                o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 o.normal = UnityObjectToWorldNormal(v.normal);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class ControlTree : MonoBehaviour
 {
     [SerializeField]
@@ -22,8 +23,8 @@ public class ControlTree : MonoBehaviour
     void Update()
     {
         GetComponent<Renderer>().material.SetFloat("_Progress", progress);
-        transform.localScale = new Vector3(progress, progress, progress);
         if(progress != prevProgress) {
+            transform.localScale = new Vector3(progress, progress, progress);
             for(int i=0;i<tree.leavesList.Count;i++) {
                 float scale = tree.radius * 200f * Mathf.Max(Mathf.Min((progress - tree.leavesProgress[i]) * (float)tree.branchNum, 1f), 0f);
                 

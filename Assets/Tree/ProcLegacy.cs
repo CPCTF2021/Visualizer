@@ -49,8 +49,9 @@ public class ProcLegacy : MonoBehaviour
 
     void BuildBranch(int branchIndex, List<Vector3> vertices, List<int> triangles, List<Vector3> normals, List<Vector2> uv2, Vector3 offset, Coordinate _coord)
     {
-        
         if(branchIndex >= branchNum) return;
+        int segmentNum = (int)(branchSegment * (1f - (branchIndex / (float)branchNum))) + 1;
+        segmentNum = (segmentNum / 2) * 2 + 1;
         if(branchIndex >= branchNum - 3) {
             GameObject leef = Instantiate(leaves, transform);
             leef.transform.position = offset + _coord.front / (float)branchNum * 0.5f;
@@ -61,7 +62,7 @@ public class ProcLegacy : MonoBehaviour
         Coordinate coord = _coord.Copy();
         float delta = 0f;
         int indexOffset = vertices.Count;
-        for(int i=0;i<branchSegment;i++) {
+        for(int i=0;i<segmentNum;i++) {
             for(int j=0;j<5;j++) {
                 float rad = Mathf.PI * 2f / 5f * (float)j + delta;
                 vertices.Add(
@@ -73,15 +74,15 @@ public class ProcLegacy : MonoBehaviour
                     coord.normal * Mathf.Cos(rad) +
                     coord.binormal * Mathf.Sin(rad)
                 );
-                uv2.Add(new Vector2(1f - (branchIndex + i / (float)(branchSegment - 1)) / (float)branchNum, 0f));
+                uv2.Add(new Vector2(1f - (branchIndex + i / (float)(segmentNum - 1)) / (float)branchNum, 0f));
             }
-            if(i == branchSegment - 1) break;
-            offset += coord.front / (float)(branchNum * branchSegment);
+            if(i == segmentNum - 1) break;
+            offset += coord.front / (float)(branchNum * segmentNum);
             delta += Mathf.PI / 5f;
 
             coord.Rotate(branchDelta * (branchIndex / (float)branchNum));
         }
-        for(int i=1;i<branchSegment;i++) {
+        for(int i=1;i<segmentNum;i++) {
             for(int j=0;j<5;j++) {
                 triangles.Add(indexOffset + (i - 1) * 5 + j);
                 triangles.Add(indexOffset + i * 5 + j);
@@ -93,7 +94,7 @@ public class ProcLegacy : MonoBehaviour
             }
         }
 
-        indexOffset += branchSegment * 5;
+        indexOffset += segmentNum * 5;
 
         BuildBranch(branchIndex + 1, vertices, triangles, normals, uv2,  offset, coord);
         BuildBranch(branchIndex + 1, vertices, triangles, normals, uv2, offset, coord);
@@ -101,19 +102,29 @@ public class ProcLegacy : MonoBehaviour
     }
 
     Mesh FlatShading(Mesh mesh) {
-        Vector3[] oldVerts = mesh.vertices;
+        Vector3[] oldVertices = mesh.vertices;
+        Vector3[] oldNormals = mesh.normals;
+        Vector2[] oldUv2 = mesh.uv2;
 		int[] newTriangles = mesh.triangles;
 		Vector3[] newVertices = new Vector3[newTriangles.Length];
+        Vector2[] newUv2 = new Vector2[newTriangles.Length];
+        Vector2[] newUv3 = new Vector2[newTriangles.Length];
 
 		for (int i = 0; i < newTriangles.Length; i++) 
 		{
-			newVertices[i] = oldVerts[newTriangles[i]];
+            int oldIndex = newTriangles[i];
+			newVertices[i] = oldVertices[oldIndex];
 			newTriangles[i] = i;
+            newUv2[i] = new Vector2(oldUv2[oldIndex].x, oldNormals[oldIndex].x);
+            newUv3[i] = new Vector2(oldNormals[oldIndex].y, oldNormals[oldIndex].z);
 		}
 
         Mesh newMesh = new Mesh();
         newMesh.SetVertices(newVertices);
         newMesh.SetTriangles(newTriangles, 0);
+        newMesh.RecalculateNormals();
+        newMesh.SetUVs(1, newUv2);
+        newMesh.SetUVs(2, newUv3);
         return newMesh;
     }
 
@@ -123,14 +134,16 @@ public class ProcLegacy : MonoBehaviour
         List<int> triangles = new List<int>();
         List<Vector3> normals = new List<Vector3>();
         List<Vector2> uv2 = new List<Vector2>();
+        leavesList = new List<Transform>();
+        leavesProgress = new List<float>();
         BuildBranch(0, vertices, triangles, normals, uv2, Vector3.zero, new Coordinate());
         Mesh mesh = new Mesh();
         mesh.SetVertices(vertices.ToArray());
         mesh.SetTriangles(triangles.ToArray(), 0);
         mesh.SetNormals(normals.ToArray());
-        mesh.SetUVs(1, uv2);
-        // mesh = FlatShading(mesh);
-        GetComponent<Renderer>().material.SetFloat("_Radius", radius);
+        mesh.SetUVs(1, uv2.ToArray());
+        mesh = FlatShading(mesh);
+        GetComponent<Renderer>().sharedMaterial.SetFloat("_Radius", radius);
         // mesh.RecalculateNormals();
         // mesh.SetIndices(mesh.GetIndices(0),MeshTopology.LineStrip,0);
         return mesh;
@@ -138,10 +151,13 @@ public class ProcLegacy : MonoBehaviour
     }
 
     void Start() {
+         foreach (Transform child in transform) {
+            DestroyImmediate(child.gameObject);
+        }
         GetComponent<MeshFilter>().sharedMesh = BuildMesh();
     }
 
-    public Mesh Build() {
+    protected Mesh Build() {
         return BuildMesh();
     }
 
