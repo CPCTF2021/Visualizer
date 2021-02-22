@@ -54,7 +54,7 @@ public class ProcLegacy : MonoBehaviour
         segmentNum = (segmentNum / 2) * 2 + 1;
         if(branchIndex >= branchNum - 3) {
             GameObject leef = Instantiate(leaves, transform);
-            leef.transform.position = offset + _coord.front / (float)branchNum * 0.5f;
+            leef.transform.localPosition = offset + _coord.front / (float)branchNum * 0.5f;
             leef.transform.localScale = new Vector3(1f, 1f, 1f) * radius * 200f;
             leavesList.Add(leef.transform);
             leavesProgress.Add(branchIndex / (float)branchNum);
