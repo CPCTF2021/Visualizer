@@ -51,7 +51,7 @@
             {
                 float4 texCol = tex2D(_MainTex, i.uv);
                 half3 normal = UnityObjectToWorldNormal(UnpackNormal(texCol) * half3(1.0, 1.0, -1.0));
-                fixed4 col = _MainColor * dot(normal, float3( 0.7071, 0.7071, 0.0));
+                fixed4 col = _MainColor * dot(normal, float3(0.7071, 0.7071, 0.0));
                 col = pow(col, 1.0);
                 col.a = texCol.a;
                 // apply fog
