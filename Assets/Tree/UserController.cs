@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Tree;
 
 public class UserController : MonoBehaviour
 {
@@ -19,13 +20,13 @@ public class UserController : MonoBehaviour
         this.points = points;
         int sum = points.Sum();
         // 10000fは最大ポイント
-        controlTree.progress = sum / 10000f * 0.9f + 0.1f;
+        controlTree.progress = sum / 10000f * 0.8f + 0.2f;
     }
 
     public void SetSolvedProblem(int genre, int point) {
         points.Add(genre, point);
         int sum = points.Sum();
         // 10000fは最大ポイント
-        controlTree.progress = sum / 10000f * 0.9f + 0.1f;
+        controlTree.progress = sum / 10000f * 0.8f + 0.2f;
     }
 }

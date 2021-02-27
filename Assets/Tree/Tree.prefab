@@ -10,11 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6993139421449292405}
   - component: {fileID: 6993139421449292406}
-  - component: {fileID: 6993139421449292409}
   - component: {fileID: 6993139421449292407}
   - component: {fileID: 6993139421449292408}
   - component: {fileID: 6993139421449292404}
-  - component: {fileID: 1369657870262690098}
+  - component: {fileID: 5811316783377893625}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -44,137 +43,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6993139421449292410}
   m_Mesh: {fileID: 0}
---- !u!114 &6993139421449292409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6993139421449292410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f7b569cac53d3247a95fb5c8d53e906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  branchSegment: 3
-  branchNum: 6
-  branchDelta: 2.5
-  radius: 0.05
-  leaves: {fileID: 8340607081488133315, guid: 05dd8ce1a9df37d49b78ef6b7911eb5c, type: 3}
-  leavesList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  leavesProgress:
-  - 0.5
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.5
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.5
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.5
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.5
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.5
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.5
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.5
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
-  - 0.6666667
-  - 0.8333333
-  - 0.8333333
 --- !u!23 &6993139421449292407
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -239,8 +107,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e085bacfa74ba0e47a90570d02e0a243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 1
---- !u!114 &1369657870262690098
+  progress: 0.45
+  leaveList: []
+  leaveProgress: []
+  branchNum: 0
+  radius: 0
+--- !u!114 &5811316783377893625
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,6 +121,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6993139421449292410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57e36047b5643ec43bf2de813670c774, type: 3}
+  m_Script: {fileID: 11500000, guid: c5dec2c4648a43042b7f8eb5c2dfe90d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
