@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6993139421449292407}
   - component: {fileID: 6993139421449292408}
   - component: {fileID: 6993139421449292404}
+  - component: {fileID: 1369657870262690098}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -239,3 +240,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 1
+--- !u!114 &1369657870262690098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6993139421449292410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e36047b5643ec43bf2de813670c774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
