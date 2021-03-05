@@ -59,7 +59,7 @@ namespace Tree {
       int segmentNum = this.segmentNum;
       if(branchIndex >= branchNum) return;
       Coordinate prevCoord = _coord.Copy();
-      Coordinate coord = _coord.Copy().Rotate(2f * (branchIndex / (float)branchNum));
+      Coordinate coord = _coord;
       float delta = 0f;
       Vector3 offset2 = offset + coord.front / (float)(branchNum * segmentNum) * branchLength;
       int indexOffset = triangles.Count;
@@ -103,8 +103,9 @@ namespace Tree {
         prevCoord = coord.Copy();
         coord.Rotate(0f * (branchIndex / (float)branchNum));
       }
+      BuildBranch(branchIndex + Random.Range(2, 5), offset, prevCoord.Copy().Rotate(10f * (branchIndex / (float)branchNum)));
       BuildBranch(branchIndex + 1, offset, prevCoord);
-      BuildBranch(branchIndex + 1, offset, prevCoord);
+      BuildBranch(branchIndex + Random.Range(2, 5), offset, prevCoord.Copy().Rotate(10f * (branchIndex / (float)branchNum)));
     }
 
     public void BuildMesh() {

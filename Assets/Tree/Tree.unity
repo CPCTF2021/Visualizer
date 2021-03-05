@@ -449,11 +449,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tree: {fileID: 6993139421449292410, guid: c54f92154a609fe48b2b29c20954488d, type: 3}
-  leave: {fileID: 8340607081488133315, guid: 05dd8ce1a9df37d49b78ef6b7911eb5c, type: 3}
+  leave: {fileID: 2069968674067816013, guid: dc706073dc241704facaf9ceed35376a, type: 3}
+  leaveBaseColor: {r: 0.6650944, g: 1, b: 0.6650944, a: 0}
+  baseColorRate: 0.8
   treeParent: {fileID: 723520031}
   num: 150
   segmentNum: 3
-  branchNum: 5
+  branchNum: 8
   radius: 2.5
   branchLength: 2
   stemRadius: 0.1
@@ -514,7 +516,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2118017566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8316e0323d3614eae6e54c0f884321, type: 3}
+  m_Script: {fileID: 11500000, guid: 7dfe24929a9112147b6ed6f6d903addf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2118017569
@@ -526,6 +528,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2118017566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43de091b7e914704982c617222721a08, type: 3}
+  m_Script: {fileID: 11500000, guid: c8a65d038255b6547b15672c8e7afde0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

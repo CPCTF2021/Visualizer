@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
         transform.localScale = new Vector3(nowScale, nowScale, nowScale);
         if(Time.time % 2f < Time.deltaTime) {
             targetRotation = new Vector3(Random.Range(0f, 360f), Random.Range(0f, 360f), Random.Range(0f, 360f));
-            targetScale = Random.Range(1f, 6f);
+            targetScale = Random.Range(3f, 6f);
         }
     }
 }
