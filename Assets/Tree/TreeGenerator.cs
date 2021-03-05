@@ -11,6 +11,10 @@ namespace Tree {
     [SerializeField]
     GameObject leave;
     [SerializeField]
+    Color leaveBaseColor;
+    [SerializeField]
+    float baseColorRate = 0.5f;
+    [SerializeField]
     Transform treeParent;
     [SerializeField]
     int num, segmentNum, branchNum;
@@ -19,6 +23,17 @@ namespace Tree {
     public List<UserController> userControllers;
     void Start()
     {
+      StartCoroutine("MakeTree");
+
+      // 葉の色
+      for(int i=0;i<Points.GENRE_TO_COLOR.Length;i++) {
+        Points.GENRE_TO_COLOR[i] = Points.GENRE_TO_COLOR[i] * 0.95f + new Color(1f, 1f, 1f) * 0.05f;
+        Points.GENRE_TO_COLOR[i] = Points.GENRE_TO_COLOR[i] * baseColorRate + leaveBaseColor * (1f - baseColorRate);
+        // Points.GENRE_TO_COLOR[i] = Mathf.Pow(new Color(1f, 1f, 1f) - Points.GENRE_TO_COLOR[i], 2.0f);
+      }
+    }
+
+    IEnumerator MakeTree() {
       userControllers = new List<UserController>();
       TreeMesh treeMesh = new TreeMesh(segmentNum, branchNum, branchLength, stemRadius);
       treeMesh.BuildMesh();
@@ -42,17 +57,16 @@ namespace Tree {
                         Quaternion.AngleAxis(Random.Range(0f, 360f), new Vector3(0f, 1f, 0f));
         // Quaternion quat = Quaternion.AngleAxis(-theta / Mathf.PI / 2f * 360f, new Vector3(0f, 0f, 1f));
         t.transform.rotation = quat;
+        yield return new WaitForSeconds(.01f);
       }
 
-      for(int i=0;i<10000;i++) {
-        Invoke("GetPoint", i * 0.01f);
+      for(int i=0;i<2000;i++) {
+        int index = (int)Mathf.Floor(Random.Range(0, userControllers.Count));
+        userControllers[index].SetSolvedProblem(Random.Range(0, 10), 500);
+        yield return new WaitForSeconds(.001f);
       }
     }
 
-    void GetPoint() {
-      int index = (int)Mathf.Floor(Random.Range(0, userControllers.Count));
-      userControllers[index].SetSolvedProblem(Random.Range(0, 10), 100);
-    }
 
     void Update()
     {

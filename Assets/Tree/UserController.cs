@@ -11,6 +11,7 @@ public class UserController : MonoBehaviour
     string name, id;
     void Start() {
         controlTree = GetComponent<ControlTree>();
+        controlTree.points = points;
         controlTree.progress = 0f;
     }
 
@@ -18,15 +19,15 @@ public class UserController : MonoBehaviour
         this.name = name;
         this.id = id;
         this.points = points;
-        int sum = points.Sum();
+        int sum = points.sum;
         // 10000fは最大ポイント
-        controlTree.progress = sum / 10000f * 0.8f + 0.2f;
+        controlTree.progress = sum / 10000f * 0.7f + 0.3f;
     }
 
     public void SetSolvedProblem(int genre, int point) {
         points.Add(genre, point);
-        int sum = points.Sum();
+        int sum = points.sum;
         // 10000fは最大ポイント
-        controlTree.progress = sum / 10000f * 0.8f + 0.2f;
+        controlTree.progress = sum / 10000f * 0.7f + 0.3f;
     }
 }
