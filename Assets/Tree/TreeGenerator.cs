@@ -20,9 +20,10 @@ namespace Tree {
     int num, segmentNum, branchNum;
     [SerializeField]
     float radius, branchLength, stemRadius;
-    public List<UserController> userControllers;
+    UserManager userManager;
     void Start()
     {
+      userManager = GetComponent<UserManager>();
       StartCoroutine("MakeTree");
 
       // 葉の色
@@ -34,14 +35,14 @@ namespace Tree {
     }
 
     IEnumerator MakeTree() {
-      userControllers = new List<UserController>();
+      List<User> users = new List<User>();
       TreeMesh treeMesh = new TreeMesh(segmentNum, branchNum, branchLength, stemRadius);
       treeMesh.BuildMesh();
 
       float phi = 0f;
       for(int i=1;i<num;i++) {
         GameObject t = Instantiate(tree, treeParent);
-        userControllers.Add(t.GetComponent<UserController>());
+        users.Add(t.GetComponent<User>());
         treeMesh.SetMesh(t.GetComponent<ControlTree>(), leave);
         float h = 2f * i / (num - 1f) - 1f;
         float theta = Mathf.Acos(h);
@@ -59,12 +60,7 @@ namespace Tree {
         t.transform.rotation = quat;
         yield return new WaitForSeconds(.01f);
       }
-
-      for(int i=0;i<2000;i++) {
-        int index = (int)Mathf.Floor(Random.Range(0, userControllers.Count));
-        userControllers[index].SetSolvedProblem(Random.Range(0, 10), 500);
-        yield return new WaitForSeconds(.001f);
-      }
+      userManager.SetTrees(users);
     }
 
 
