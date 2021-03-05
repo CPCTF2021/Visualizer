@@ -15,7 +15,11 @@ namespace Tree {
         public int branchNum;
         public float radius;
         public Points points;
+        bool isGrow = false;
 
+        public void SetActive(bool flag) {
+            isGrow = flag;
+        }
         void GrowTree() {
             MaterialPropertyBlock props = new MaterialPropertyBlock();
             progress = Mathf.Max(Mathf.Min(progress, 1f), 0f);
@@ -46,6 +50,7 @@ namespace Tree {
         }
         void Update()
         {
+            if(!isGrow) return;
             progress = Mathf.Min(progress, 1f);
             if(progress != prevProgress) {
                 GrowTree();
