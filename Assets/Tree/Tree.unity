@@ -429,6 +429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 982722889}
   - component: {fileID: 982722888}
+  - component: {fileID: 982722890}
   m_Layer: 0
   m_Name: TreeGenerator
   m_TagString: Untagged
@@ -459,7 +460,6 @@ MonoBehaviour:
   radius: 2.5
   branchLength: 2
   stemRadius: 0.1
-  userControllers: []
 --- !u!4 &982722889
 Transform:
   m_ObjectHideFlags: 0
@@ -474,6 +474,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &982722890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982722887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac271615356f404986d07060a295c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trees: []
+  usedTree: 
 --- !u!1 &2118017566
 GameObject:
   m_ObjectHideFlags: 0
