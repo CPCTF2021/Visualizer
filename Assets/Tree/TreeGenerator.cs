@@ -40,13 +40,13 @@ namespace Tree {
       treeMesh.BuildMesh();
 
       float phi = 0f;
-      for(int i=1;i<num;i++) {
+      for(int i=0;i<num;i++) {
         GameObject t = Instantiate(tree, treeParent);
         users.Add(t.GetComponent<User>());
         treeMesh.SetMesh(t.GetComponent<ControlTree>(), leave);
         float h = 2f * i / (num - 1f) - 1f;
         float theta = Mathf.Acos(h);
-        phi = phi + 3.6f / Mathf.Sqrt(num * (1f - h * h));
+        if(Mathf.Abs(h) != 1f) phi = phi + 3.6f / Mathf.Sqrt(num * (1f - h * h));
         Vector3 dir = new Vector3(
           Mathf.Sin(theta) * Mathf.Cos(phi),
           Mathf.Cos(theta),

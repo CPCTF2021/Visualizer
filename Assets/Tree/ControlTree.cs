@@ -43,10 +43,23 @@ namespace Tree {
             prevProgress = progress;
 
         }
+
+        public void ResetTree() {
+            MaterialPropertyBlock props = new MaterialPropertyBlock();
+            props.SetFloat("_Radius", radius);
+            props.SetFloat("_Progress", 0f);
+            GetComponent<MeshRenderer>().SetPropertyBlock(props);
+            // GetComponent<Renderer>().material.SetFloat("_Progress", nowProgress);
+            transform.localScale = Vector3.zero;
+            for(int i=0;i<leaveList.Count;i++) {
+                float scale = radius * 200f * Mathf.Max(Mathf.Min((0f - leaveProgress[i]) * (float)branchNum * 0.3f, 1f), 0f);
+                
+                leaveList[i].localScale = new Vector3(scale, scale, scale);
+            }
+        }
         void Start()
         {
             material = GetComponent<Renderer>().material;
-            GrowTree();
         }
         void Update()
         {

@@ -132,6 +132,7 @@ namespace Tree {
       controlTree.branchNum = branchNum;
       controlTree.leaveList = leaves;
       controlTree.leaveProgress = leaveProgress;
+      controlTree.ResetTree();
     }
   }
 }
