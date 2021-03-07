@@ -32,8 +32,10 @@ namespace Bird {
         }
 
         void Initialize() {
-            birdSimulationFunction = birdCS.FindKernel("BirdSimulation");
-            copyVelocityFunction = birdCS.FindKernel("CopyVelocity");
+            // birdSimulationFunction = birdCS.FindKernel("BirdSimulation");
+            // copyVelocityFunction = birdCS.FindKernel("CopyVelocity");
+            birdSimulationFunction = 0;
+            copyVelocityFunction = 1;
             birdsBuffer = new ComputeBuffer(setting.birdNum, Marshal.SizeOf(typeof(Bird)));
             birdsVelocityBuffer = new ComputeBuffer(setting.birdNum, Marshal.SizeOf(typeof(Vector3)));
 

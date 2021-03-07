@@ -36,6 +36,7 @@
         half _Glossiness;
         half _Metallic;
         fixed4 _Color;
+        float3 _BirdScale;
 
         float4x4 eulerAnglesToRotationMatrix(float3 angles)
 		{
@@ -56,7 +57,7 @@
             #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
                 Bird bird = _BirdDataBuffer[unity_InstanceID];
                 float3 pos = bird.position;
-                float3 scale = 0.1;
+                float3 scale = _BirdScale;
                 float3 vel = bird.velocity;
 
                 float4x4 object2worldMat = (float4x4)0.0;

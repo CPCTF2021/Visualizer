@@ -51,8 +51,8 @@ void BirdSimulation(uint3 id: SV_DispatchThreadID) {
     }
     float radiusForce = _PlanetRadius * 1.1 - length(_BirdDataRead[id.x].position);
     float3 velocity = (sepVelocity / sepNum + alignVelocity / alignNum + cohVelocity / cohNum + other)
-                        + normalize(_BirdDataRead[id.x].position) * (1.0 - step(abs(radiusForce), _PlanetRadius * 0.001)) * sign(radiusForce) * 10.0
-                        + _BirdDataRead[id.x].velocity * 3.0;
+                        + normalize(_BirdDataRead[id.x].position) * (1.0 - step(abs(radiusForce), _PlanetRadius * 0.01)) * sign(radiusForce) * 6.0
+                        + _BirdDataRead[id.x].velocity * 5.0;
     // float3 velocity = normalize(_BirdDataRead[id.x].position) * (_PlanetRadius * 2.0 - length(_BirdDataRead[id.x].position));
     // float normalPos = normalize(_BirdDataRead[id.x].position);
     // velocity = velocity - normalPos * dot(normalPos, velocity);

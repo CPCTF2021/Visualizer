@@ -11,6 +11,7 @@ namespace Bird {
         public Material instanceRenderMaterial;
         uint[] args = new uint[5] {0, 0, 0, 0, 0};
         ComputeBuffer argsBuffer;
+        public Vector3 birdScale = new Vector3(0.1f, 0.1f, 0.1f);
 
         void Start() {
             birdSimulation = GetComponent<BirdSimulation>();
@@ -31,6 +32,8 @@ namespace Bird {
 
             instanceRenderMaterial.SetBuffer("_BirdDataBuffer", birdSimulation.birdsBuffer);
             Vector3 size = new Vector3(1f, 1f, 1f) * birdSimulation.setting.planetRadius;
+            
+            instanceRenderMaterial.SetVector("_BirdScale", birdScale);
             Bounds bounds = new Bounds(
                 Vector3.zero,
                 size
