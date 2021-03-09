@@ -15,11 +15,10 @@
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma surface surf Standard vertex:vert fullforwardshadows
             // make fog work
             #pragma multi_compile_fog
-            #pragma multi_compile_instancing // 追加
+            #pragma multi_compile_instancing
 
             #if defined(UNITY_SUPPORT_INSTANCING) && defined(INSTANCING_ON)
                 #define UNITY_INSTANCING_ENABLED
@@ -59,7 +58,7 @@
             UNITY_INSTANCING_BUFFER_END(Props)
             
             #if defined(UNITY_INSTANCING_ENABLED)
-                #define UNITY_GET_INSTANCE_ID(input) input.instanceID
+                #define UNITY_GET_INSTANCE_ID(input) input.insanceID
                 #define UNITY_TRANSFER_INSTANCE_ID(input, output) output.instanceID = UNITY_GET_INSTANCE_ID(input)
             #else
                 #define UNITY_TRANSFER_INSTANCE_ID(input, output)
@@ -76,13 +75,15 @@
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            void surf (Input IN, inout SurfaceOutputStandard o)
             {
-                // sample the texture
-                fixed4 col = _MainColor * tex2D(_MainTex, i.uv) * dot(i.normal, float3( 0.7071, 0.7071, 0.0));
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
+                // Albedo comes from a texture tinted by color
+                fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+                o.Albedo = c.rgb;
+                // Metallic and smoothness come from slider variables
+                o.Metallic = _Metallic;
+                o.Smoothness = _Glossiness;
+                o.Alpha = c.a;
             }
             ENDCG
         }
