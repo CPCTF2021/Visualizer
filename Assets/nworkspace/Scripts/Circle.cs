@@ -16,10 +16,16 @@ public class Circle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float x = radious * Mathf.Cos(Time.time * speed);
-        float z = radious * Mathf.Sin(Time.time * speed);
-        float y = x * Mathf.Sin(theta);
-        x = x * Mathf.Cos(theta);
-        this.transform.position = new Vector3(x, y, z);
+        this.transform.position = circleMove(this.transform.position, 0.0f, radious, radious);
+    }
+
+    Vector3 circleMove(Vector3 pos, float theta, float aradious, float bradious)
+    {
+        Vector3 res = pos;
+        res.x = aradious * Mathf.Cos(Time.time * speed);
+        res.z = bradious * Mathf.Sin(Time.time * speed);
+        res.y = res.x * Mathf.Sin(theta);
+        res.x = res.x * Mathf.Cos(theta);
+        return res;
     }
 }
