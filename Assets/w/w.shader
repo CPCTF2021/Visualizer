@@ -13,6 +13,7 @@ Shader "Unlit/BillBoardXZ"
         Tags { "Queue"="Transparent" "RenderType"="Transparent" }
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha
+        Cull Off
 
         Pass
         {
