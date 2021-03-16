@@ -6,15 +6,17 @@ using Tree;
 
 public class User : MonoBehaviour
 {
+    [SerializeField]
+    UserIcon userIcon;
     ControlTree controlTree;
     Points points;
     string name, id;
-    Sprite icon;
+    Texture icon;
     void Start() {
         controlTree = GetComponent<ControlTree>();
     }
 
-    public void SetUser(string name, string id, Sprite icon, Points points) {
+    public void SetUser(string name, string id, Texture icon, Points points) {
         this.name = name;
         this.id = id;
         this.icon = icon;
@@ -23,11 +25,17 @@ public class User : MonoBehaviour
         controlTree.SetActive(true);
         // 10000fは最大ポイント TODO
         controlTree.progress = points.sum / 10000f * 0.7f + 0.3f;
+        userIcon.gameObject.SetActive(true);
+        userIcon.SetIcon(icon);
     }
 
     public void AddPoint(int genre, int point) {
         points.Add(genre, point);
         // 10000fは最大ポイント TODO
         controlTree.progress = points.sum / 10000f * 0.7f + 0.3f;
+    }
+
+    public Vector3 GetDirection() {
+        return transform.rotation * Vector3.up;
     }
 }

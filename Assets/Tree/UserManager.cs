@@ -5,21 +5,36 @@ using UnityEngine;
 
 public class UserManager : MonoBehaviour
 {
-    public List<User> trees;
+    public List<User> users;
     public bool[] usedTree;
-    public Dictionary<string, User> users;
+    public Dictionary<string, User> usersDictionary;
 
-    public void SetTrees(List<User> trees) {
-        this.trees = trees;
-        this.usedTree = new bool[trees.Count];
-        for(int i=0;i<trees.Count;i++) {
-            this.usedTree[i] = false;
+    IEnumerator LoadUsers() {
+        Texture tex = Resources.Load("icon") as Texture;
+        for(int i=0;i<this.users.Count;i++) {
+            AddUser("UserName", i.ToString(), tex);
         }
-        this.users = new Dictionary<string, User>();
+
+        for(int i=0;i<1000;i++) {
+            yield return new WaitForSeconds(0.3f);
+            AddPoint((i % this.users.Count).ToString(), UnityEngine.Random.Range(0, 10), 1000);
+        }
     }
 
-    public void AddUser(string name, string id, Sprite icon, int[] pointsNum) {
-        int count = trees.Count;
+    public void SetTrees(List<User> users) {
+        this.users = users;
+        this.usedTree = new bool[users.Count];
+        for(int i=0;i<users.Count;i++) {
+            this.usedTree[i] = false;
+        }
+        this.usersDictionary = new Dictionary<string, User>();
+
+        // テストコード
+        StartCoroutine(LoadUsers());
+    }
+
+    public void AddUser(string name, string id, Texture icon, int[] pointsNum) {
+        int count = users.Count;
         int index = UnityEngine.Random.Range(0, count);
         
         bool fullyUsed = true;
@@ -40,17 +55,17 @@ public class UserManager : MonoBehaviour
             points.Add(i, pointsNum[i]);
         }
         
-        trees[index].SetUser(name, id, icon, points);
-        users.Add(id, trees[index]);
+        users[index].SetUser(name, id, icon, points);
+        usersDictionary.Add(id, users[index]);
     }
 
-    public void AddUser(string name, string id, Sprite icon) {
+    public void AddUser(string name, string id, Texture icon) {
         this.AddUser(name, id, icon, new int[10]);
     }
 
     public void AddPoint(string id, int genre, int point) {
         User user;
-        if(!users.TryGetValue(id, out user)) throw new MissingFieldException();
+        if(!usersDictionary.TryGetValue(id, out user)) throw new MissingFieldException();
         user.AddPoint(genre, point);
     }
 }
