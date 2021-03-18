@@ -41,7 +41,7 @@ public class User : MonoBehaviour
 
   public Vector3 GetPosition()
   {
-    return transform.position + transform.rotation * Vector3.up * 0.5f;
+    return transform.position + transform.rotation * Vector3.up * 0.7f;
     // return transform.position * 1.1f;
   }
 }

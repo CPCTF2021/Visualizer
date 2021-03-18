@@ -80,7 +80,7 @@ namespace Tree
       {
         this.progress = val;
         GrowTree();
-      }, progress, 1f).SetDelay(1f));
+      }, progress, 1.7f).SetDelay(0.3f));
     }
   }
 

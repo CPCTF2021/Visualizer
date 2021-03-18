@@ -64,7 +64,6 @@ namespace Tree {
       } else {
         
         num = treeParent.childCount;
-        float phi = 0f;
         for(int i=0;i<num;i++) {
           GameObject t = treeParent.GetChild(i).gameObject;
           users.Add(t.GetComponent<User>());
