@@ -24,7 +24,7 @@ public class User : MonoBehaviour
         controlTree.points = points;
         controlTree.SetActive(true);
         // 10000fは最大ポイント TODO
-        controlTree.progress = points.sum / 10000f * 0.7f + 0.3f;
+        controlTree.AnimationTree(points.sum / 10000f * 0.7f + 0.3f);
         userIcon.gameObject.SetActive(true);
         userIcon.SetIcon(icon);
     }
@@ -32,10 +32,11 @@ public class User : MonoBehaviour
     public void AddPoint(int genre, int point) {
         points.Add(genre, point);
         // 10000fは最大ポイント TODO
-        controlTree.progress = points.sum / 10000f * 0.7f + 0.3f;
+        controlTree.AnimationTree(points.sum / 10000f * 0.7f + 0.3f);
     }
 
-    public Vector3 GetDirection() {
-        return transform.rotation * Vector3.up;
+    public Vector3 GetPosition() {
+        return transform.position + transform.rotation * Vector3.up * 0.5f;
+        // return transform.position * 1.1f;
     }
 }
