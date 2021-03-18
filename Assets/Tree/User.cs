@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
+﻿using UnityEngine;
 using Tree;
 
 public class User : MonoBehaviour
@@ -42,6 +39,5 @@ public class User : MonoBehaviour
   public Vector3 GetPosition()
   {
     return transform.position + transform.rotation * Vector3.up * 0.7f;
-    // return transform.position * 1.1f;
   }
 }
