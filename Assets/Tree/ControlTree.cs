@@ -55,6 +55,7 @@ namespace Tree
 
     public void ResetTree()
     {
+      material = GetComponent<Renderer>().material;
       // 木をprogress0にリセット
       MaterialPropertyBlock props = new MaterialPropertyBlock();
       props.SetFloat("_Radius", radius);
@@ -79,11 +80,7 @@ namespace Tree
       {
         this.progress = val;
         GrowTree();
-      }, progress, 3f));
-    }
-    void Start()
-    {
-      material = GetComponent<Renderer>().material;
+      }, progress, 1f).SetDelay(1f));
     }
   }
 

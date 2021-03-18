@@ -17,12 +17,12 @@ public class UserManager : MonoBehaviour
     for (int i = 0; i < this.users.Count; i++)
     {
       AddUser("UserName", i.ToString(), tex);
-      AddPoint(i.ToString(), UnityEngine.Random.Range(0, 10), 5000);
+      AddPoint(i.ToString(), UnityEngine.Random.Range(0, 10), 2000);
     }
 
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 500; i++)
     {
-      AddPoint((i % this.users.Count).ToString(), UnityEngine.Random.Range(0, 10), 1000);
+      AddPoint(UnityEngine.Random.Range(0, this.users.Count).ToString(), UnityEngine.Random.Range(0, 10), 2000);
       yield return new WaitForSeconds(UnityEngine.Random.Range(2f, 5f));
     }
   }

@@ -23,6 +23,7 @@ public class User : MonoBehaviour
     this.id = id;
     this.icon = icon;
     this.points = points;
+    
     controlTree.points = points;
     controlTree.SetActive(true);
     // 10000fは最大ポイント TODO
