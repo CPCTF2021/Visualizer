@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setting:
-    birdNum: 256
+    birdNum: 20
     planetRadius: 10
     maxSpeed: 5
   birdCS: {fileID: 7200000, guid: 3c31c8fcba6f39c40934111de938828a, type: 3}
