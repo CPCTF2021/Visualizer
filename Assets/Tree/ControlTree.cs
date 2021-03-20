@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-namespace Tree
+namespace TreeScripts
 {
   public class ControlTree : MonoBehaviour
   {
