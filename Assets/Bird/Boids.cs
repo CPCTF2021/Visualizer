@@ -24,6 +24,7 @@ public class Boids : MonoBehaviour
     direction += delta;
     direction = direction / direction.magnitude * maxSpeed;
     delta = Vector3.zero;
+    if(direction) direction = Vector3.zero;
     transform.position = transform.position + direction * Time.deltaTime;
     transform.position = transform.position / transform.position.magnitude * radius;
   }
@@ -35,16 +36,15 @@ public class Boids : MonoBehaviour
       Boids boids = col.transform.parent.gameObject.GetComponent<Boids>();
       Vector3 dir = boids.transform.position - transform.position;
       float dist = dir.magnitude;
-      if (dist < 0.1f)
+      if (dist < 3f)
       {
-        float val = 0.03f;
+        float val = 2f;
         delta -= new Vector3(val / dir.x, val / dir.y, val / dir.z);
       }
       else
       {
-        delta += dir / dist * 0.3f;
+        delta += dir / dist * 3f;
       }
-
     }
   }
 }
