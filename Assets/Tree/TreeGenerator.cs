@@ -19,7 +19,6 @@ namespace TreeScripts {
     float radius, branchLength, stemRadius;
 
     public void MakeTree() {
-      List<User> users = new List<User>();
       TreeMesh treeMesh = new TreeMesh(segmentNum, branchNum, branchLength, stemRadius);
       treeMesh.BuildMesh();
       if(treeParent.childCount == 0)
@@ -28,7 +27,6 @@ namespace TreeScripts {
         float phi = 0f;
         for(int i=0;i<num;i++) {
           GameObject t = Instantiate(tree, treeParent);
-          users.Add(t.GetComponent<User>());
           treeMesh.SetMesh(t.GetComponent<ControlTree>(), leave);
           float h = 2f * i / (num - 1f) - 1f;
           float theta = Mathf.Acos(h);
@@ -50,7 +48,6 @@ namespace TreeScripts {
         num = treeParent.childCount;
         for(int i=0;i<num;i++) {
           GameObject t = treeParent.GetChild(i).gameObject;
-          users.Add(t.GetComponent<User>());
           treeMesh.SetMesh(t.GetComponent<ControlTree>(), leave);
         }
       }

@@ -319,10 +319,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 982722889}
+  - component: {fileID: 982722891}
   - component: {fileID: 982722888}
   - component: {fileID: 982722890}
   m_Layer: 0
-  m_Name: TreeGenerator
+  m_Name: VisualizerSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -342,8 +343,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tree: {fileID: 6993139421449292410, guid: c54f92154a609fe48b2b29c20954488d, type: 3}
   leave: {fileID: 2069968674067816013, guid: dc706073dc241704facaf9ceed35376a, type: 3}
-  leaveBaseColor: {r: 0.6650944, g: 1, b: 0.6650944, a: 0}
-  baseColorRate: 0.8
   treeParent: {fileID: 1658263242}
   num: 150
   segmentNum: 3
@@ -377,9 +376,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac271615356f404986d07060a295c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeParent: {fileID: 1658263242}
   users: []
   usedTree: 
   cameraAnimator: {fileID: 278234003}
+--- !u!114 &982722891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982722887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56834f765062cfd43804e663748aab3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leaveBaseColor: {r: 0, g: 0, b: 0, a: 0}
+  baseColorRate: 0.5
 --- !u!4 &1658263242 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1940917073753610518, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
