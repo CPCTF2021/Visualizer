@@ -8,8 +8,10 @@ public class RankingList : MonoBehaviour
     public GameObject playerPrefab;
     public ScrollRect rankingArea;
 
-    public List<Player> players = new List<Player>();
+    public int[] scores = new int[5];
+    public string[] names = new string[5];
 
+    public int id = 0;
 
 
     private void Start()
@@ -26,7 +28,10 @@ public class RankingList : MonoBehaviour
     {
         GameObject p = Instantiate(playerPrefab, rankingArea.content);
         RankingEntry re = p.GetComponent<RankingEntry>();
-        re.setPlayer(1, "ntaso", 500000);
+
+        p.name = scores[id].ToString();
+        re.setPlayer(1, names[id], scores[id]);
+        id++;
     }
 
 }
