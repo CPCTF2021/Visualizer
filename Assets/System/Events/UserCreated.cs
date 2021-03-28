@@ -3,11 +3,9 @@ using UnityEngine;
 using WebSocketSharp;
 using UserScripts;
 using UnityEngine.Networking;
-using System.Collections;
-
 namespace VisualizerSystem
 {
-    public class UserCreatedEvent : MonoBehaviour
+    public class UserCreatedEvent
     {
         static UserManager userManager;
 
@@ -30,16 +28,16 @@ namespace VisualizerSystem
             Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(args.Data);
             if (e.type == EventType.UserCreated) 
             {
-                StartCoroutine(AddUser(e.data.userId, e.data.name));
+                AddUser(e.data.userId, e.data.name);
                 return;
             }
         }
-        private IEnumerator AddUser(string userId, string name)
+        private async void AddUser(string userId, string name)
         {
             string URL = $"https://example.com/users/{userId}/icon";
             using (UnityWebRequest req = UnityWebRequest.Get(URL))
             {
-                yield return req.SendWebRequest();
+                await req.SendWebRequest();
 
                 Debug.Log(req.downloadHandler.text);
                 var tex = new Texture2D(2, 2);

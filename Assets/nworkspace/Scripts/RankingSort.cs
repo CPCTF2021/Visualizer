@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class RankingSort : MonoBehaviour
 {
-    public static int compareScore(Transform obj1, Transform obj2)
+    public static int CompareScore(Transform obj1, Transform obj2)
     {
         if (obj1 == null)
         {
@@ -25,7 +24,7 @@ public class RankingSort : MonoBehaviour
             return obj2score.CompareTo(obj1score);
         }
     }
-    public void sortRankingList()
+    public void SortRankingList()
     {
         List<Transform> objList = new List<Transform>();
         int playerNum = transform.childCount;
@@ -34,7 +33,7 @@ public class RankingSort : MonoBehaviour
             objList.Add(transform.GetChild(i));
         }
 
-        objList.Sort(compareScore);
+        objList.Sort(CompareScore);
 
         foreach (var obj in objList)
         {

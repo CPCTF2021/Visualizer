@@ -20,7 +20,6 @@ namespace UserScripts
             public User user;
             public int genre;
             public int point;
-
         }
         Queue<UserQueueData> userQueue = new Queue<UserQueueData>();
 
