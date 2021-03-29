@@ -881,6 +881,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 4974917995915123088, guid: 011dbc265edf47b40963e5bcdf83983d,
     type: 3}
   rankingArea: {fileID: 0}
+  userObjs: []
+  users: []
   scores: 64000000e8030000f401000058020000c8000000
   names:
   - ntaso
@@ -971,7 +973,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 615440861}
+      - m_Target: {fileID: 1237940690}
         m_MethodName: sortRankingList
         m_Mode: 1
         m_Arguments:
