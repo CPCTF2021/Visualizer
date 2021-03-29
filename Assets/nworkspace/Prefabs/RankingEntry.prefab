@@ -215,6 +215,9 @@ MonoBehaviour:
   rankText: {fileID: 2215842454879208126}
   nameText: {fileID: 5204308686428111848}
   scoreText: {fileID: 9103268337566385867}
+  myRank: 0
+  myName: 
+  myScore: 0
 --- !u!1 &6139423378425790663
 GameObject:
   m_ObjectHideFlags: 0
