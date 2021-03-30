@@ -17,14 +17,27 @@ namespace VisualizerSystem
         {
             public string userId;
             public int point;
-            public int genre;
+            public Genre genre;
+        }
+        [System.Flags]
+        public enum Genre
+        {
+            Newbie = 0,
+            PPC = 1,
+            Web = 2,
+            Crypto = 3,
+            Binary = 4,
+            Pwn = 5,
+            Misc = 6,
+            Shell = 7,
+            Foresic = 8,
         }
         public void Handler(MessageEventArgs args)
         {
             Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(args.Data);
             if (e.type == EventType.ProblemSolved)
             {
-                try { userManager.AddPoint(e.data.userId, e.data.genre, e.data.point); }
+                try { userManager.AddScore(e.data.userId, e.data.genre, e.data.point); }
                 catch (MissingFieldException err)
                 {
                     Debug.LogError(err);

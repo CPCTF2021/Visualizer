@@ -13,29 +13,25 @@ namespace VisualizerSystem
         {
             userManager = manager;
         }
-        public void Init(UserManager manager)
-        {
-            userManager = manager;
-        }
         [Serializable]
         private class EventDetail
         {
             public string userId;
             public string name;
+            public string iconURL;
         }
         public void Handler(MessageEventArgs args)
         {
             Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(args.Data);
             if (e.type == EventType.UserCreated) 
             {
-                AddUser(e.data.userId, e.data.name);
+                AddUser(e.data.userId, e.data.name, e.data.iconURL);
                 return;
             }
         }
-        private async void AddUser(string userId, string name)
+        private async void AddUser(string userId, string name, string iconURL)
         {
-            string URL = $"https://example.com/users/{userId}/icon";
-            using (UnityWebRequest req = UnityWebRequest.Get(URL))
+            using (UnityWebRequest req = UnityWebRequest.Get(iconURL))
             {
                 await req.SendWebRequest();
 
@@ -43,11 +39,11 @@ namespace VisualizerSystem
                 var tex = new Texture2D(2, 2);
                 if (req.isHttpError || req.isNetworkError)
                 {
-                    Debug.LogError(URL + ": Error: " + req.error);
+                    Debug.LogError(iconURL + ": Error: " + req.error);
                 }
                 else
                 {
-                    Debug.Log("SUCCESS: " + URL);
+                    Debug.Log("SUCCESS: " + iconURL);
                     if (!tex.LoadImage(req.downloadHandler.data))
                     {
                         Debug.LogError(userId + ": IconLoadError");

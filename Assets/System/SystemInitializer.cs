@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UserScripts;
 using TreeScripts;
+using static TreeScripts.ControlTree;
 
 namespace VisualizerSystem
 {
@@ -16,10 +17,10 @@ namespace VisualizerSystem
         void Start()
         {
             // 葉の色
-            for (int i = 0; i < Points.GENRE_TO_COLOR.Length; i++)
+            for (int i = 0; i < GENRE_TO_COLOR.Length; i++)
             {
-                Points.GENRE_TO_COLOR[i] = Points.GENRE_TO_COLOR[i] * 0.95f + new Color(1f, 1f, 1f) * 0.05f;
-                Points.GENRE_TO_COLOR[i] = Points.GENRE_TO_COLOR[i] * baseColorRate + leaveBaseColor * (1f - baseColorRate);
+                GENRE_TO_COLOR[i] = GENRE_TO_COLOR[i] * 0.95f + new Color(1f, 1f, 1f) * 0.05f;
+                GENRE_TO_COLOR[i] = GENRE_TO_COLOR[i] * baseColorRate + leaveBaseColor * (1f - baseColorRate);
                 // Points.GENRE_TO_COLOR[i] = Mathf.Pow(new Color(1f, 1f, 1f) - Points.GENRE_TO_COLOR[i], 2.0f);
             }
             GetComponent<TreeGenerator>().MakeTree();
@@ -31,8 +32,7 @@ namespace VisualizerSystem
             TimeAdjusterEvent timeAdjusterEvent = new TimeAdjusterEvent(userManager);
             eventManager.Register(timeAdjusterEvent.Handler);
 
-            UserCreatedEvent userCreatedEvent = GetComponent<UserCreatedEvent>();
-            userCreatedEvent.Init(userManager);
+            UserCreatedEvent userCreatedEvent = new UserCreatedEvent(userManager);
             eventManager.Register(userCreatedEvent.Handler);
 
             ProblemSolvedEvent problemSolvedEvent = new ProblemSolvedEvent(userManager);

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static VisualizerSystem.ProblemSolvedEvent;
 
 namespace UserScripts
 {
@@ -12,51 +13,36 @@ namespace UserScripts
         public List<User> users;
         public bool[] usedTree;
         public Dictionary<string, User> usersDictionary;
+
         [SerializeField]
         CameraAnimator cameraAnimator;
+
+        int lastPlace = 1;
 
         struct UserQueueData
         {
             public User user;
-            public int genre;
-            public int point;
+            public Genre genre;
+            public float score;
         }
         Queue<UserQueueData> userQueue = new Queue<UserQueueData>();
-
-        IEnumerator LoadUsers()
-        {
-            Texture tex = Resources.Load("icon") as Texture;
-            for (int i = 0; i < this.users.Count; i++)
-            {
-                AddUser("UserName", i.ToString(), tex);
-            }
-
-            for (int i = 0; i < 500; i++)
-            {
-                AddPoint(UnityEngine.Random.Range(0, this.users.Count).ToString(), UnityEngine.Random.Range(0, 10), 2000);
-                yield return new WaitForSeconds(UnityEngine.Random.Range(0.5f, 5f));
-            }
-        }
 
         // 木に付いてるUserを取得
         public void SetTree()
         {
-            this.users = new List<User>();
-            this.usedTree = new bool[treeParent.childCount];
+            users = new List<User>();
+            usedTree = new bool[treeParent.childCount];
             for (int i = 0; i < treeParent.childCount; i++)
             {
-                this.users.Add(treeParent.GetChild(i).GetComponent<User>());
-                this.users[i].Initialize();
-                this.usedTree[i] = false;
+                users.Add(treeParent.GetChild(i).GetComponent<User>());
+                users[i].Initialize();
+                usedTree[i] = false;
             }
-            this.usersDictionary = new Dictionary<string, User>();
-
-            // テストコード
-            //StartCoroutine(LoadUsers());
+            usersDictionary = new Dictionary<string, User>();
         }
 
-        // Userの新規追加
-        public void AddUser(string name, string id, Texture icon, int[] pointsNum)
+        // 既存Userの反映
+        public void AddUser(string name, string id, Texture icon, Dictionary<Genre, float> scores, int ranking)
         {
             int count = users.Count;
             int index = UnityEngine.Random.Range(0, count);
@@ -76,31 +62,28 @@ namespace UserScripts
 
             if (fullyUsed) throw new IndexOutOfRangeException();
 
-            Points points = new Points();
-            for (int i = 0; i < 10; i++)
-            {
-                points.Add(i, pointsNum[i]);
-            }
-
-            users[index].SetUser(name, id, icon, points);
+            // 起動時に、木にユーザーを割当するため
+            users[index].SetUser(name, id, icon, scores, ranking);
             usersDictionary.Add(id, users[index]);
+
+            if (ranking > lastPlace) lastPlace = ranking;
         }
 
-        // Userの新規追加(得点0)
+        // 新規Userの追加
         public void AddUser(string name, string id, Texture icon)
         {
-            this.AddUser(name, id, icon, new int[10]);
+            AddUser(name, id, icon, new Dictionary<Genre, float>(), lastPlace);
         }
 
         // ポイントを加える
-        public void AddPoint(string id, int genre, int point)
+        public void AddScore(string id, Genre genre, float score)
         {
             User user;
             if (!usersDictionary.TryGetValue(id, out user)) throw new MissingFieldException();
             UserQueueData userQueueData;
             userQueueData.user = user;
             userQueueData.genre = genre;
-            userQueueData.point = point;
+            userQueueData.score = score;
             userQueue.Enqueue(userQueueData);
             if (userQueue.Count == 1) StartCoroutine(DoAnimation());
         }
@@ -111,9 +94,9 @@ namespace UserScripts
             while (userQueue.Count > 0)
             {
                 UserQueueData userQueueData = userQueue.Dequeue();
-                userQueueData.user.AddPoint(userQueueData.genre, userQueueData.point);
+                userQueueData.user.AddScore(userQueueData.genre, userQueueData.score);
                 cameraAnimator.SetTarget(userQueueData.user.GetPosition());
-                yield return new WaitForSeconds(5f / (float)userQueue.Count);
+                yield return new WaitForSeconds(5f / userQueue.Count);
             }
         }
     }

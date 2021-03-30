@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 using TreeScripts;
+using System.Collections.Generic;
+using static VisualizerSystem.ProblemSolvedEvent;
+using System.Linq;
+using System;
 
 namespace UserScripts
 {
@@ -8,34 +12,55 @@ namespace UserScripts
         [SerializeField]
         UserIcon userIcon;
         ControlTree controlTree;
-        public Points points;
-        string name, id;
+        public string name, id;
+
+        public int ranking;
+
+        public Dictionary<Genre, float> scores;
+        public int totalScore;
+        public Dictionary<Genre, float> cumulativeParcentage;
+
         Texture icon;
         public void Initialize()
         {
             controlTree = GetComponent<ControlTree>();
         }
 
-        public void SetUser(string name, string id, Texture icon, Points points)
+        public void SetUser(string name, string id, Texture icon, Dictionary<Genre, float> scores, int ranking)
         {
             this.name = name;
             this.id = id;
             this.icon = icon;
-            this.points = points;
+            AddScore(scores);
+            this.ranking = ranking;
 
-            controlTree.points = points;
             controlTree.SetActive(true);
-            // 10000fは最大ポイント TODO
-            controlTree.AnimationTree(points.sum / 10000f * 0.7f + 0.3f);
+            //TODO: 10000fは最大ポイント 
+            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f);
             userIcon.gameObject.SetActive(true);
             userIcon.SetIcon(icon);
         }
 
-        public void AddPoint(int genre, int point)
+        public void AddScore(Dictionary<Genre, float> scores)
         {
-            points.Add(genre, point);
-            // 10000fは最大ポイント TODO
-            controlTree.AnimationTree(points.sum / 10000f * 0.7f + 0.3f);
+            foreach(var score in scores)
+            {
+                this.scores[score.Key] += score.Value;
+            }
+            totalScore = (int)Mathf.Ceil(scores.Skip(1).Sum(x => x.Value));
+            float tmp = 0;
+            foreach (Genre g in Enum.GetValues(typeof(Genre)))
+            {
+                tmp += scores[g];
+                cumulativeParcentage[g] = tmp / totalScore;
+            }
+        }
+
+        public void AddScore(Genre genre, float score)
+        {
+            scores[genre] += score;
+            //TODO: 10000fは最大ポイント
+            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f);
         }
 
         public Vector3 GetPosition()
