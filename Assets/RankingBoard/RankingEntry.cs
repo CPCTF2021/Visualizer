@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace RankingBoard {
+namespace RankingScript
+{
     public class RankingEntry : MonoBehaviour
     {
         public Text rankText;

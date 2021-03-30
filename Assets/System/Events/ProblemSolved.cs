@@ -38,10 +38,7 @@ namespace VisualizerSystem
             if (e.type == EventType.ProblemSolved)
             {
                 try { userManager.AddScore(e.data.userId, e.data.genre, e.data.point); }
-                catch (MissingFieldException err)
-                {
-                    Debug.LogError(err);
-                }
+                catch (MissingFieldException err) { Debug.LogError(err); }
                 return;
             }
         }

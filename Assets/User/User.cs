@@ -20,7 +20,7 @@ namespace UserScripts
         public int totalScore;
         public Dictionary<Genre, float> cumulativeParcentage;
 
-        Texture icon;
+        public Texture icon;
         public void Initialize()
         {
             controlTree = GetComponent<ControlTree>();

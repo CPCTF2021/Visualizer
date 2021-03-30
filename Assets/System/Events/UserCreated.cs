@@ -3,15 +3,18 @@ using UnityEngine;
 using WebSocketSharp;
 using UserScripts;
 using UnityEngine.Networking;
+using RankingScript;
+
 namespace VisualizerSystem
 {
     public class UserCreatedEvent
     {
         static UserManager userManager;
-
-        public UserCreatedEvent(UserManager manager)
+        static RankingManager rankingManager;
+        public UserCreatedEvent(UserManager u_manager, RankingManager r_manager)
         {
-            userManager = manager;
+            userManager = u_manager;
+            rankingManager = r_manager;
         }
         [Serializable]
         private class EventDetail
@@ -26,6 +29,8 @@ namespace VisualizerSystem
             if (e.type == EventType.UserCreated) 
             {
                 AddUser(e.data.userId, e.data.name, e.data.iconURL);
+                try { rankingManager.AddUser(userManager.usersDictionary[e.data.userId]); }
+                catch (ArgumentException err) { Debug.LogError(err); }
                 return;
             }
         }

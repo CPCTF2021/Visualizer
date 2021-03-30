@@ -5,15 +5,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UserScripts;
 
-namespace RankingBoard
+namespace RankingScript
 {
-    public class RankingList : MonoBehaviour
+    public class RankingManager : MonoBehaviour
     {
         public GameObject playerPrefab;
         public ScrollRect rankingArea;
 
         public List<RankingEntry> objs;
-        // ranking->rank->user index = user.ranking - 1
+        // ranking->rank->user (index = user.ranking - 1)
         static public List<List<User>> ranking = new List<List<User>>();
         bool changed = false;
 
@@ -50,9 +50,9 @@ namespace RankingBoard
             if (before.id == after.id) throw new ArgumentException();
 
             ranking[before.ranking - 1].Remove(before);
-            for (int i = before.ranking - 1; i > after.ranking; i-- )
+            for (int i = before.ranking - 1; i > after.ranking; i--)
             {
-                ranking[i+1] = ranking[i];
+                ranking[i + 1] = ranking[i];
             }
             ranking[after.ranking - 1].Add(after);
 
