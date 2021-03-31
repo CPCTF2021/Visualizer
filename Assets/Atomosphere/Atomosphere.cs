@@ -25,7 +25,6 @@ public class Atomosphere : MonoBehaviour {
         mat.SetVector("_Center", center);
         mat.SetFloat("_AtomosphereRadius", atomosphereRadius);
         mat.SetFloat("_PlanetRadius", planetRadius);
-        mat.SetTexture("_Spectre", spectreTex);
         Graphics.Blit(source, dest, mat);
     }
 }
