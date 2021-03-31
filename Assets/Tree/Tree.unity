@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 278234001}
   - component: {fileID: 278234000}
   - component: {fileID: 278234003}
+  - component: {fileID: 278234004}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -218,6 +219,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 16
+--- !u!114 &278234004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278233999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bd183d828125fb4083fff8ff0d2c796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mat: {fileID: 2100000, guid: 16366b1e14642d040affd07712671525, type: 2}
+  spectreTex: {fileID: 2800000, guid: 8d993162590f52040a549cc9eacd0072, type: 3}
+  center: {x: 0, y: 0, z: 0}
+  atomosphereRadius: 10
+  planetRadius: 8
 --- !u!1 &815172240
 GameObject:
   m_ObjectHideFlags: 0
