@@ -118,7 +118,6 @@
 
       float3 calculateLight(float3 rayOrigin, float3 rayDir, float rayLength, float3 originalCol, float2 uv)
       {
-        
 
         float blueNoise = tex2Dlod(_BlueNoise, float4(squareUV(uv) * ditherScale, 0.0, 0.0));
         blueNoise = (blueNoise - 0.5) * ditherStrength;

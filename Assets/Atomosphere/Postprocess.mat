@@ -85,7 +85,7 @@ Material:
     - densityFalloff: 0.25
     - ditherScale: 4
     - ditherStrength: 0.8
-    - intensity: -0.06
+    - intensity: 0.4
     - reflectedLightOutScatterStrength: 3
     - scatteringCoefficients: 20.39
     m_Colors:
