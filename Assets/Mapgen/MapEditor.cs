@@ -15,15 +15,15 @@ namespace Map
 
         MapGeneratorV2 generator = target as MapGeneratorV2;
 
-        if ( GUILayout.Button("ResetOriginalMesh") )
-        {
-            generator.ResetOriginalMesh();
-        }
+        // if ( GUILayout.Button("ResetOriginalMesh") )
+        // {
+        //     generator.ResetOriginalMesh();
+        // }
 
-        if ( GUILayout.Button("BuildMesh") )
-        {
-            generator.BuildMesh();
-        }
+        // if ( GUILayout.Button("BuildMesh") )
+        // {
+        //     generator.BuildMesh();
+        // }
     }
 
     }

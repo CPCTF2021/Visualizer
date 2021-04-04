@@ -74,6 +74,6 @@ void BuildMesh (uint3 id : SV_DispatchThreadID)
         value += fbm(norm.xy * noiseScale + float2(20.0, 20.0)) * blendWeight.z;
         // value /= 3.0;
 
-        _VertexBuffer[index] = norm * radius * ((value - 0.5) * noiseScale + 1.0);
+        _VertexBuffer[index] = norm * radius * ((value - 0.5) * continentScale + 1.0);
     }
 }

@@ -14,7 +14,7 @@ namespace Map
         public float noiseScale = 1f;
         public float noiseBlendScale = 3.0f;
     }
-    [ExecuteInEditMode]
+    // [ExecuteInEditMode]
     public class MapGeneratorV2: MonoBehaviour
     {
         [SerializeField]
@@ -26,15 +26,15 @@ namespace Map
         MeshFilter meshFilter;
         Mesh originalMesh;
 
-        public void ResetOriginalMesh()
+        public void Start()
         {
             meshFilter = GetComponent<MeshFilter>();
             originalMesh = meshFilter.sharedMesh;
         }
     [ContextMenu("BuildMesh")]
-        public void BuildMesh()
+        public void Update()
         {
-            Mesh mesh = meshFilter.mesh;
+            Mesh mesh = Instantiate(originalMesh);
 
             buildMeshKernel = meshBuilder.FindKernel("BuildMesh");
 
@@ -58,9 +58,6 @@ namespace Map
 
             Vector3[] newVertices = new Vector3[maxVertexCount];
             vertexBuffer.GetData(newVertices);
-
-            
-            for(int i=0;i<100;i++) Debug.Log(newVertices[i] * 1000f);
 
             mesh.SetVertices(newVertices);
             mesh.RecalculateNormals();
