@@ -1,0 +1,79 @@
+﻿#pragma kernel BuildMesh
+
+#define SIMULATION_BLOCK_SIZE 256
+#define MAX_THREAD_SIZE 128
+
+int maxVertexCount;
+int threadGroupSize;
+float continentScale;
+float noiseScale;
+float noiseBlendScale;
+
+RWStructuredBuffer<float3> _VertexBuffer;
+
+float random (in float2 st)
+{
+    return frac(sin(dot(st.xy, float2(12.9898, 78.233))) * 43758.5453123);
+}
+
+float noise (in float2 st)
+{
+    float2 i = floor(st);
+    float2 f = frac(st);
+
+    float a = random(i);
+    float b = random(i + float2(1.0, 0.0));
+    float c = random(i + float2(0.0, 1.0));
+    float d = random(i + float2(1.0, 1.0));
+
+    float2 u = f * f * (3.0 - 2.0 * f);
+
+    return lerp(a, b, u.x)
+            + (c - a) * u.y * (1.0 - u.x)
+            + (d - b) * u.x * u.y;
+}
+
+#define OCTAVES 6
+float fbm (in float2 st)
+{
+    float value = 0.0;
+    float amplitude = 0.5;
+    float frequency = 0.0;
+
+    for (int i = 0; i < OCTAVES; i++)
+    {
+        value += amplitude * noise(st);
+        st *= 2.0;
+        amplitude *= 0.5;
+    }
+    return value;
+}
+
+[numthreads(MAX_THREAD_SIZE,1,1)]
+void BuildMesh (uint3 id : SV_DispatchThreadID)
+{
+    if ((int)id.x - threadGroupSize >= 0) return;
+
+    int baseIndex = id.x * SIMULATION_BLOCK_SIZE;
+
+    for (int i = 0; i < SIMULATION_BLOCK_SIZE; i++)
+    {
+        int index = baseIndex + i;
+        if (index > maxVertexCount) return;
+        float3 v = _VertexBuffer[index];
+
+        float radius = length(v);
+        float3 norm = normalize(v);
+
+        float3 blendWeight = pow(abs(norm), noiseBlendScale);
+        blendWeight /= dot(blendWeight, 1);
+
+        float value = 0.0;
+        value += fbm(norm.yz * noiseScale + float2(0.0, 0.0)) * blendWeight.x;
+        value += fbm(norm.zx * noiseScale + float2(10.0, 10.0)) * blendWeight.y;
+        value += fbm(norm.xy * noiseScale + float2(20.0, 20.0)) * blendWeight.z;
+        // value /= 3.0;
+
+        _VertexBuffer[index] = norm * radius * ((value - 0.5) * noiseScale + 1.0);
+    }
+}

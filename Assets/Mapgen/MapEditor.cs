@@ -13,7 +13,17 @@ namespace Map
     {
         base.OnInspectorGUI();
 
-        MapGeneratorV2 generator = GetComponent<MapGeneratorV2>();
+        MapGeneratorV2 generator = target as MapGeneratorV2;
+
+        if ( GUILayout.Button("ResetOriginalMesh") )
+        {
+            generator.ResetOriginalMesh();
+        }
+
+        if ( GUILayout.Button("BuildMesh") )
+        {
+            generator.BuildMesh();
+        }
     }
 
     }
