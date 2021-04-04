@@ -1,46 +1,82 @@
 ﻿using UnityEngine;
 using TreeScripts;
+using System.Collections.Generic;
+using static VisualizerSystem.ProblemSolvedEvent;
+using System.Linq;
+using System;
 
 namespace UserScripts
 {
-  public class User : MonoBehaviour
-  {
-    [SerializeField]
-    UserIcon userIcon;
-    ControlTree controlTree;
-    public Points points;
-    string name, id;
-    Texture icon;
-    public void Initialize()
+    public class User : MonoBehaviour
     {
-      controlTree = GetComponent<ControlTree>();
-    }
+        [SerializeField]
+        UserIcon userIcon;
+        ControlTree controlTree;
+        public string name, id;
 
-    public void SetUser(string name, string id, Texture icon, Points points)
-    {
-      this.name = name;
-      this.id = id;
-      this.icon = icon;
-      this.points = points;
+        public int ranking;
 
-      controlTree.points = points;
-      controlTree.SetActive(true);
-      // 10000fは最大ポイント TODO
-      controlTree.AnimationTree(points.sum / 10000f * 0.7f + 0.3f);
-      userIcon.gameObject.SetActive(true);
-      userIcon.SetIcon(icon);
-    }
+        public Dictionary<Genre, float> scores = new Dictionary<Genre, float>();
+        // これなんでint
+        public int totalScore;
+        public Dictionary<Genre, float> cumulativePercentage = new Dictionary<Genre, float>();
 
-    public void AddPoint(int genre, int point)
-    {
-      points.Add(genre, point);
-      // 10000fは最大ポイント TODO
-      controlTree.AnimationTree(points.sum / 10000f * 0.7f + 0.3f);
-    }
+        public Texture icon;
+        public void Initialize()
+        {
+            controlTree = GetComponent<ControlTree>();
+        }
 
-    public Vector3 GetPosition()
-    {
-      return transform.position + transform.rotation * Vector3.up * 0.7f;
+        public void SetUser(string name, string id, Texture icon, Dictionary<Genre, float> scores, int ranking)
+        {
+            this.name = name;
+            this.id = id;
+            this.icon = icon;
+            AddScore(scores);
+            this.ranking = ranking;
+
+            controlTree.SetActive(true);
+            //TODO: 10000fは最大ポイント
+            controlTree.cumulativePercentage = cumulativePercentage;
+            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f);
+            userIcon.gameObject.SetActive(true);
+            userIcon.SetIcon(icon);
+        }
+
+        public void AddScore(Dictionary<Genre, float> scores)
+        {
+            foreach (var score in scores) this.scores.Add(score.Key, score.Value);
+            totalScore = (int)Mathf.Ceil(this.scores.Sum(x => x.Value));
+            float tmp = 0;
+            foreach (Genre g in Enum.GetValues(typeof(Genre)))
+            {
+                tmp += scores[g];
+                cumulativePercentage[g] = tmp / totalScore;
+            }
+        }
+
+        public void AddScore(Genre genre, float score)
+        {
+            scores[genre] += score;
+            totalScore += (int)Mathf.Ceil(score);
+            float tmp = 0;
+            foreach (Genre g in Enum.GetValues(typeof(Genre)))
+            {
+                tmp += scores[g];
+                cumulativePercentage[g] = tmp / totalScore;
+            }
+            //TODO: 10000fは最大ポイント
+            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f);
+        }
+
+        public void SetRanking(int ranking)
+        {
+            this.ranking = ranking;
+        }
+
+        public Vector3 GetPosition()
+        {
+            return transform.position + transform.rotation * Vector3.up * 0.7f;
+        }
     }
-  }
 }
