@@ -16,7 +16,7 @@ namespace TreeScripts
         public List<float> leaveProgress;
         public int branchNum;
         public float radius;
-        public Dictionary<Genre, float> cumulativeParcentage;
+        public Dictionary<Genre, float> cumulativePercentage;
         bool isGrow = false;
 
         Sequence sequence;
@@ -55,7 +55,7 @@ namespace TreeScripts
                 leaveList[i].localScale = new Vector3(scale, scale, scale);
                 // 葉の設定
                 MaterialPropertyBlock props2 = new MaterialPropertyBlock();
-                while (index + 1 < 10 && cumulativeParcentage[(Genre)(index + 1)] < i / (float)leaveList.Count)
+                while (index + 1 < 10 && cumulativePercentage[(Genre)(index + 1)] < i / (float)leaveList.Count)
                 {
                     index++;
                 }

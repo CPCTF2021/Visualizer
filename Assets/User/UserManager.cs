@@ -72,7 +72,9 @@ namespace UserScripts
         // 新規Userの追加
         public void AddUser(string name, string id, Texture icon)
         {
-            AddUser(name, id, icon, new Dictionary<Genre, float>(), lastPlace);
+            var zero = new Dictionary<Genre, float>();
+            foreach (Genre g in Enum.GetValues(typeof(Genre))) zero[g] = 0;
+            AddUser(name, id, icon, zero, lastPlace);
         }
 
         // ポイントを加える

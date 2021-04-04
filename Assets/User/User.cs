@@ -16,9 +16,10 @@ namespace UserScripts
 
         public int ranking;
 
-        public Dictionary<Genre, float> scores;
+        public Dictionary<Genre, float> scores = new Dictionary<Genre, float>();
+        // これなんでint
         public int totalScore;
-        public Dictionary<Genre, float> cumulativeParcentage;
+        public Dictionary<Genre, float> cumulativePercentage = new Dictionary<Genre, float>();
 
         public Texture icon;
         public void Initialize()
@@ -35,7 +36,8 @@ namespace UserScripts
             this.ranking = ranking;
 
             controlTree.SetActive(true);
-            //TODO: 10000fは最大ポイント 
+            //TODO: 10000fは最大ポイント
+            controlTree.cumulativePercentage = cumulativePercentage;
             controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f);
             userIcon.gameObject.SetActive(true);
             userIcon.SetIcon(icon);
@@ -43,24 +45,33 @@ namespace UserScripts
 
         public void AddScore(Dictionary<Genre, float> scores)
         {
-            foreach(var score in scores)
-            {
-                this.scores[score.Key] += score.Value;
-            }
-            totalScore = (int)Mathf.Ceil(scores.Skip(1).Sum(x => x.Value));
+            foreach (var score in scores) this.scores.Add(score.Key, score.Value);
+            totalScore = (int)Mathf.Ceil(this.scores.Sum(x => x.Value));
             float tmp = 0;
             foreach (Genre g in Enum.GetValues(typeof(Genre)))
             {
                 tmp += scores[g];
-                cumulativeParcentage[g] = tmp / totalScore;
+                cumulativePercentage[g] = tmp / totalScore;
             }
         }
 
         public void AddScore(Genre genre, float score)
         {
             scores[genre] += score;
+            totalScore += (int)Mathf.Ceil(score);
+            float tmp = 0;
+            foreach (Genre g in Enum.GetValues(typeof(Genre)))
+            {
+                tmp += scores[g];
+                cumulativePercentage[g] = tmp / totalScore;
+            }
             //TODO: 10000fは最大ポイント
             controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f);
+        }
+
+        public void SetRanking(int ranking)
+        {
+            this.ranking = ranking;
         }
 
         public Vector3 GetPosition()

@@ -34,13 +34,26 @@ namespace VisualizerSystem
         }
         public void Handler(MessageEventArgs args)
         {
-            Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(args.Data);
-            if (e.type == EventType.ProblemSolved)
+            // テスト用: [point id genre score]
+            if (args.Data.StartsWith("point"))
             {
-                try { userManager.AddScore(e.data.userId, e.data.genre, e.data.point); }
+                var data = args.Data.Split(' ');
+                var genre = (Genre)int.Parse(data[2]);
+                var score = float.Parse(data[3]);
+                try { userManager.AddScore(data[1], genre, score); }
                 catch (MissingFieldException err) { Debug.LogError(err); }
                 return;
             }
+            try
+            {
+                Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(args.Data);
+                if (e.type == EventType.ProblemSolved)
+                {
+                    try { userManager.AddScore(e.data.userId, e.data.genre, e.data.point); }
+                    catch (MissingFieldException err) { Debug.LogError(err); }
+                    return;
+                }
+            } catch { };
         }
     }
 }
