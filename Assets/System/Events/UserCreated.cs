@@ -1,10 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using WebSocketSharp;
 using UserScripts;
 using UnityEngine.Networking;
 using RankingScript;
-using System.Linq;
 
 namespace VisualizerSystem
 {
@@ -24,27 +22,16 @@ namespace VisualizerSystem
             public string name;
             public string iconURL;
         }
-        public void Handler(MessageEventArgs args)
+        public void Handler(EventType type, string msg)
         {
-            // テスト用
-            if (args.Data == "user")
+            if (type == EventType.UserCreated)
             {
-                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                var random = new System.Random();
-                var randomId = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
-                //var randomName = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
-                AddUser(randomId, randomId, "https://example.com");
+                // {"type":1,"data":{"userId":"ID","name":"NAME","iconURL":"https://example.com"}}
+                Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(msg);
+
+                AddUser(e.data.userId, e.data.name, e.data.iconURL);
                 return;
             }
-
-            try {
-                Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(args.Data);
-                if (e.type == EventType.UserCreated)
-                {
-                    AddUser(e.data.userId, e.data.name, e.data.iconURL);
-                    return;
-                }
-            } catch { };
         }
         private async void AddUser(string userId, string name, string iconURL)
         {

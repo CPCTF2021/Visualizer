@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using WebSocketSharp;
 using UserScripts;
 
 namespace VisualizerSystem
@@ -32,28 +31,17 @@ namespace VisualizerSystem
             Shell = 7,
             Foresic = 8,
         }
-        public void Handler(MessageEventArgs args)
+        public void Handler(EventType type, string msg)
         {
-            // テスト用: [point id genre score]
-            if (args.Data.StartsWith("point"))
+            // { "type": 2, "data": { "userId": "ID", "point": 2000, "genre": 2 } }
+            if (type == EventType.ProblemSolved)
             {
-                var data = args.Data.Split(' ');
-                var genre = (Genre)int.Parse(data[2]);
-                var score = float.Parse(data[3]);
-                try { userManager.AddScore(data[1], genre, score); }
+                Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(msg);
+
+                try { userManager.AddScore(e.data.userId, e.data.genre, e.data.point); }
                 catch (MissingFieldException err) { Debug.LogError(err); }
                 return;
             }
-            try
-            {
-                Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(args.Data);
-                if (e.type == EventType.ProblemSolved)
-                {
-                    try { userManager.AddScore(e.data.userId, e.data.genre, e.data.point); }
-                    catch (MissingFieldException err) { Debug.LogError(err); }
-                    return;
-                }
-            } catch { };
         }
     }
 }

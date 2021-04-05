@@ -1,0 +1,16 @@
+{
+"companyName": "DefaultCompany",
+"productName": "Visualizer",
+"productVersion": "0.1",
+"dataUrl": "CPCTF2021_Visualizer.data.unityweb",
+"wasmCodeUrl": "CPCTF2021_Visualizer.wasm.code.unityweb",
+"wasmFrameworkUrl": "CPCTF2021_Visualizer.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": true,
+"multithreading": false,
+"unityVersion": "2019.4.20f1"
+}

@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using WebSocketSharp;
 using RankingScript;
 using UserScripts;
 
@@ -21,31 +20,18 @@ namespace VisualizerSystem
             public string userId;
             public int ranking;
         }
-        public void Handler(MessageEventArgs args)
+        public void Handler(EventType type, string msg)
         {
-            // テスト用: [ranking userId ranking]
-            if (args.Data.StartsWith("ranking"))
+            if (type == EventType.RankingUpdated)
             {
-                var data = args.Data.Split(' ');
-                var user = userManager.usersDictionary[data[1]];
-                user.SetRanking(int.Parse(data[2]));
+                // { "type": 3, "data": { "userId": "ID", "ranking": 1 } }
+                Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(msg);
+
+                var user = userManager.usersDictionary[e.data.userId];
                 try { rankingManager.Update(user); }
                 catch (Exception err) { Debug.LogError(err); }
                 return;
             }
-
-            try
-            {
-                Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(args.Data);
-                if (e.type == EventType.RankingUpdated)
-                {
-                    var user = userManager.usersDictionary[e.data.userId];
-                    try { rankingManager.Update(user); }
-                    catch (Exception err) { Debug.LogError(err); }
-                    return;
-                }
-            }
-            catch { };
         }
     }
 }

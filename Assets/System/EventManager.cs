@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using WebSocketSharp;
+using HybridWebSocket;
 using System;
 using System.Collections.Concurrent;
 
@@ -19,19 +19,24 @@ namespace VisualizerSystem
         public EventType type;
         public T data;
     }
+    [Serializable]
+    class Event
+    {
+        public EventType type;
+    }
     public class EventManager
     {
         [SerializeField]
         static string WS_URI = "ws://localhost:3000";
         WebSocket ws;
-        public ConcurrentQueue<MessageEventArgs> incoming_messages = new ConcurrentQueue<MessageEventArgs>();
-        public delegate void Handler(MessageEventArgs e);
+        public ConcurrentQueue<byte[]> incoming_messages = new ConcurrentQueue<byte[]>();
+        public delegate void Handler(EventType type, string msg);
         private Handler _handler;
         public void Init()
         {
-            ws = new WebSocket(WS_URI);
-            ws.EmitOnPing = true;
-            ws.OnMessage += (sender, e) =>
+
+            ws = WebSocketFactory.CreateInstance(WS_URI);
+            ws.OnMessage += (e) =>
             {
                 incoming_messages.Enqueue(e);
             };
@@ -41,9 +46,18 @@ namespace VisualizerSystem
         {
             _handler += func;
         }
-        public void Handle(MessageEventArgs msg)
+        public void Handle(byte[] msg)
         {
-            _handler(msg);
+            try
+            {
+                string json = System.Text.Encoding.UTF8.GetString(msg);
+                Event e = JsonUtility.FromJson<Event>(json);
+                _handler(e.type, json);
+            }
+            catch (ArgumentException err)
+            {
+                Debug.LogError(err);
+            }
         }
         public void Shutdown()
         {
