@@ -9,22 +9,22 @@ namespace Map
     [CustomEditor(typeof(MapGeneratorV2))]
     public class MapEditor : Editor
     {
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
 
-        MapGeneratorV2 generator = target as MapGeneratorV2;
+            MapGeneratorV2 generator = target as MapGeneratorV2;
 
-        // if ( GUILayout.Button("ResetOriginalMesh") )
-        // {
-        //     generator.ResetOriginalMesh();
-        // }
+            if ( GUILayout.Button("SaveMesh") )
+            {
+                generator.SaveMesh();
+            }
 
-        // if ( GUILayout.Button("BuildMesh") )
-        // {
-        //     generator.BuildMesh();
-        // }
-    }
+            // if ( GUILayout.Button("BuildMesh") )
+            // {
+            //     generator.BuildMesh();
+            // }
+        }
 
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEditor;
 
 namespace Map
 {
@@ -55,6 +56,7 @@ namespace Map
         int renderTextureKernel;
         MeshFilter meshFilter;
         Mesh originalMesh;
+        Mesh mesh;
 
         void FlatShading ()
         {
@@ -94,7 +96,7 @@ namespace Map
         }
         public void MeshUpdate()
         {
-            Mesh mesh = Instantiate(originalMesh);
+            mesh = Instantiate(originalMesh);
 
             buildMeshKernel = meshBuilder.FindKernel("BuildMesh");
             renderTextureKernel = meshBuilder.FindKernel("RenderTexture");
@@ -182,6 +184,15 @@ namespace Map
             heightBuffer.Release();
             normalBuffer.Release();
             colorBuffer.Release();
+        }
+
+        public void SaveMesh()
+        {
+            string meshPath = "Assets/Mapgen/planet.asset";
+            if (meshPath != "") {
+                AssetDatabase.CreateAsset(mesh, meshPath);
+                AssetDatabase.SaveAssets();
+            }
         }
     }
 }
