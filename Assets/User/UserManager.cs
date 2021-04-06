@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static VisualizerSystem.ProblemSolvedEvent;
+using CameraLib;
 
 namespace UserScripts
 {
