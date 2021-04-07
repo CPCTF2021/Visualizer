@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using WebSocketSharp;
 using UserScripts;
 
 namespace VisualizerSystem
@@ -17,7 +16,7 @@ namespace VisualizerSystem
         {
             public int timeLimit;
         }
-        public void Handler(MessageEventArgs args)
+        public void Handler(EventType type, string msg)
         {
             //    Event<EventDetail> e = JsonUtility.FromJson<Event<EventDetail>>(args.Data);
             //    if (e.type == EventType.TimeAdjuster)

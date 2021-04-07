@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using WebSocketSharp;
 using System;
 using System.Collections.Concurrent;
+using System.Runtime.InteropServices;
 
 namespace VisualizerSystem
 {
@@ -19,36 +19,51 @@ namespace VisualizerSystem
         public EventType type;
         public T data;
     }
+    [Serializable]
+    class Event
+    {
+        public EventType type;
+    }
     public class EventManager
     {
+        [DllImport("__Internal")]
+        private static extern void Init(string server);
+        [DllImport("__Internal")]
+        private static extern string PopMessage();
+        [DllImport("__Internal")]
+        private static extern void Close();
+
         [SerializeField]
-        static string WS_URI = "ws://localhost:3000";
-        WebSocket ws;
-        public ConcurrentQueue<MessageEventArgs> incoming_messages = new ConcurrentQueue<MessageEventArgs>();
-        public delegate void Handler(MessageEventArgs e);
+        static string WS_URI = "wss://cpctf.space/ws/visualizer";
+        public delegate void Handler(EventType type, string msg);
         private Handler _handler;
         public void Init()
         {
-            ws = new WebSocket(WS_URI);
-            ws.EmitOnPing = true;
-            ws.OnMessage += (sender, e) =>
-            {
-                incoming_messages.Enqueue(e);
-            };
-            ws.Connect();
+            Init(WS_URI);
         }
         public void Register(Handler func)
         {
             _handler += func;
         }
-        public void Handle(MessageEventArgs msg)
+        public void Handle()
         {
-            _handler(msg);
+            var msg = PopMessage();
+            if (msg != "")
+            {
+                try
+                {
+                    Event e = JsonUtility.FromJson<Event>(msg);
+                    _handler(e.type, msg);
+                }
+                catch (ArgumentException err)
+                {
+                    Debug.LogError(err);
+                }
+            }
         }
         public void Shutdown()
         {
-            ws.Close();
-            ws = null;
+            Close();
         }
     }
 }
