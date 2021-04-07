@@ -99,7 +99,7 @@ namespace UserScripts
                 UserQueueData userQueueData = userQueue.Dequeue();
                 userQueueData.user.AddScore(userQueueData.genre, userQueueData.score);
                 cameraAnimator.SetTarget(userQueueData.user.GetPosition());
-                yield return new WaitForSeconds(5f / userQueue.Count);
+                yield return new WaitForSeconds(Math.Min(1.5f, 5f / userQueue.Count));
             }
         }
     }

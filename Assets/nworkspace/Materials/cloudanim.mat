@@ -65,20 +65,22 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Intensity: 0.112
+    - _Intensity: 0.703
     - _LightStepScale: 0.5
-    - _Loop: 83.9
+    - _Loop: 15.1
     - _LoopLight: 17
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseScale: 8.4
+    - _NoiseScale: 6.6
     - _OcclusionStrength: 1
     - _Opacity: 50
     - _OpacityLight: 50
     - _Parallax: 0.02
-    - _Radius: 0.85
+    - _Progress: 0.53
+    - _Radius: 0.87
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Speed: 24.61
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1

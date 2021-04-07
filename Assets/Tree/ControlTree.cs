@@ -47,12 +47,20 @@ namespace TreeScripts
             props.SetFloat("_Progress", progress);
             GetComponent<MeshRenderer>().SetPropertyBlock(props);
             transform.localScale = new Vector3(progress, progress, progress);
-            int index = 0;
             for (int i = 0; i < leaveList.Count; i++)
             {
                 float scale = radius * 200f * Mathf.Max(Mathf.Min((progress - leaveProgress[i]) * branchNum * 0.3f, 1f), 0f);
 
                 leaveList[i].localScale = new Vector3(scale, scale, scale);
+            }
+            prevProgress = progress;
+
+        }
+        void LeaveColoring()
+        {
+            int index = 0;
+            for (int i = 0; i < leaveList.Count; i++)
+            {
                 // 葉の設定
                 MaterialPropertyBlock props2 = new MaterialPropertyBlock();
                 while (index + 1 < 10 && cumulativePercentage[(Genre)(index + 1)] < i / (float)leaveList.Count)
@@ -62,8 +70,6 @@ namespace TreeScripts
                 props2.SetColor("_Color", GENRE_TO_COLOR[index]);
                 leaveList[i].gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(props2);
             }
-            prevProgress = progress;
-
         }
 
         public void ResetTree()
@@ -88,12 +94,16 @@ namespace TreeScripts
             if (!isGrow) return;
             if (sequence != null) sequence.Kill();
             sequence = DOTween.Sequence();
+            sequence.AppendInterval(1.1f);
+            sequence.AppendCallback(() => {
+                LeaveColoring();
+            });
             // 木のアニメーション
             sequence.Append(DOTween.To(() => this.progress, (val) =>
             {
                 this.progress = val;
                 GrowTree();
-            }, progress, 1.7f).SetDelay(0.3f));
+            }, progress, 1.0f).SetDelay(0.1f).SetEase(Ease.OutElastic));
         }
     }
 
