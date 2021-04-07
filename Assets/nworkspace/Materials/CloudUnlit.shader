@@ -8,8 +8,6 @@ Properties
     _Loop("Loop", Range(0, 128)) = 32
     _NoiseScale("NoiseScale", Range(0, 100)) = 5
     _Radius("Radius", Range(0, 2)) = 1.0 
-    _Progress("Progress", Float) = 0.0
-    _Speed("Speed", Float) = 1.0
 }
 
 CGINCLUDE
@@ -32,10 +30,6 @@ float _Intensity;
 int _Loop;
 float _NoiseScale;
 float _Radius;
-float _Progress;
-float _Speed;
-
-float3 offset = float3(0.0, 0.0, 0.0);
 
 // ref. https://www.shadertoy.com/view/lss3zr
 inline float hash(float n)
@@ -72,7 +66,7 @@ inline float fbm(float3 p)
 
 inline float densityFunction(float3 p)
 {	
-	return fbm(p * _NoiseScale + offset) - length(p / _Radius);
+	return fbm(p * _NoiseScale) - length(p / _Radius);
 }
 
 v2f vert(appdata v)
@@ -95,7 +89,6 @@ float4 frag(v2f i) : SV_Target
     float3 localStep = localDir * step;
     float jitter = hash(localPos.x + localPos.y * 10 + localPos.z * 100 + _Time.x);
     localPos += jitter * localStep;
-    offset = localDir * _Progress * _Speed;
 
     float alpha = 0.0;
 
