@@ -47,10 +47,7 @@ namespace VisualizerSystem
         }
         void Update()
         {
-            if (eventManager.incoming_messages.TryDequeue(out var message))
-            {
-                eventManager.Handle(message);
-            }
+                eventManager.Handle();
         }
         void OnDestroy()
         {

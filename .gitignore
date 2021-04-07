@@ -94,6 +94,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+CPCTF2021_Visualizer
 
 # Crashlytics generated file
 crashlytics-build.properties
