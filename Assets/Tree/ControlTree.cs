@@ -103,7 +103,7 @@ namespace TreeScripts
             {
                 this.progress = val;
                 GrowTree();
-            }, progress, 1.0f).SetDelay(0.1f).SetEase(Ease.OutElastic));
+            }, progress, 1.0f).SetDelay(0.1f).SetEase(Ease.OutExpo));
         }
     }
 
