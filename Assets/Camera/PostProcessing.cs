@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CameraLib
+namespace CameraScripts
 {
     public class PostProcessing : MonoBehaviour
     {

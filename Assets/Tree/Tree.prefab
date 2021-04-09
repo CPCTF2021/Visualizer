@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e085bacfa74ba0e47a90570d02e0a243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 0.45
+  icon: {fileID: 6881964063045825138}
   leaveList: []
   leaveProgress: []
   branchNum: 0
@@ -232,3 +232,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userIcon: {fileID: 2663905809481923088}
+  name: 
+  id: 
+  ranking: 0
+  totalScore: 0
+  icon: {fileID: 0}

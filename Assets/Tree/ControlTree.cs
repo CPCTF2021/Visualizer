@@ -7,6 +7,9 @@ namespace TreeScripts
 {
     public class ControlTree : MonoBehaviour
     {
+        [SerializeField]
+        Transform icon;
+
         [Range(0, 1)]
         float progress = 0f;
         float prevProgress = 0f;
@@ -22,17 +25,17 @@ namespace TreeScripts
         Sequence sequence;
 
         public static Color[] GENRE_TO_COLOR = new Color[10]{
-        new Color(0 / 256f, 171 / 256f, 214 / 256f),
-        new Color(0 / 256f, 216 / 256f, 133 / 256f),
-        new Color(137 / 256f, 91 / 256f, 0 / 256f),
-        new Color(173 / 256f, 166 / 256f, 145 / 256f),
-        new Color(177 / 256f, 249 / 256f, 114 / 256f),
-        new Color(150 / 256f, 200 / 256f, 255 / 256f),
-        new Color(219 / 256f, 43 / 256f, 0 / 256f),
-        new Color(198 / 256f, 198 / 256f, 198 / 256f),
-        new Color(125 / 256f, 0 / 256f, 188 / 256f),
-        new Color(0 / 256f, 38 / 256f, 255 / 256f),
-    };
+            new Color(0 / 256f, 171 / 256f, 214 / 256f),
+            new Color(0 / 256f, 216 / 256f, 133 / 256f),
+            new Color(137 / 256f, 91 / 256f, 0 / 256f),
+            new Color(173 / 256f, 166 / 256f, 145 / 256f),
+            new Color(177 / 256f, 249 / 256f, 114 / 256f),
+            new Color(150 / 256f, 200 / 256f, 255 / 256f),
+            new Color(219 / 256f, 43 / 256f, 0 / 256f),
+            new Color(198 / 256f, 198 / 256f, 198 / 256f),
+            new Color(125 / 256f, 0 / 256f, 188 / 256f),
+            new Color(0 / 256f, 38 / 256f, 255 / 256f),
+        };
 
         public void SetActive(bool flag)
         {
@@ -93,17 +96,16 @@ namespace TreeScripts
         {
             if (!isGrow) return;
             if (sequence != null) sequence.Kill();
+            LeaveColoring();
             sequence = DOTween.Sequence();
-            sequence.AppendInterval(1.1f);
-            sequence.AppendCallback(() => {
-                LeaveColoring();
-            });
+            sequence.Append(icon.DOScale(2f, 0.3f).SetEase(Ease.InExpo));
+            sequence.Append(icon.DOScale(1f, 0.7f).SetEase(Ease.OutExpo));
             // 木のアニメーション
-            sequence.Append(DOTween.To(() => this.progress, (val) =>
+            DOTween.To(() => this.progress, (val) =>
             {
                 this.progress = val;
                 GrowTree();
-            }, progress, 1.0f).SetDelay(0.1f).SetEase(Ease.OutExpo));
+            }, progress, 1.0f).SetEase(Ease.OutExpo);
         }
     }
 
