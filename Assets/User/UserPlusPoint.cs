@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using static VisualizerSystem.ProblemSolvedEvent;
+using static TreeScripts.ControlTree;
 
 namespace UserScripts
 {
@@ -15,17 +17,21 @@ namespace UserScripts
         Vector3 control;
 
 
-        void Initialize(Vector3 pos, Vector3 up)
+        public void Initialize(Vector3 pos, Vector3 up, float animationTime, Genre genre)
         {
             camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-            this.origin = camera.transform.position - up * 0.3f;
-            this.control = origin + up * 0.5f;
+            GetComponent<MeshRenderer>().material.SetColor("_Color", GENRE_TO_COLOR[(int)genre]);
+            this.origin = camera.transform.position + camera.transform.forward;
+            this.control = pos + up * 0.5f;
             this.target = pos;
             isStart = true;
             progress = 0f;
             DOTween.To(() => progress, (val) => {
                 progress = val;
-            }, 1f, 0.3f);
+            }, 1f, 0.4f * animationTime).SetEase(Ease.InCirc)
+            .OnComplete(() => {
+                Destroy(gameObject);
+            });
         }
 
         void Update()
@@ -36,6 +42,7 @@ namespace UserScripts
                 float s = 1f - progress;
                 Vector3 pos = origin * s * s + 2f * control * t * s + target * t * t;
                 transform.position = pos;
+                transform.localScale = new Vector3(0.4f, 0.4f, 0.4f) * (1f - progress);
             }
         }
     }

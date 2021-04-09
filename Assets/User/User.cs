@@ -11,6 +11,8 @@ namespace UserScripts
     {
         [SerializeField]
         UserIcon userIcon;
+        [SerializeField]
+        GameObject pointObject;
         ControlTree controlTree;
         public string name, id;
 
@@ -38,7 +40,7 @@ namespace UserScripts
             controlTree.SetActive(true);
             //TODO: 10000fは最大ポイント
             controlTree.cumulativePercentage = cumulativePercentage;
-            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f);
+            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f, 1f);
             userIcon.gameObject.SetActive(true);
             userIcon.SetIcon(icon);
         }
@@ -55,7 +57,7 @@ namespace UserScripts
             }
         }
 
-        public void AddScore(Genre genre, float score)
+        public void AddScore(Genre genre, float score, float animationTime)
         {
             scores[genre] += score;
             totalScore += (int)Mathf.Ceil(score);
@@ -66,7 +68,15 @@ namespace UserScripts
                 cumulativePercentage[g] = tmp / totalScore;
             }
             //TODO: 10000fは最大ポイント
-            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f);
+            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f, animationTime);
+            userIcon.AnimationIcon(animationTime);
+            MakeScoreParticle(animationTime, genre);
+        }
+
+        void MakeScoreParticle(float animationTime, Genre genre)
+        {
+            UserPlusPoint particle = Instantiate(pointObject).GetComponent<UserPlusPoint>();
+            particle.Initialize(transform.position, transform.position.normalized, animationTime, genre);
         }
 
         public void SetRanking(int ranking)
@@ -76,7 +86,7 @@ namespace UserScripts
 
         public Vector3 GetPosition()
         {
-            return transform.position + transform.rotation * Vector3.up * 0.7f;
+            return transform.position + transform.position.normalized * 0.7f;
         }
     }
 }

@@ -22,8 +22,6 @@ namespace TreeScripts
         public Dictionary<Genre, float> cumulativePercentage;
         bool isGrow = false;
 
-        Sequence sequence;
-
         public static Color[] GENRE_TO_COLOR = new Color[10]{
             new Color(0 / 256f, 171 / 256f, 214 / 256f),
             new Color(0 / 256f, 216 / 256f, 133 / 256f),
@@ -92,22 +90,18 @@ namespace TreeScripts
             }
         }
 
-        public void AnimationTree(float progress)
+        public void AnimationTree(float progress, float animationTime)
         {
             if (!isGrow) return;
-            if (sequence != null) sequence.Kill();
             LeaveColoring();
-            sequence = DOTween.Sequence();
-            sequence.AppendInterval(0.5f);
-            Vector3 scale = new Vector3(1f, 1f, 1f) * 0.1f;
-            sequence.Append(icon.DOScale(scale * 3f, 0.5f).SetEase(Ease.OutExpo));
-            sequence.Append(icon.DOScale(scale, 0.5f).SetEase(Ease.OutExpo));
+            Sequence sequence = DOTween.Sequence();
+            sequence.AppendInterval(0.3f * animationTime);
             // 木のアニメーション
-            DOTween.To(() => this.progress, (val) =>
+            sequence.Append(DOTween.To(() => this.progress, (val) =>
             {
                 this.progress = val;
                 GrowTree();
-            }, progress, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.5f);
+            }, progress, 0.7f * animationTime).SetEase(Ease.OutQuart));
         }
     }
 

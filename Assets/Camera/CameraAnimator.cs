@@ -33,7 +33,7 @@ namespace CameraScripts
             target = normal = binormal = Vector3.zero;
         }
 
-        void Update()
+        void PositionCalculate()
         {
             float t = Mathf.Lerp(Mathf.Sin(theta) * Mathf.PI * 0.4f + Mathf.PI * 0.5f, targetTheta, progress);
             float p = Mathf.Lerp(phi, targetPhi, progress);
@@ -51,6 +51,11 @@ namespace CameraScripts
             theta = (theta + Mathf.PI * 0.001f) % (Mathf.PI * 2f);
             phi = (phi + Mathf.PI * 0.001f) % (Mathf.PI * 2f);
             camTransform.LookAt(Vector3.Lerp(Vector3.zero, target, progress), Vector3.Lerp(Vector3.up, target, progress));
+        }
+
+        void Update()
+        {
+            PositionCalculate();
         }
 
         public Sequence MoveToTarget()
@@ -77,6 +82,7 @@ namespace CameraScripts
             else targetPhi = Mathf.Atan2(pos.z, pos.x);
             normal = Vector3.Cross(dir, Vector3.up).normalized;
             binormal = Vector3.Cross(dir, normal).normalized;
+            PositionCalculate();
         }
         
         public void LeaveFromTarget()
