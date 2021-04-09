@@ -98,14 +98,16 @@ namespace TreeScripts
             if (sequence != null) sequence.Kill();
             LeaveColoring();
             sequence = DOTween.Sequence();
-            sequence.Append(icon.DOScale(2f, 0.3f).SetEase(Ease.InExpo));
-            sequence.Append(icon.DOScale(1f, 0.7f).SetEase(Ease.OutExpo));
+            sequence.AppendInterval(0.5f);
+            Vector3 scale = new Vector3(1f, 1f, 1f) * 0.1f;
+            sequence.Append(icon.DOScale(scale * 3f, 0.5f).SetEase(Ease.OutExpo));
+            sequence.Append(icon.DOScale(scale, 0.5f).SetEase(Ease.OutExpo));
             // 木のアニメーション
             DOTween.To(() => this.progress, (val) =>
             {
                 this.progress = val;
                 GrowTree();
-            }, progress, 1.0f).SetEase(Ease.OutExpo);
+            }, progress, 0.5f).SetEase(Ease.OutExpo).SetDelay(0.5f);
         }
     }
 

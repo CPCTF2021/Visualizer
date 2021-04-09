@@ -84,7 +84,6 @@ namespace UserScripts
         public void AddScore(string id, Genre genre, float score)
         {
             User user;
-                Debug.Log(id);
             if (!usersDictionary.TryGetValue(id, out user)) {
                 throw new MissingFieldException();
             }
