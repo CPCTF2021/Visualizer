@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Bird/bird.unity
-    guid: 65ddf9f42940ea4408bec096632b5231
+    path: Assets/Tree/Tree.unity
+    guid: 6310943d791d3a7418f82ae70a3a44e5
   m_configObjects: {}

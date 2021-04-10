@@ -1,0 +1,156 @@
+﻿#pragma kernel BuildMesh
+#pragma kernel RenderTexture
+
+#define SIMULATION_BLOCK_SIZE 256
+#define PI 3.1415926535
+
+int maxVertexCount;
+int blockComputeCount;
+
+// 地形生成用パラメーター
+float2 continentShapeSeed;
+float continentHeightOffset;
+float continentNoiseScale;
+float continentSharpness;
+
+float oceanFloorSmoothing;
+float oceanDepthMultiplier;
+
+float2 mountainMaskSeed;
+float mountainMaskGain;
+float mountainMaskScale;
+float mountainMaskOffset;
+
+float2 mountainNoiseSeed;
+float mountainNoiseScale;
+float mountainHeightScale;
+float mountainSharpness;
+
+float continentScale;
+float noiseBlendScale;
+
+// 色付け生成
+float4 glassColor;
+float glassNormalSpread;
+float glassHeightSpread;
+
+RWStructuredBuffer<float3> _VertexBuffer;
+RWStructuredBuffer<float> _HeightBuffer;
+RWStructuredBuffer<float2> _UVBuffer;
+StructuredBuffer<float3> _NormalBuffer;
+RWStructuredBuffer<float4> _ColorBuffer;
+Texture2D<float4> _HeightColorTexture;
+
+float random (in float2 st)
+{
+    return frac(sin(dot(st.xy, float2(12.9898, 78.233))) * 43758.5453123);
+}
+
+float noise (in float2 st)
+{
+    float2 i = floor(st);
+    float2 f = frac(st);
+
+    float a = random(i);
+    float b = random(i + float2(1.0, 0.0));
+    float c = random(i + float2(0.0, 1.0));
+    float d = random(i + float2(1.0, 1.0));
+
+    float2 u = f * f * (3.0 - 2.0 * f);
+
+    return lerp(a, b, u.x)
+            + (c - a) * u.y * (1.0 - u.x)
+            + (d - b) * u.x * u.y;
+}
+
+float bias(float b, float x)
+{
+  return pow(abs(x), log(b) / log(0.5));
+}
+
+float gain(float x, float g)
+{
+  if(x < 0.5)
+  {
+    return bias(1.0 - g, 2.0 * x) / 2.0;
+  }
+  else
+  {
+    return 1.0 - bias(1.0 - g, 2.0 - 2.0 * x) / 2.0;
+  }
+}
+
+float smoothMax(float a, float b, float k) {
+    k = min(0, -k);
+    float h = max(0, min(1, (b - a + k) / (2 * k)));
+    return a * h + b * (1 - h) - k * h * (1 - h);
+}
+
+
+float heightCalculate (in float2 pos)
+{
+    float continentShape = noise(pos * continentNoiseScale + continentShapeSeed) * 0.8;
+
+    float oceanFloorShape = continentShape * 0.15;
+    continentShape = smoothMax(continentShape, oceanFloorShape, oceanFloorSmoothing) - 0.4 + continentHeightOffset;
+    continentShape = (continentShape < 0.0) ? continentShape * (1 + oceanDepthMultiplier) : pow(abs(continentShape) * continentSharpness, 2.0);
+
+    float mountainMask = gain(noise(pos * mountainMaskScale + float2(50, 50) + mountainMaskSeed) + mountainMaskOffset, mountainMaskGain);
+    float mountainShape = (noise(pos * mountainNoiseScale + float2(70, 70) + mountainNoiseSeed)* 0.2) * max(mountainMask, abs(continentShape) * 2.0);
+    mountainShape = pow(mountainShape * mountainSharpness, 2.0);
+    return continentShape + mountainShape * mountainHeightScale;
+}
+
+[numthreads(SIMULATION_BLOCK_SIZE,1,1)]
+void BuildMesh (uint3 id : SV_DispatchThreadID)
+{
+    int baseIndex = id.x * blockComputeCount;
+
+    for (int i = 0; i < blockComputeCount; i++)
+    {
+        int index = baseIndex + i;
+        if (index > maxVertexCount) return;
+        float3 v = _VertexBuffer[index];
+
+        float radius = length(v);
+        float3 norm = normalize(v);
+
+        float3 blendWeight = pow(abs(norm), noiseBlendScale);
+        blendWeight /= dot(blendWeight, 1);
+
+        float value = 0.0;
+        value += heightCalculate(norm.yz + float2(10.0, 10.0) * sign(norm.x)) * blendWeight.x;
+        value += heightCalculate(norm.zx + float2(20.0, 20.0) * sign(norm.y)) * blendWeight.y;
+        value += heightCalculate(norm.xy + float2(30.0, 30.0) * sign(norm.z)) * blendWeight.z;
+
+        _HeightBuffer[index] = value + 0.5;
+        _VertexBuffer[index] = norm * radius * (value * continentScale + 1.0);
+        _UVBuffer[index] = float2(acos(norm.y) / PI, (atan2(norm.z, norm.x) + PI) / PI / 2.0);
+    }
+}
+
+[numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
+void RenderTexture (uint3 id : SV_DispatchThreadID)
+{
+    float width, height;
+    _HeightColorTexture.GetDimensions(width, height);
+    int baseIndex = id.x * blockComputeCount;
+
+    for (int i = 0; i < blockComputeCount; i++)
+    {
+        int index = baseIndex + i;
+        if (index > maxVertexCount) return;
+
+        float value = saturate(_HeightBuffer[index]);
+        uint w = value * width;
+        uint h = height / 2;
+        uint2 uv = uint2(w, h);
+        _ColorBuffer[index] = lerp(
+            _HeightColorTexture[uv],
+            glassColor,
+            exp(-(1.0 - saturate(dot(normalize(_VertexBuffer[index]), _NormalBuffer[index]))) * glassNormalSpread)
+            * exp(-value * glassHeightSpread)
+        );
+        // _ColorBuffer[index] = lerp(_HeightColorTexture[uv], glassColor, 1.0);
+    }
+}

@@ -94,6 +94,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+CPCTF2021_Visualizer
 
 # Crashlytics generated file
 crashlytics-build.properties
@@ -128,5 +129,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Assets
+LowPolyWaterv2
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,macos,windows
