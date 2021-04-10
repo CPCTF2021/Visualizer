@@ -24,7 +24,7 @@ public class Boids : MonoBehaviour
     direction += delta;
     direction = direction / direction.magnitude * maxSpeed;
     delta = Vector3.zero;
-    if(direction) direction = Vector3.zero;
+    if(direction == null) direction = Vector3.zero;
     transform.position = transform.position + direction * Time.deltaTime;
     transform.position = transform.position / transform.position.magnitude * radius;
   }
