@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using HybridWebSocket;
 using System;
-using System.Collections.Concurrent;
+using System.Runtime.InteropServices;
 
 namespace VisualizerSystem
 {
@@ -26,43 +25,44 @@ namespace VisualizerSystem
     }
     public class EventManager
     {
+        [DllImport("__Internal")]
+        private static extern void Init(string server);
+        [DllImport("__Internal")]
+        private static extern string PopMessage();
+        [DllImport("__Internal")]
+        private static extern void Close();
+
         [SerializeField]
-        static string WS_URI = "ws://localhost:3000";
-        WebSocket ws;
-        public ConcurrentQueue<byte[]> incoming_messages = new ConcurrentQueue<byte[]>();
+        static string WS_URI = "wss://cpctf.space/ws/visualizer";
         public delegate void Handler(EventType type, string msg);
         private Handler _handler;
         public void Init()
         {
-
-            ws = WebSocketFactory.CreateInstance(WS_URI);
-            ws.OnMessage += (e) =>
-            {
-                incoming_messages.Enqueue(e);
-            };
-            ws.Connect();
+            Init(WS_URI);
         }
         public void Register(Handler func)
         {
             _handler += func;
         }
-        public void Handle(byte[] msg)
+        public void Handle()
         {
-            try
+            var msg = PopMessage();
+            if (msg != "")
             {
-                string json = System.Text.Encoding.UTF8.GetString(msg);
-                Event e = JsonUtility.FromJson<Event>(json);
-                _handler(e.type, json);
-            }
-            catch (ArgumentException err)
-            {
-                Debug.LogError(err);
+                try
+                {
+                    Event e = JsonUtility.FromJson<Event>(msg);
+                    _handler(e.type, msg);
+                }
+                catch (ArgumentException err)
+                {
+                    Debug.LogError(err);
+                }
             }
         }
         public void Shutdown()
         {
-            ws.Close();
-            ws = null;
+            Close();
         }
     }
 }
