@@ -27,6 +27,7 @@ namespace UserScripts
         public void Initialize()
         {
             controlTree = GetComponent<ControlTree>();
+            userIcon.SetUpVector(transform.position.normalized);
         }
 
         public void SetUser(string name, string id, Texture icon, Dictionary<Genre, float> scores, int ranking)
