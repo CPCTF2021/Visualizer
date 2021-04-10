@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -332,7 +332,7 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
+    width: 0.8
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -550,6 +550,7 @@ GameObject:
   - component: {fileID: 982722889}
   - component: {fileID: 982722891}
   - component: {fileID: 982722888}
+  - component: {fileID: 982722892}
   - component: {fileID: 982722890}
   m_Layer: 0
   m_Name: VisualizerSystem
@@ -623,6 +624,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaveBaseColor: {r: 0, g: 0, b: 0, a: 0}
   baseColorRate: 0.5
+--- !u!114 &982722892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982722887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163468bfd6835b240b124d7dc8abf28f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texture: {fileID: 2800000, guid: 6bcb78f18c6420e45ab875dc04229639, type: 3}
 --- !u!1 &1079593042
 GameObject:
   m_ObjectHideFlags: 0

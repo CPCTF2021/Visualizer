@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static VisualizerSystem.ProblemSolvedEvent;
+using CameraScripts;
 
 namespace UserScripts
 {
@@ -26,6 +27,8 @@ namespace UserScripts
             public float score;
         }
         Queue<UserQueueData> userQueue = new Queue<UserQueueData>();
+
+        bool isAnimation = false;
 
         // 木に付いてるUserを取得
         public void SetTree()
@@ -81,25 +84,41 @@ namespace UserScripts
         public void AddScore(string id, Genre genre, float score)
         {
             User user;
-            if (!usersDictionary.TryGetValue(id, out user)) throw new MissingFieldException();
+            if (!usersDictionary.TryGetValue(id, out user)) {
+                throw new MissingFieldException();
+            }
             UserQueueData userQueueData;
             userQueueData.user = user;
             userQueueData.genre = genre;
             userQueueData.score = score;
             userQueue.Enqueue(userQueueData);
-            if (userQueue.Count == 1) StartCoroutine(DoAnimation());
+            if (!isAnimation && userQueue.Count == 1) StartCoroutine(DoAnimation());
         }
 
         // ポイントを加えるアニメーションの実体
         IEnumerator DoAnimation()
         {
+            isAnimation = true;
+            cameraAnimator.MoveToTarget();
+            UserQueueData userQueueData = userQueue.Dequeue();
+            cameraAnimator.ChangeTarget(userQueueData.user.GetPosition());
+            yield return new WaitForSeconds(1f);
+            float t;
             while (userQueue.Count > 0)
             {
-                UserQueueData userQueueData = userQueue.Dequeue();
-                userQueueData.user.AddScore(userQueueData.genre, userQueueData.score);
-                cameraAnimator.SetTarget(userQueueData.user.GetPosition());
-                yield return new WaitForSeconds(5f / userQueue.Count);
+                t = Mathf.Exp(-userQueue.Count) * 2f;
+                userQueueData.user.AddScore(userQueueData.genre, userQueueData.score, t);
+                yield return new WaitForSeconds(t);
+                userQueueData = userQueue.Dequeue();
+                cameraAnimator.ChangeTarget(userQueueData.user.GetPosition());
             }
+            t = Mathf.Exp(-userQueue.Count) * 2f;
+            userQueueData.user.AddScore(userQueueData.genre, userQueueData.score, t);
+            yield return new WaitForSeconds(t);
+            cameraAnimator.LeaveFromTarget();
+            yield return new WaitForSeconds(1f);
+            if(userQueue.Count >= 1) yield return DoAnimation();
+            isAnimation = false;
         }
     }
 }
