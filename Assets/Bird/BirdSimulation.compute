@@ -1,0 +1,69 @@
+﻿#pragma kernel BirdSimulation
+#pragma kernel CopyVelocity
+
+#define MAX_BIRD_VALUE 256
+#define PI 3.14159265
+
+struct Bird
+{
+	float3 position;
+	float3 velocity;
+};
+
+float _PlanetRadius;
+int _BirdNum;
+int _SparkNum;
+float _MaxSpeed;
+float _DeltaTime;
+
+StructuredBuffer<Bird> _BirdDataRead;
+RWStructuredBuffer<Bird> _BirdDataWrite;
+StructuredBuffer<float3> _BirdVelocityDataRead;
+RWStructuredBuffer<float3> _BirdVelocityDataWrite;
+
+[numthreads(MAX_BIRD_VALUE, 1, 1)]
+void BirdSimulation(uint3 id: SV_DispatchThreadID) {
+    float3 sepVelocity = float3(0.0, 0.0, 0.0);
+    float3 alignVelocity = float3(0.0, 0.0, 0.0);
+    float3 cohVelocity = float3(0.0, 0.0, 0.0);
+    float3 other = float3(0.0, 0.0, 0.0);
+    float sepNum = 0.000001;
+    float alignNum = 0.000001;
+    float cohNum = 0.000001;
+    for(uint i=0;i<(uint)_BirdNum;i++) {
+        if(id.x - i == 0) continue;
+        float3 dir = normalize(_BirdDataRead[i].position - _BirdDataRead[id.x].position);
+        float dis = abs(acos(dot(normalize(_BirdDataRead[id.x].position), normalize(_BirdDataRead[i].position))));
+        
+        if(dis < PI * 0.01) {
+            sepVelocity -= dir / dis * 0.1;
+            sepNum += 1.0;
+        }
+        if(dis < PI * 0.03) {
+            alignVelocity += _BirdDataRead[i].velocity / dis * 0.01;
+            alignNum += 1.0;
+        }
+        if(dis < PI * 0.03) {
+            cohVelocity += dir;
+            cohNum += 1.0;
+        }
+        if(i - _SparkNum == 0 && dis < 0.1) other -= dir / dis * 4.0;
+    }
+    float radiusForce = _PlanetRadius * 1.1 - length(_BirdDataRead[id.x].position);
+    float3 velocity = (sepVelocity / sepNum + alignVelocity / alignNum + cohVelocity / cohNum + other)
+                        + normalize(_BirdDataRead[id.x].position) * (1.0 - step(abs(radiusForce), _PlanetRadius * 0.01)) * sign(radiusForce) * 6.0
+                        + _BirdDataRead[id.x].velocity * 5.0;
+    // float3 velocity = normalize(_BirdDataRead[id.x].position) * (_PlanetRadius * 2.0 - length(_BirdDataRead[id.x].position));
+    // float normalPos = normalize(_BirdDataRead[id.x].position);
+    // velocity = velocity - normalPos * dot(normalPos, velocity);
+    float speed = length(velocity);
+    velocity = velocity / speed * min(speed, _MaxSpeed);
+    _BirdVelocityDataWrite[id.x] = velocity;
+}
+
+[numthreads(MAX_BIRD_VALUE, 1, 1)]
+void CopyVelocity(uint3 id: SV_DispatchThreadID) {
+    _BirdDataWrite[id.x].velocity = _BirdVelocityDataRead[id.x];
+    _BirdDataWrite[id.x].position += _BirdVelocityDataRead[id.x] * _DeltaTime;
+    // _BirdDataWrite[id.x].position = normalize(_BirdDataWrite[id.x].position) * _PlanetRadius * 1.1;
+}
