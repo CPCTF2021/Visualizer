@@ -69,7 +69,7 @@ Shader "Unlit/BillBoard"
             {
                 UNITY_SETUP_INSTANCE_ID (i);
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv) * _MainColor * UNITY_ACCESS_INSTANCED_PROP (_Color_arr, _Color);
+                fixed4 col = tex2D(_MainTex, i.uv) * _MainColor * UNITY_ACCESS_INSTANCED_PROP (MyProperties, _Color);
                 clip(col.a - 0.999999);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
