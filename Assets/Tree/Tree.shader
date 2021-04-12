@@ -11,6 +11,7 @@
     {
         Tags { "RenderType"="Opaque" }
         LOD 200
+        ZWrite On
         CGPROGRAM
         #pragma surface surf Standard vertex:vert fullforwardshadows
         #pragma instancing_options procedural:setup
@@ -21,6 +22,7 @@
         struct Input
         {
             float2 uv_MainTex;
+            float3 normal;
         };
 
         #include "UnityCG.cginc"
@@ -51,6 +53,7 @@
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _MainColor;
+            o.Normal = IN.normal;
             o.Albedo = c.rgb;
             o.Metallic = 0.0;
             o.Smoothness = 0.0;
