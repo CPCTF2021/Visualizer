@@ -10,13 +10,18 @@ namespace RankingScript
         public GameObject playerPrefab;
         public ScrollRect rankingArea;
 
+        public GameObject rankingBoardObject;
+        public RankingEntry[] rankingEntries;
+
         public List<RankingEntry> objs;
         static public List<User> ranking = new List<User>(2000);
         bool changed = false;
 
         private void Start()
         {
-            rankingArea = GetComponent<ScrollRect>();
+            // rankingArea = GetComponent<ScrollRect>();
+
+            rankingEntries = GetComponentsInChildren<RankingEntry>();
         }
 
         private void Update()
@@ -25,7 +30,8 @@ namespace RankingScript
             {
                 for (int i = 0; i < ranking.Count; i++)
                 {
-                    objs[i].SetPlayer(ranking[i].ranking, ranking[i].name, ranking[i].totalScore);
+                    // objs[i].SetPlayer(ranking[i].ranking, ranking[i].name, ranking[i].totalScore);
+                    rankingEntries[i].SetPlayer(ranking[i].ranking, ranking[i].name, ranking[i].totalScore);
                 }
                 changed = false;
             }
