@@ -27,7 +27,7 @@ namespace RankingScript
         {
             if (changed)
             {
-                for (int i = 0; i < ranking.Count; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     // objs[i].SetPlayer(ranking[i].ranking, ranking[i].name, ranking[i].totalScore);
                     rankingEntries[i].SetPlayer(ranking[i].ranking, ranking[i].name, ranking[i].totalScore);
