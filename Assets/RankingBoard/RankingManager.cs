@@ -39,9 +39,13 @@ namespace RankingScript
 
         public void AddUser(User user)
         {
-            GameObject a = Instantiate(playerPrefab, rankingArea.content);
-            RankingEntry re = a.GetComponent<RankingEntry>();
-            objs.Add(re);
+            // GameObject a = Instantiate(playerPrefab, rankingArea.content);
+            // RankingEntry re = a.GetComponent<RankingEntry>();
+            if (user.ranking <= 10)
+            {
+                rankingEntries[user.ranking - 1].SetPlayer(user.ranking, user.name, user.totalScore);
+            }
+            // objs.Add(re);
 
             ranking.Add(user);
 

@@ -44,6 +44,7 @@ public class RankingMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.D))
         {
             isRightMove = true;
@@ -52,6 +53,7 @@ public class RankingMove : MonoBehaviour
         {
             isLeftMove = true;
         }
+        */
 
         if (isRightMove)
         {
