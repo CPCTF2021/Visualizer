@@ -13,7 +13,6 @@ namespace TreeScripts
 
         [Range(0, 1)]
         float progress = 0f;
-        float prevProgress = 0f;
 
         Material material;
         public List<Transform> leaveList;
@@ -41,7 +40,6 @@ namespace TreeScripts
 
                 leaveList[i].localScale = new Vector3(scale, scale, scale);
             }
-            prevProgress = progress;
 
         }
         void LeaveColoring()
