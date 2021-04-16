@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using static VisualizerSystem.ProblemSolvedEvent;
-using static TreeScripts.ControlTree;
+using static TreeScripts.TreeGenerator;
 
 namespace UserScripts
 {
