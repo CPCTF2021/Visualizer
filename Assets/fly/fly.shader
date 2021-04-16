@@ -13,6 +13,7 @@ Shader "Unlit/BillBoard"
         Tags { "Queue"="Transparent" "RenderType"="Transparent" }
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha
+        Cull Off
 
         Pass
         {
@@ -54,12 +55,13 @@ Shader "Unlit/BillBoard"
                 UNITY_SETUP_INSTANCE_ID (v);
                 UNITY_TRANSFER_INSTANCE_ID (v, o);
 
-                float3 vpos = mul((float3x3)unity_ObjectToWorld, v.vertex.xyz);
-				float4 worldCoord = float4(unity_ObjectToWorld._m03, unity_ObjectToWorld._m13, unity_ObjectToWorld._m23, 1);
-				float4 viewPos = mul(UNITY_MATRIX_V, worldCoord) + float4(vpos, 0);
-				float4 outPos = mul(UNITY_MATRIX_P, viewPos);
+                // float3 vpos = mul((float3x3)unity_ObjectToWorld, v.vertex.xyz);
+				// float4 worldCoord = float4(unity_ObjectToWorld._m03, unity_ObjectToWorld._m13, unity_ObjectToWorld._m23, 1);
+				// float4 viewPos = mul(UNITY_MATRIX_V, worldCoord) + float4(vpos, 0);
+				// float4 outPos = mul(UNITY_MATRIX_P, viewPos);
 
-				o.vertex = outPos;
+				// o.vertex = outPos;
+                o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
@@ -69,7 +71,7 @@ Shader "Unlit/BillBoard"
             {
                 UNITY_SETUP_INSTANCE_ID (i);
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv) * _MainColor * UNITY_ACCESS_INSTANCED_PROP (_Color_arr, _Color);
+                fixed4 col = tex2D(_MainTex, i.uv) * _MainColor * UNITY_ACCESS_INSTANCED_PROP (MyProperties, _Color);
                 clip(col.a - 0.999999);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);

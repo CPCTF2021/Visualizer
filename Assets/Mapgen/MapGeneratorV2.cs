@@ -24,7 +24,7 @@ namespace Map
         public float oceanDepthMultiplier = 0f;
 
         public Vector2 mountainMaskSeed = Vector2.zero;
-        [Range(0, 1)]
+        [Range(0f, 0.9999999f)]
         public float mountainMaskGain = 1f;
         public float mountainMaskScale = 1f;
         [Range(-1, 1)]
@@ -42,6 +42,8 @@ namespace Map
         public Texture heightColorTexture;
         public Color glassColor;
         public float glassNormalSpread = 2.0f;
+        public float glassHeightOffset = 0.0f;
+        [Range(0f, 0.9999999f)]
         public float glassHeightSpread = 0.8f;
     }
     // [ExecuteInEditMode]
@@ -162,6 +164,7 @@ namespace Map
             meshBuilder.SetTexture(renderTextureKernel, "_HeightColorTexture", setting.heightColorTexture);
             meshBuilder.SetVector("glassColor", setting.glassColor);
             meshBuilder.SetFloat("glassNormalSpread", setting.glassNormalSpread);
+            meshBuilder.SetFloat("glassHeightOffset", setting.glassHeightOffset);
             meshBuilder.SetFloat("glassHeightSpread", setting.glassHeightSpread);
 
             meshBuilder.SetBuffer(renderTextureKernel, "_VertexBuffer", vertexBuffer);

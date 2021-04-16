@@ -132,5 +132,7 @@ $RECYCLE.BIN/
 
 # Assets
 LowPolyWaterv2
+Assets/SAColliderBuilder/*
+Assets/SAColliderBuilder.meta
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,macos,windows
