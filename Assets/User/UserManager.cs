@@ -18,8 +18,6 @@ namespace UserScripts
         [SerializeField]
         CameraAnimator cameraAnimator;
 
-        int lastPlace = 1;
-
         struct UserQueueData
         {
             public User user;
@@ -45,7 +43,7 @@ namespace UserScripts
         }
 
         // 既存Userの反映
-        public void AddUser(string name, string id, Texture icon, Dictionary<Genre, float> scores, int ranking)
+        public void AddUser(string name, string id, Texture icon, Dictionary<Genre, float> scores)
         {
             int count = users.Count;
             int index = UnityEngine.Random.Range(0, count);
@@ -66,10 +64,16 @@ namespace UserScripts
             if (fullyUsed) throw new IndexOutOfRangeException();
 
             // 起動時に、木にユーザーを割当するため
-            users[index].SetUser(name, id, icon, scores, ranking);
+            users[index].SetUser(name, id, icon, scores);
             usersDictionary.Add(id, users[index]);
+        }
 
-            if (ranking > lastPlace) lastPlace = ranking;
+        public void AddUsers(List<User> users)
+        {
+            foreach (User user in users)
+            {
+                AddUser(user.name, user.id, user.icon, user.scores);
+            }
         }
 
         // 新規Userの追加
@@ -77,7 +81,7 @@ namespace UserScripts
         {
             var zero = new Dictionary<Genre, float>();
             foreach (Genre g in Enum.GetValues(typeof(Genre))) zero[g] = 0;
-            AddUser(name, id, icon, zero, lastPlace);
+            AddUser(name, id, icon, zero);
         }
 
         // ポイントを加える
