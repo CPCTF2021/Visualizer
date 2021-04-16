@@ -51,6 +51,7 @@ namespace CameraScripts
             theta = (theta + Mathf.PI * 0.001f) % (Mathf.PI * 2f);
             phi = (phi + Mathf.PI * 0.001f) % (Mathf.PI * 2f);
             camTransform.LookAt(Vector3.Lerp(Vector3.zero, target, progress), Vector3.Lerp(Vector3.up, target, progress));
+            camTransform.position = camTransform.position + Vector3.Lerp(radius * 0.5f * camTransform.right, Vector3.zero, progress);
         }
 
         void Update()

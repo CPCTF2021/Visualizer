@@ -110,13 +110,13 @@ namespace UserScripts
             float t;
             while (userQueue.Count > 0)
             {
-                t = Mathf.Exp(-userQueue.Count) * 2f;
+                t = Mathf.Max(Mathf.Exp(-userQueue.Count) * 2f, 0.2f);
                 userQueueData.user.AddScore(userQueueData.genre, userQueueData.score, t);
                 yield return new WaitForSeconds(t);
                 userQueueData = userQueue.Dequeue();
                 cameraAnimator.ChangeTarget(userQueueData.user.GetPosition());
             }
-            t = Mathf.Exp(-userQueue.Count) * 2f;
+            t = Mathf.Max(Mathf.Exp(-userQueue.Count) * 2f, 0.2f);
             userQueueData.user.AddScore(userQueueData.genre, userQueueData.score, t);
             yield return new WaitForSeconds(t);
             cameraAnimator.LeaveFromTarget();

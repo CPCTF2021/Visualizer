@@ -32,6 +32,7 @@ float noiseBlendScale;
 // 色付け生成
 float4 glassColor;
 float glassNormalSpread;
+float glassHeightOffset;
 float glassHeightSpread;
 
 RWStructuredBuffer<float3> _VertexBuffer;
@@ -149,7 +150,7 @@ void RenderTexture (uint3 id : SV_DispatchThreadID)
             _HeightColorTexture[uv],
             glassColor,
             exp(-(1.0 - saturate(dot(normalize(_VertexBuffer[index]), _NormalBuffer[index]))) * glassNormalSpread)
-            * exp(-value * glassHeightSpread)
+            * gain(1.0 - value + glassHeightOffset, glassHeightSpread)
         );
         // _ColorBuffer[index] = lerp(_HeightColorTexture[uv], glassColor, 1.0);
     }
