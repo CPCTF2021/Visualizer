@@ -17,6 +17,7 @@ namespace TreeScripts
         [SerializeField, PersistentAmongPlayMode] Color Misc = new Color(219 / 256f, 43 / 256f, 0 / 256f);
         [SerializeField, PersistentAmongPlayMode] Color Shell = new Color(198 / 256f, 198 / 256f, 198 / 256f);
         [SerializeField, PersistentAmongPlayMode] Color Foresic = new Color(125 / 256f, 0 / 256f, 188 / 256f);
+        [SerializeField, PersistentAmongPlayMode] Color OSINT = new Color(0 / 256f, 38 / 256f, 255 / 256f);
 
         public void Start() {
             SetColor();
@@ -32,6 +33,7 @@ namespace TreeScripts
             GENRE_TO_COLOR[6] = Misc;
             GENRE_TO_COLOR[7] = Shell;
             GENRE_TO_COLOR[8] = Foresic;
+            GENRE_TO_COLOR[9] = OSINT;
         }
     }
 }

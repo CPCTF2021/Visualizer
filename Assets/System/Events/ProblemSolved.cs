@@ -30,6 +30,7 @@ namespace VisualizerSystem
             Misc = 6,
             Shell = 7,
             Foresic = 8,
+            OSINT = 9,
         }
         public void Handler(EventType type, string msg)
         {

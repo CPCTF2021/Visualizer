@@ -28,6 +28,11 @@ namespace UserScripts
             userIcon.SetUpVector(transform.position.normalized);
         }
 
+        public float Gamma(float x)
+        {
+            return Mathf.Pow(x, 0.3f);
+        }
+
         public void SetUser(string name, string id, Texture icon, Dictionary<Genre, float> scores)
         {
             this.name = name;
@@ -36,9 +41,9 @@ namespace UserScripts
             AddScore(scores);
 
             controlTree.SetActive(true);
-            //TODO: 10000fは最大ポイント
+            // 10000fは最大ポイント
             controlTree.cumulativePercentage = cumulativePercentage;
-            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f, 1f);
+            controlTree.AnimationTree(Gamma(totalScore / 10000f) * 0.7f + 0.3f, 1f);
             userIcon.gameObject.SetActive(true);
             userIcon.SetIcon(icon);
         }
@@ -65,8 +70,8 @@ namespace UserScripts
                 tmp += scores[g];
                 cumulativePercentage[g] = tmp / totalScore;
             }
-            //TODO: 10000fは最大ポイント
-            controlTree.AnimationTree(totalScore / 10000f * 0.7f + 0.3f, animationTime);
+            //10000fは最大ポイント
+            controlTree.AnimationTree(Gamma(totalScore / 10000f) * 0.7f + 0.3f, animationTime);
             userIcon.AnimationIcon(animationTime);
             MakeScoreParticle(animationTime, genre);
         }

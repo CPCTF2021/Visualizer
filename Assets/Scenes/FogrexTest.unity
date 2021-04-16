@@ -2283,8 +2283,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
-  m_Intensity: 0
+  m_Color: {r: 0.9528302, g: 0.9334839, b: 0.86743504, a: 1}
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2456,15 +2456,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c190310cc8a9654083083954f1ecce8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NewBie: {r: 0, g: 0.66796875, b: 0.8359375, a: 1}
-  PPC: {r: 0, g: 0.84375, b: 0.51953125, a: 1}
-  Web: {r: 0.53515625, g: 0.35546875, b: 0, a: 1}
-  Crypto: {r: 0.67578125, g: 0.6484375, b: 0.56640625, a: 1}
-  Binary: {r: 0.69140625, g: 0.97265625, b: 0.4453125, a: 1}
-  Pwn: {r: 0.5859375, g: 0.78125, b: 0.99609375, a: 1}
-  Misc: {r: 0.85546875, g: 0.16796875, b: 0, a: 1}
-  Shell: {r: 0.7734375, g: 0.7734375, b: 0.7734375, a: 1}
-  Foresic: {r: 0.48828125, g: 0, b: 0.734375, a: 1}
+  NewBie: {r: 1, g: 0.4509804, b: 0.5137255, a: 1}
+  PPC: {r: 1, g: 0.6901961, b: 0.50980395, a: 1}
+  Web: {r: 1, g: 0.89411765, b: 0.47058824, a: 1}
+  Crypto: {r: 1, g: 0.9843137, b: 0.5294118, a: 1}
+  Binary: {r: 0.8666667, g: 1, b: 0.6392157, a: 1}
+  Pwn: {r: 0.60784316, g: 1, b: 0.49019608, a: 1}
+  Misc: {r: 0.44705883, g: 0.7294118, b: 0.5254902, a: 1}
+  Shell: {r: 0.45490196, g: 0.6666667, b: 0.9098039, a: 1}
+  Foresic: {r: 0.8784314, g: 0.7019608, b: 1, a: 1}
+  OSINT: {r: 0.8117647, g: 0.37254903, b: 0.7647059, a: 1}
 --- !u!4 &1114790750 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8637376608382422053, guid: b526d6b7c1aee424eb09eb09352f19aa,
