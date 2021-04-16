@@ -10,7 +10,6 @@ namespace RankingScript
         public GameObject playerPrefab;
         public ScrollRect rankingArea;
 
-        public GameObject rankingBoardObject;
         public RankingEntry[] rankingEntries;
 
         public List<RankingEntry> objs;
