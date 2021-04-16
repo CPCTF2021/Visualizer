@@ -100,6 +100,7 @@
           light += calculateEmittance(pos, sunDir) * exp(-(i) * normalizeDelta - 0.5);
         }
         return lerp(base, light, saturate(a * 0.4));
+      
       }
 
       fixed4 frag (v2f i) : SV_Target
