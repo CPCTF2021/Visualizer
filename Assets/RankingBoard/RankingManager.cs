@@ -1,19 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using UserScripts;
 
 namespace RankingScript
 {
     public class RankingManager : MonoBehaviour
     {
-        public GameObject playerPrefab;
-        public ScrollRect rankingArea;
-
         public RankingEntry[] rankingEntries;
 
-        public List<RankingEntry> objs;
         public class RankingUser : User
         {
             public RankingUser(User user)
@@ -30,8 +25,6 @@ namespace RankingScript
 
         private void Start()
         {
-            // rankingArea = GetComponent<ScrollRect>();
-
             rankingEntries = GetComponentsInChildren<RankingEntry>();
         }
 
@@ -41,7 +34,6 @@ namespace RankingScript
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    // objs[i].SetPlayer(ranking[i].ranking, ranking[i].name, ranking[i].totalScore);
                     rankingEntries[i].SetPlayer(ranking[i].ranking, ranking[i].name, ranking[i].totalScore);
                 }
                 changed = false;
@@ -49,14 +41,6 @@ namespace RankingScript
         }
         public void AddUser(User user)
         {
-            // GameObject a = Instantiate(playerPrefab, rankingArea.content);
-            // RankingEntry re = a.GetComponent<RankingEntry>();
-            if (user.ranking <= 10)
-            {
-                rankingEntries[user.ranking - 1].SetPlayer(user.ranking, user.name, user.totalScore);
-            }
-            // objs.Add(re);
-
             ranking.Add(new RankingUser(user));
             Sort();
             changed = true;

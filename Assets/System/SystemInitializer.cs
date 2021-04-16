@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UserScripts;
 using TreeScripts;
-using static TreeScripts.TreeGenerator;
 using RankingScript;
 using UnityEngine.Networking;
 using System;
@@ -59,13 +58,6 @@ namespace VisualizerSystem
         {
             public Genre genre;
             public float score;
-        }
-        private class Usera : User
-        {
-            public string id;
-            public string name;
-            public Texture2D icon;
-            Dictionary<Genre, float> scores;
         }
         async void Sync()
         {
