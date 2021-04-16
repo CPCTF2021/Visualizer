@@ -1881,15 +1881,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c190310cc8a9654083083954f1ecce8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NewBie: {r: 1, g: 1, b: 1, a: 1}
-  PPC: {r: 1, g: 1, b: 1, a: 1}
-  Web: {r: 1, g: 1, b: 1, a: 1}
-  Crypto: {r: 1, g: 1, b: 1, a: 1}
-  Binary: {r: 1, g: 1, b: 1, a: 1}
-  Pwn: {r: 1, g: 1, b: 1, a: 1}
-  Misc: {r: 1, g: 1, b: 1, a: 1}
-  Shell: {r: 1, g: 1, b: 1, a: 1}
-  Foresic: {r: 1, g: 1, b: 1, a: 1}
+  NewBie: {r: 0, g: 0.66796875, b: 0.8359375, a: 1}
+  PPC: {r: 0, g: 0.84375, b: 0.51953125, a: 1}
+  Web: {r: 0.53515625, g: 0.35546875, b: 0, a: 1}
+  Crypto: {r: 0.67578125, g: 0.6484375, b: 0.56640625, a: 1}
+  Binary: {r: 0.69140625, g: 0.97265625, b: 0.4453125, a: 1}
+  Pwn: {r: 0.5859375, g: 0.78125, b: 0.99609375, a: 1}
+  Misc: {r: 0.85546875, g: 0.16796875, b: 0, a: 1}
+  Shell: {r: 0.7734375, g: 0.7734375, b: 0.7734375, a: 1}
+  Foresic: {r: 0.48828125, g: 0, b: 0.734375, a: 1}
 --- !u!1 &1079593042
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,7 +26,7 @@ namespace VisualizerSystem
         IEnumerator MakeTrees()
         {
             yield return new WaitForSeconds(1f);
-            for (int i = 0; i < 150; i++)
+            for (int i = 0; i < 20; i++)
             {
                 userManager.AddUser("name", i.ToString(), texture);
                 yield return new WaitForSeconds(0.01f);
@@ -35,9 +35,9 @@ namespace VisualizerSystem
 
         IEnumerator AddPoint()
         {
-            for (int i = 0; i < 15000; i++)
+            for (int i = 0; i < 2000; i++)
             {
-                string v = Random.Range(0, 150).ToString();
+                string v = Random.Range(0, 20).ToString();
                 userManager.AddScore(v, (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 9), 1000);
                 yield return new WaitForSeconds(Random.Range(0.5f, 1f));
             }
