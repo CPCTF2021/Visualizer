@@ -16,8 +16,6 @@ namespace UserScripts
         ControlTree controlTree;
         public string name, id;
 
-        public int ranking;
-
         public Dictionary<Genre, float> scores = new Dictionary<Genre, float>();
         // これなんでint
         public int totalScore;
@@ -35,13 +33,12 @@ namespace UserScripts
             return Mathf.Pow(x, 0.3f);
         }
 
-        public void SetUser(string name, string id, Texture icon, Dictionary<Genre, float> scores, int ranking)
+        public void SetUser(string name, string id, Texture icon, Dictionary<Genre, float> scores)
         {
             this.name = name;
             this.id = id;
             this.icon = icon;
             AddScore(scores);
-            this.ranking = ranking;
 
             controlTree.SetActive(true);
             // 10000fは最大ポイント
@@ -83,11 +80,6 @@ namespace UserScripts
         {
             UserPlusPoint particle = Instantiate(pointObject).GetComponent<UserPlusPoint>();
             particle.Initialize(transform.position, transform.position.normalized, animationTime, genre);
-        }
-
-        public void SetRanking(int ranking)
-        {
-            this.ranking = ranking;
         }
 
         public Vector3 GetPosition()
