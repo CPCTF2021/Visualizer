@@ -20,33 +20,38 @@ namespace VisualizerSystem
         {
             GetComponent<TreeGenerator>().MakeTree();
             userManager = GetComponent<UserManager>();
-            userManager.SetTree();
+            userManager.Initialize();
 
-            if (!Application.isEditor) 
-            {
-                Sync();
+            #if !UNITY_EDITOR
 
-                eventManager.Init();
+            // Sync();
 
-                rankingManager = GameObject.Find("Scroll View").GetComponent<RankingManager>();
+            rankingManager = GameObject.Find("RankingPanel").GetComponent<RankingManager>();
 
-                TimeAdjusterEvent timeAdjusterEvent = new TimeAdjusterEvent(userManager);
-                eventManager.Register(timeAdjusterEvent.Handler);
+            eventManager.Init();
 
-                UserCreatedEvent userCreatedEvent = new UserCreatedEvent(userManager, rankingManager);
-                eventManager.Register(userCreatedEvent.Handler);
+            TimeAdjusterEvent timeAdjusterEvent = new TimeAdjusterEvent(userManager);
+            eventManager.Register(timeAdjusterEvent.Handler);
 
-                ProblemSolvedEvent problemSolvedEvent = new ProblemSolvedEvent(userManager);
-                eventManager.Register(problemSolvedEvent.Handler);
-            }
+            UserCreatedEvent userCreatedEvent = new UserCreatedEvent(userManager, rankingManager);
+            eventManager.Register(userCreatedEvent.Handler);
+
+            ProblemSolvedEvent problemSolvedEvent = new ProblemSolvedEvent(userManager);
+            eventManager.Register(problemSolvedEvent.Handler);
+
+            #endif
         }
         void Update()
         {
-            if (!Application.isEditor) eventManager.Handle();
+            #if !UNITY_EDITOR
+            eventManager.Handle();
+            #endif
         }
         void OnDestroy()
         {
-            if (!Application.isEditor) eventManager.Shutdown();
+            #if !UNITY_EDITOR
+            eventManager.Shutdown();
+            #endif
         }
         [Serializable]
         public class UserResponse

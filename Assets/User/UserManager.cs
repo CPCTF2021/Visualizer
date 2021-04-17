@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static VisualizerSystem.ProblemSolvedEvent;
 using CameraScripts;
+using TreeScripts;
 
 namespace UserScripts
 {
@@ -28,9 +29,10 @@ namespace UserScripts
 
         bool isAnimation = false;
         NotificationManager notificationManager;
+        TreeGenerator treeGenerator;
 
         // 木に付いてるUserを取得
-        public void SetTree()
+        public void Initialize()
         {
             users = new List<User>();
             usedTree = new bool[treeParent.childCount];
@@ -42,6 +44,7 @@ namespace UserScripts
             }
             usersDictionary = new Dictionary<string, User>();
             notificationManager = GameObject.Find("Notification").GetComponent<NotificationManager>();
+            treeGenerator = GetComponent<TreeGenerator>();
         }
 
         // 既存Userの反映
@@ -66,6 +69,7 @@ namespace UserScripts
             if (fullyUsed) throw new IndexOutOfRangeException();
 
             // 起動時に、木にユーザーを割当するため
+            treeGenerator.SetMesh(users[index].GetComponent<ControlTree>());
             users[index].SetUser(name, id, icon, scores);
             usersDictionary.Add(id, users[index]);
         }
@@ -114,7 +118,7 @@ namespace UserScripts
             {
                 t = Mathf.Max(Mathf.Exp(-userQueue.Count * 0.5f) * 1.3f, 0.2f);
                 userQueueData.user.AddScore(userQueueData.genre, userQueueData.score, t);
-                notificationManager.Add(userQueueData.user.name, userQueueData.score);
+                notificationManager.Add(userQueueData.user.name, userQueueData.genre, userQueueData.score);
                 yield return new WaitForSeconds(t);
                 if (userQueue.Count == 0) break;
                 userQueueData = userQueue.Dequeue();
