@@ -33,7 +33,9 @@ namespace VisualizerSystem
         private static extern void Close();
 
         [SerializeField]
-        static string WS_URI = "wss://cpctf.space/ws/visualizer";
+        // static string WS_URI = "wss://cpctf.space/ws/visualizer";
+        static string WS_URI = "ws://localhost:3000";
+
         public delegate void Handler(EventType type, string msg);
         private Handler _handler;
         public void Init()

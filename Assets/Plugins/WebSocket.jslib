@@ -1,9 +1,11 @@
 var ws;
 var messages;
+var URL;
 
 mergeInto(LibraryManager.library, {
-	Init: function (URL) {
-		ws = new WebSocket( Pointer_stringify(URL) )
+	Init: function (_URL) {
+    URL = Pointer_stringify(_URL);
+		ws = new WebSocket( URL )
 		messages = new Array()
 
 		ws.onmessage = function (e) {
@@ -15,7 +17,7 @@ mergeInto(LibraryManager.library, {
 		}
 		ws.onclose = function () {
       console.log("connection closed")
-      ws = new WebSocket( Pointer_stringify(URL) )
+      ws = new WebSocket( URL )
     }
 	},
   PopMessage: function () {
