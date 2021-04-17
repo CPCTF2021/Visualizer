@@ -35,7 +35,7 @@ namespace VisualizerSystem
 
         IEnumerator AddPoint()
         {
-            for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 20000; i++)
             {
                 string v = Random.Range(0, 20).ToString();
                 userManager.AddScore(v, (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 9), Random.Range(100, 1000));
