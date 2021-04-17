@@ -28,7 +28,7 @@ namespace VisualizerSystem
             yield return new WaitForSeconds(1f);
             for (int i = 0; i < 20; i++)
             {
-                userManager.AddUser("name", i.ToString(), texture);
+                userManager.AddUser($"name{Mathf.Pow(5f, i)}", i.ToString(), texture);
                 yield return new WaitForSeconds(0.01f);
             }
         }
@@ -38,7 +38,7 @@ namespace VisualizerSystem
             for (int i = 0; i < 2000; i++)
             {
                 string v = Random.Range(0, 20).ToString();
-                userManager.AddScore(v, (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 9), 1000);
+                userManager.AddScore(v, (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 9), Random.Range(100, 1000));
                 yield return new WaitForSeconds(Random.Range(0.5f, 1f));
             }
         }

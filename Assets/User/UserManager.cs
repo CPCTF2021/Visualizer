@@ -29,6 +29,7 @@ namespace UserScripts
         Queue<UserQueueData> userQueue = new Queue<UserQueueData>();
 
         bool isAnimation = false;
+        NotificationManager notificationManager;
 
         // 木に付いてるUserを取得
         public void SetTree()
@@ -42,6 +43,7 @@ namespace UserScripts
                 usedTree[i] = false;
             }
             usersDictionary = new Dictionary<string, User>();
+            notificationManager = GameObject.Find("Notification").GetComponent<NotificationManager>();
         }
 
         // 既存Userの反映
@@ -108,12 +110,14 @@ namespace UserScripts
             {
                 t = Mathf.Max(Mathf.Exp(-userQueue.Count) * 2f, 0.2f);
                 userQueueData.user.AddScore(userQueueData.genre, userQueueData.score, t);
+                notificationManager.Add(userQueueData.user.name, userQueueData.score);
                 yield return new WaitForSeconds(t);
                 userQueueData = userQueue.Dequeue();
                 cameraAnimator.ChangeTarget(userQueueData.user.GetPosition());
             }
             t = Mathf.Max(Mathf.Exp(-userQueue.Count) * 2f, 0.2f);
             userQueueData.user.AddScore(userQueueData.genre, userQueueData.score, t);
+            notificationManager.Add(userQueueData.user.name, userQueueData.score);
             yield return new WaitForSeconds(t);
             cameraAnimator.LeaveFromTarget();
             yield return new WaitForSeconds(1f);
