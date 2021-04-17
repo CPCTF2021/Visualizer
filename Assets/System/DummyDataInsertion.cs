@@ -13,7 +13,8 @@ namespace VisualizerSystem
         void Start()
         {
             userManager = GetComponent<UserManager>();
-            StartCoroutine("Animation");
+            StartCoroutine("MakeTrees");
+            StartCoroutine("AddPoint");
         }
 
         IEnumerator Animation()
@@ -26,20 +27,21 @@ namespace VisualizerSystem
         IEnumerator MakeTrees()
         {
             yield return new WaitForSeconds(1f);
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 150; i++)
             {
-                userManager.AddUser("name", i.ToString(), texture);
-                yield return new WaitForSeconds(0.01f);
+                userManager.AddUser($"name{Mathf.Pow(1.5f, i)}", i.ToString(), texture);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
         IEnumerator AddPoint()
         {
-            for (int i = 0; i < 20000; i++)
+            yield return new WaitForSeconds(2f);
+            for (int i = 0; i < 15000; i++)
             {
-                string v = Random.Range(0, 20).ToString();
-                userManager.AddScore(v, (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 10), 100);
-                yield return new WaitForSeconds(Random.Range(0.5f, 3f));
+                string v = Random.Range(0, userManager.usersDictionary.Count - 1).ToString();
+                userManager.AddScore(v, (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 10), Random.Range(100, 1000));
+                yield return new WaitForSeconds(Random.Range(1f, 7f));
             }
         }
     }

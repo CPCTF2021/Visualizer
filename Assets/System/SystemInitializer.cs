@@ -20,13 +20,15 @@ namespace VisualizerSystem
         {
             GetComponent<TreeGenerator>().MakeTree();
             userManager = GetComponent<UserManager>();
-            userManager.SetTree();
+            userManager.Initialize();
 
-            Sync();
+            #if !UNITY_EDITOR
+
+            // Sync();
+
+            rankingManager = GameObject.Find("RankingPanel").GetComponent<RankingManager>();
 
             eventManager.Init();
-
-            rankingManager = GameObject.Find("Scroll View").GetComponent<RankingManager>();
 
             TimeAdjusterEvent timeAdjusterEvent = new TimeAdjusterEvent(userManager);
             eventManager.Register(timeAdjusterEvent.Handler);
@@ -36,14 +38,20 @@ namespace VisualizerSystem
 
             ProblemSolvedEvent problemSolvedEvent = new ProblemSolvedEvent(userManager);
             eventManager.Register(problemSolvedEvent.Handler);
+
+            #endif
         }
         void Update()
         {
-                eventManager.Handle();
+            #if !UNITY_EDITOR
+            eventManager.Handle();
+            #endif
         }
         void OnDestroy()
         {
+            #if !UNITY_EDITOR
             eventManager.Shutdown();
+            #endif
         }
         [Serializable]
         public class UserResponse

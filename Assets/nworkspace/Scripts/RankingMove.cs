@@ -15,6 +15,6 @@ public class RankingMove : MonoBehaviour
     [SerializeField]
     float animTime;
 
-    void RightMove() { this.transform.DOLocalMove(new Vector3(rightPosX, 0.0f, 0.0f), animTime); }
-    void LeftMove() { this.transform.DOLocalMove(new Vector3(leftPosX, 0.0f, 0.0f), animTime); }
+    public void RightMove() { this.transform.DOLocalMove(new Vector3(rightPosX, 0.0f, 0.0f), animTime).SetEase(Ease.OutExpo); }
+    public void LeftMove() { this.transform.DOLocalMove(new Vector3(leftPosX, 0.0f, 0.0f), animTime).SetEase(Ease.OutExpo); }
 }

@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace Map
 {
@@ -191,11 +193,13 @@ namespace Map
 
         public void SaveMesh()
         {
+            #if UNITY_EDITOR
             string meshPath = "Assets/Mapgen/planet.asset";
             if (meshPath != "") {
                 AssetDatabase.CreateAsset(mesh, meshPath);
                 AssetDatabase.SaveAssets();
             }
+            #endif
         }
     }
 }

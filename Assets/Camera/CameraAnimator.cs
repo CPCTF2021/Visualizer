@@ -24,6 +24,7 @@ namespace CameraScripts
         float radius = 5f;
 
         float treeAroundRadius;
+        RankingMove rankingMove;
 
         void Start()
         {
@@ -31,6 +32,7 @@ namespace CameraScripts
             camTransform = cam.transform;
             progress = theta = phi = targetTheta = targetPhi = 0.0f;
             target = normal = binormal = Vector3.zero;
+            rankingMove = GameObject.Find("RankingPanel").GetComponent<RankingMove>();
         }
 
         void PositionCalculate()
@@ -67,7 +69,8 @@ namespace CameraScripts
             sequence.Append(DOTween.To(() => progress, (val) =>
             {
                 progress = val;
-            }, 1f, 1f));
+            }, 1f, 0.7f));
+            rankingMove.RightMove();
 
             return sequence;
         }
@@ -91,7 +94,8 @@ namespace CameraScripts
             sequence.Append(DOTween.To(() => progress, (val) =>
             {
                 progress = val;
-            }, 0f, 1f));
+            }, 0f, 0.7f));
+            rankingMove.LeftMove();
         }
     }
 }
