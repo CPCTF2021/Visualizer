@@ -108,23 +108,20 @@ namespace UserScripts
             cameraAnimator.MoveToTarget();
             UserQueueData userQueueData = userQueue.Dequeue();
             cameraAnimator.ChangeTarget(userQueueData.user.GetPosition());
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.7f);
             float t;
-            while (userQueue.Count > 0)
+            while (true)
             {
-                t = Mathf.Max(Mathf.Exp(-userQueue.Count) * 2f, 0.2f);
+                t = Mathf.Max(Mathf.Exp(-userQueue.Count * 0.5f) * 1.3f, 0.2f);
                 userQueueData.user.AddScore(userQueueData.genre, userQueueData.score, t);
                 notificationManager.Add(userQueueData.user.name, userQueueData.score);
                 yield return new WaitForSeconds(t);
+                if (userQueue.Count == 0) break;
                 userQueueData = userQueue.Dequeue();
                 cameraAnimator.ChangeTarget(userQueueData.user.GetPosition());
             }
-            t = Mathf.Max(Mathf.Exp(-userQueue.Count) * 2f, 0.2f);
-            userQueueData.user.AddScore(userQueueData.genre, userQueueData.score, t);
-            notificationManager.Add(userQueueData.user.name, userQueueData.score);
-            yield return new WaitForSeconds(t);
             cameraAnimator.LeaveFromTarget();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.7f);
             if(userQueue.Count >= 1) yield return DoAnimation();
             isAnimation = false;
         }

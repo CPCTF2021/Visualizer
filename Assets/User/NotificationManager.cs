@@ -26,7 +26,7 @@ namespace UserScripts
             transform.position = new Vector3(transform.position.x, pos, transform.position.z);
             transform.localScale = new Vector3(scale, scale, 1f);
 
-            if(Time.time - time >= 2.5f) return false;
+            if(Time.time - time >= 2f) return false;
             return true;
         }
     }

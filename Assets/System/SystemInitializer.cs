@@ -22,28 +22,31 @@ namespace VisualizerSystem
             userManager = GetComponent<UserManager>();
             userManager.SetTree();
 
-            Sync();
+            if (!Application.isEditor) 
+            {
+                Sync();
 
-            eventManager.Init();
+                eventManager.Init();
 
-            rankingManager = GameObject.Find("Scroll View").GetComponent<RankingManager>();
+                rankingManager = GameObject.Find("Scroll View").GetComponent<RankingManager>();
 
-            TimeAdjusterEvent timeAdjusterEvent = new TimeAdjusterEvent(userManager);
-            eventManager.Register(timeAdjusterEvent.Handler);
+                TimeAdjusterEvent timeAdjusterEvent = new TimeAdjusterEvent(userManager);
+                eventManager.Register(timeAdjusterEvent.Handler);
 
-            UserCreatedEvent userCreatedEvent = new UserCreatedEvent(userManager, rankingManager);
-            eventManager.Register(userCreatedEvent.Handler);
+                UserCreatedEvent userCreatedEvent = new UserCreatedEvent(userManager, rankingManager);
+                eventManager.Register(userCreatedEvent.Handler);
 
-            ProblemSolvedEvent problemSolvedEvent = new ProblemSolvedEvent(userManager);
-            eventManager.Register(problemSolvedEvent.Handler);
+                ProblemSolvedEvent problemSolvedEvent = new ProblemSolvedEvent(userManager);
+                eventManager.Register(problemSolvedEvent.Handler);
+            }
         }
         void Update()
         {
-                eventManager.Handle();
+            if (!Application.isEditor) eventManager.Handle();
         }
         void OnDestroy()
         {
-            eventManager.Shutdown();
+            if (!Application.isEditor) eventManager.Shutdown();
         }
         [Serializable]
         public class UserResponse
