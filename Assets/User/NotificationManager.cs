@@ -52,8 +52,9 @@ namespace UserScripts
             for(int i=1;i<transforms.Count;i++)
             {
                 Notification not = transforms[transforms.Count - i - 1];
-                not.targetPos = i * 40f + 15f;
+                not.targetPos = i * Screen.height * 0.07f + 0.05f;
                 not.targetScale = i == 0 ? 1f : 0.8f;
+                not.Update();
             }
         }
 

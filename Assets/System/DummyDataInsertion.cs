@@ -41,7 +41,7 @@ namespace VisualizerSystem
             {
                 string v = Random.Range(0, userManager.usersDictionary.Count - 1).ToString();
                 userManager.AddScore(v, (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 10), Random.Range(100, 1000));
-                yield return new WaitForSeconds(Random.Range(1f, 4f));
+                yield return new WaitForSeconds(Random.Range(1f, 3f));
             }
         }
     }
