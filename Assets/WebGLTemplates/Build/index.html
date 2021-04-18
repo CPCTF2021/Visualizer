@@ -32,7 +32,13 @@
   <body>
     <div id="unityContainer"></div>
     <script>
-    var unityInstance = UnityLoader.instantiate("unityContainer", "%UNITY_WEBGL_BUILD_URL%");
+    var unityInstance = UnityLoader.instantiate(
+      "unityContainer",
+      "%UNITY_WEBGL_BUILD_URL%",
+      {
+        Module: { TOTAL_STACK: 10 * 1024 * 1024 }
+      }
+    );
     </script>
   </body>
   

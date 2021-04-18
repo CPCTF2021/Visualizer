@@ -17,7 +17,7 @@ mergeInto(LibraryManager.library, {
 		}
 		ws.onclose = function () {
       console.log("connection closed")
-      ws = new WebSocket( URL )
+      // ws = new WebSocket( URL )
     }
 	},
   PopMessage: function () {
