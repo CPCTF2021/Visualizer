@@ -43,13 +43,13 @@ namespace VisualizerSystem
         void Update()
         {
             #if !UNITY_EDITOR
-            // eventManager.Handle();
+            eventManager.Handle();
             #endif
         }
         void OnDestroy()
         {
             #if !UNITY_EDITOR
-            // eventManager.Shutdown();
+            eventManager.Shutdown();
             #endif
         }
         [Serializable]

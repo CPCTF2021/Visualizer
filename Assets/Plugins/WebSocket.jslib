@@ -17,20 +17,24 @@ mergeInto(LibraryManager.library, {
 		}
 		ws.onclose = function () {
       console.log("connection closed")
-      // ws = new WebSocket( URL )
+      ws = new WebSocket( URL )
     }
 	},
   PopMessage: function () {
     var msg = ""
+    console.log(messages.length);
 
     if( messages.length > 0 ) {
         msg = messages.shift()
     }
 
     var len = lengthBytesUTF8(msg) + 1
-    var buf = stackAlloc(len)
+    // var buf = stackAlloc(len)
+    // stringToUTF8(msg, buf, len)
 
+    var buf = _malloc(len)
     stringToUTF8(msg, buf, len)
+
     return buf
   },
 	SendMessage: function (message) {
