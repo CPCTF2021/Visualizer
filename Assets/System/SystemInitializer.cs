@@ -13,7 +13,7 @@ namespace VisualizerSystem
     public class SystemInitializer : MonoBehaviour
     {
         static UserManager userManager;
-        static EventManager eventManager = new EventManager();
+        EventManager eventManager = new EventManager();
         static RankingManager rankingManager;
         static string BASE_URL = "https://cpctf.space";
         void Start()
@@ -21,12 +21,11 @@ namespace VisualizerSystem
             GetComponent<TreeGenerator>().MakeTree();
             userManager = GetComponent<UserManager>();
             userManager.Initialize();
+            rankingManager = GameObject.Find("RankingPanel").GetComponent<RankingManager>();
 
             #if !UNITY_EDITOR
 
             // Sync();
-
-            rankingManager = GameObject.Find("RankingPanel").GetComponent<RankingManager>();
 
             eventManager.Init();
 
