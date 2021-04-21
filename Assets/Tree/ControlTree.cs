@@ -21,6 +21,12 @@ namespace TreeScripts
         public float radius;
         public Dictionary<Genre, float> cumulativePercentage;
         bool isGrow = false;
+
+        Vector3 originalScale;
+
+        void Start() {
+            originalScale = transform.localScale;
+        }
         public void SetActive(bool flag)
         {
             isGrow = flag;
@@ -33,12 +39,12 @@ namespace TreeScripts
             props.SetFloat("_Radius", radius);
             props.SetFloat("_Progress", progress);
             GetComponent<MeshRenderer>().SetPropertyBlock(props);
-            transform.localScale = new Vector3(progress, progress, progress);
+            transform.localScale = Vector3.Scale(new Vector3(progress, progress, progress), originalScale);
             for (int i = 0; i < leaveList.Count; i++)
             {
                 float scale = radius * 200f * Mathf.Max(Mathf.Min((progress - leaveProgress[i]) * branchNum * 0.3f, 1f), 0f);
 
-                leaveList[i].localScale = new Vector3(scale, scale, scale);
+                leaveList[i].localScale = Vector3.Scale(new Vector3(scale, scale, scale), originalScale);
             }
 
         }

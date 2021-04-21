@@ -22,6 +22,8 @@ namespace CameraScripts
         Sequence sequence;
         [SerializeField]
         float radius = 5f;
+        [SerializeField]
+        float treeAround = 1f;
 
         float treeAroundRadius;
         RankingMove rankingMove;
@@ -49,12 +51,12 @@ namespace CameraScripts
             ) * Mathf.Lerp(radius * 3.0f, targetHeight
             , progress) * 0.5f
                 + Vector3.Lerp(Vector3.zero,
-                normal * Mathf.Cos(phi * 5f) + binormal * Mathf.Sin(phi * 5f),
+                normal * Mathf.Cos(phi * 5f) * treeAround + binormal * Mathf.Sin(phi * 5f) * treeAround,
                 progress) * treeAroundRadius;
 
             theta = (theta + Mathf.PI * 0.001f) % (Mathf.PI * 2f);
             phi = (phi + Mathf.PI * 0.001f) % (Mathf.PI * 2f);
-            camTransform.LookAt(Vector3.Lerp(Vector3.zero, target, progress), Vector3.Lerp(Vector3.up, target, progress));
+            camTransform.LookAt(Vector3.Lerp(Vector3.zero, target.normalized * targetHeight * 0.5f, progress), Vector3.Lerp(Vector3.up, target, progress));
             camTransform.position = camTransform.position + Vector3.Lerp(radius * 0.5f * camTransform.right, Vector3.zero, progress);
         }
 
@@ -82,7 +84,7 @@ namespace CameraScripts
         {
             target = pos;
             float radius = pos.magnitude;
-            targetHeight = radius * 2.0f + 0.3f;
+            targetHeight = radius * 2.0f + 0.6f * treeAround;
             Vector3 dir = pos / radius;
             targetTheta = Mathf.Acos(dir.y);
             if (pos.z == 0) targetPhi = 0f;
