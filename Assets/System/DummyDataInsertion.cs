@@ -37,11 +37,11 @@ namespace VisualizerSystem
         IEnumerator AddPoint()
         {
             yield return new WaitForSeconds(2f);
-            for (int i = 0; i < 15000; i++)
+            for (int i = 0; i < 500; i++)
             {
                 string v = Random.Range(0, userManager.usersDictionary.Count - 1).ToString();
                 userManager.AddScore(v, (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 10), Random.Range(100, 1000));
-                yield return new WaitForSeconds(Random.Range(1f, 3f));
+                yield return new WaitForSeconds(Random.Range(0.1f, 0.3f));
             }
         }
     }

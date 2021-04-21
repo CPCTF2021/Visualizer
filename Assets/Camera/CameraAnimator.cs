@@ -25,6 +25,7 @@ namespace CameraScripts
 
         float treeAroundRadius;
         RankingMove rankingMove;
+        PostProcessing postProcessing;
 
         void Start()
         {
@@ -33,6 +34,7 @@ namespace CameraScripts
             progress = theta = phi = targetTheta = targetPhi = 0.0f;
             target = normal = binormal = Vector3.zero;
             rankingMove = GameObject.Find("RankingPanel").GetComponent<RankingMove>();
+            postProcessing = GetComponent<PostProcessing>();
         }
 
         void PositionCalculate()
@@ -59,6 +61,7 @@ namespace CameraScripts
         void Update()
         {
             PositionCalculate();
+            postProcessing.SetProgress(progress);
         }
 
         public Sequence MoveToTarget()
