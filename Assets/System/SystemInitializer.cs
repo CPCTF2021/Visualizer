@@ -23,13 +23,16 @@ namespace VisualizerSystem
             userManager.Initialize();
             rankingManager = GameObject.Find("RankingPanel").GetComponent<RankingManager>();
 
-            #if !UNITY_EDITOR
+#if !UNITY_EDITOR
 
             // Sync();
 
+            rankingManager = GameObject.Find("RankingPanel").GetComponent<RankingManager>();
+            timer = GameObject.Find("Timer").GetComponent<Timer>();
+
             eventManager.Init();
 
-            TimeAdjusterEvent timeAdjusterEvent = new TimeAdjusterEvent(userManager);
+            TimeAdjusterEvent timeAdjusterEvent = new TimeAdjusterEvent(userManager, timer);
             eventManager.Register(timeAdjusterEvent.Handler);
 
             UserCreatedEvent userCreatedEvent = new UserCreatedEvent(userManager, rankingManager);
@@ -38,19 +41,19 @@ namespace VisualizerSystem
             ProblemSolvedEvent problemSolvedEvent = new ProblemSolvedEvent(userManager);
             eventManager.Register(problemSolvedEvent.Handler);
 
-            #endif
+#endif
         }
         void Update()
         {
-            #if !UNITY_EDITOR
+#if !UNITY_EDITOR
             eventManager.Handle();
-            #endif
+#endif
         }
         void OnDestroy()
         {
-            #if !UNITY_EDITOR
+#if !UNITY_EDITOR
             eventManager.Shutdown();
-            #endif
+#endif
         }
         [Serializable]
         public class UserResponse
