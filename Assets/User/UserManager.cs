@@ -97,6 +97,8 @@ namespace UserScripts
             if (!usersDictionary.TryGetValue(id, out user)) {
                 throw new MissingFieldException();
             }
+            usersDictionary[id].scores[genre] += score;
+            usersDictionary[id].totalScore += (int)score;
             UserQueueData userQueueData;
             userQueueData.user = user;
             userQueueData.genre = genre;
