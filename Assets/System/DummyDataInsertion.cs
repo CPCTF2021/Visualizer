@@ -40,7 +40,7 @@ namespace VisualizerSystem
         IEnumerator AddPoint()
         {
             yield return new WaitForSeconds(2f);
-            for (int i = 0; i < 15000; i++)
+            for (int i = 0; i < 500; i++)
             {
                 string v = Random.Range(0, userManager.usersDictionary.Count - 1).ToString();
                 var genre = (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 10);

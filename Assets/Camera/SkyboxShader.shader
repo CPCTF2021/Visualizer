@@ -1,49 +1,15 @@
-﻿Shader "Unlit/Icon"
+﻿Shader "Unlit/SkyboxShader"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _BaseColor("BaseColor", Color) = (0.0, 0.0, 0.0, 0.0)
+        _Power("Power", Float) = 1.0
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
-        Pass {
-            Tags { "LightMode"="ShadowCaster" "RenderType"="Opaque" "Queue"="Geometry" }
-  		    ZWrite On
-  		    ColorMask 0
-
-            CGPROGRAM
-
-            #pragma vertex vert
-            #pragma fragment frag
-
-            struct appdata 
-            {
-                float4 vertex : POSITION;
-            };
-
-            struct v2f
-            {
-                float4 vertex : SV_POSITION;
-            };
-
-            #include "UnityCG.cginc"
-
-            v2f vert(appdata v) {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                return o;
-            }
-
-            fixed4 frag(v2f o):COLOR
-            {
-                return float4(1.0, 1.0, 1.0, 1.0);
-            }
-
-            ENDCG
-		}
-        
 
         Pass
         {
@@ -70,6 +36,8 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float4 _BaseColor;
+            float _Power;
 
             v2f vert (appdata v)
             {
@@ -84,6 +52,7 @@
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
+                col = col * _Power + _BaseColor;
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

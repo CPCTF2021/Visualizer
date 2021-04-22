@@ -57,16 +57,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
+    - _ColorStep: 16
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EdgeThreshold: 0.05
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _MaxSegment: 10
     - _Metallic: 0
+    - _MinSegment: 8
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Progress: 0
     - _Segment: 164.1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

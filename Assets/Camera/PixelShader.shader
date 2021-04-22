@@ -3,7 +3,11 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Segment("Segment", Float) = 20.0
+        _MaxSegment("MaxSegmentPow(2^x)", Int) = 10
+        _MinSegment("MinSegmentPow(2^x)", Int) = 5
+        _Progress("Progress", Range(0, 1)) = 0
+        _ColorStep("ColorStep", Int) = 10
+        _EdgeThreshold("EdgeThreshold", Range(0, 0.05)) = 0.5
     }
     SubShader
     {
@@ -35,7 +39,14 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float _Segment;
+            
+            sampler2D _CameraDepthTexture;
+
+            int _MaxSegment;
+            int _MinSegment;
+            int _ColorStep;
+            float _Progress;
+            float _EdgeThreshold;
 
             v2f vert (appdata v)
             {
@@ -48,8 +59,15 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
+                int segment = pow(2.0, floor(lerp(_MinSegment, _MaxSegment, _Progress)));
+                float2 uv = floor(i.uv * segment) / segment + float2(1.0, 1.0) / segment * 0.5;
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, floor(i.uv * _Segment) / _Segment);
+                fixed4 col = tex2D(_MainTex, uv);
+                float colorStep = lerp(_ColorStep, 256.0, _Progress);
+                float lumin = 0.298912 * col.r + 0.586611 * col.g + 0.114478 * col.b;
+                float luminStepped = floor(lumin * colorStep) / (colorStep - 1);
+                // luminStepped = luminStepped * 0.8 + 0.2;
+                col = col / lumin * luminStepped;
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
