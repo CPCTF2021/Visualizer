@@ -12,9 +12,10 @@ namespace VisualizerSystem
 {
     public class SystemInitializer : MonoBehaviour
     {
-        static UserManager userManager;
+        UserManager userManager;
         EventManager eventManager = new EventManager();
-        static RankingManager rankingManager;
+        RankingManager rankingManager;
+        Timer timer;
         static string BASE_URL = "https://cpctf.space";
         void Start()
         {
