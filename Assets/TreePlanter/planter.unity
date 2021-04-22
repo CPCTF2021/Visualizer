@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,6 +118,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -309,7 +311,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6656fc2bebaabc9499d3f25019a0d95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tree: {fileID: 6993139421449292410, guid: c54f92154a609fe48b2b29c20954488d, type: 3}
+  trees:
+  - {fileID: 3430111385479051398, guid: b35917411cd67a04aa3b4f66511d9ec9, type: 3}
+  - {fileID: 590856580603326483, guid: 74b3abad4d833704783c58346fd66049, type: 3}
+  - {fileID: 139284362224109635, guid: 386a9b5ae9dc8e348912c1d304f8a4d4, type: 3}
+  - {fileID: 6506156391289192588, guid: 64ad2195e26f8384488b479795540e95, type: 3}
+  - {fileID: 8606337731558601070, guid: 152aeb6cc02c1044b88958dbb05599cb, type: 3}
+  - {fileID: 1882450448184681037, guid: 9121eebc41d61b141af6578e99a68d94, type: 3}
   treeParent: {fileID: 714085756}
   fakeTree: {fileID: 4899246533301385105, guid: de462482a2b97f6428c62d5cdeec4992,
     type: 3}
@@ -436,6 +444,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &2075378323

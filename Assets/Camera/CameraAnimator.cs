@@ -66,7 +66,7 @@ namespace CameraScripts
             postProcessing.SetProgress(progress);
         }
 
-        public Sequence MoveToTarget()
+        public Sequence MoveToTarget(float t)
         {
             if (sequence != null) sequence.Kill(false);
             treeAroundRadius = 1.5f;
@@ -74,8 +74,8 @@ namespace CameraScripts
             sequence.Append(DOTween.To(() => progress, (val) =>
             {
                 progress = val;
-            }, 1f, 0.7f));
-            rankingMove.RightMove();
+            }, 1f, t));
+            rankingMove.RightMove(t);
 
             return sequence;
         }
@@ -94,13 +94,13 @@ namespace CameraScripts
             PositionCalculate();
         }
         
-        public void LeaveFromTarget()
+        public void LeaveFromTarget(float t)
         {
             sequence.Append(DOTween.To(() => progress, (val) =>
             {
                 progress = val;
-            }, 0f, 0.7f));
-            rankingMove.LeftMove();
+            }, 0f, t));
+            rankingMove.LeftMove(t);
         }
     }
 }

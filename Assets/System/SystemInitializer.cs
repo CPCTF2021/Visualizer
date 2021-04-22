@@ -19,7 +19,7 @@ namespace VisualizerSystem
         static string BASE_URL = "https://cpctf.space";
         void Start()
         {
-            GetComponent<TreeGenerator>().MakeTree();
+            // GetComponent<TreeGenerator>().MakeTree();
             userManager = GetComponent<UserManager>();
             userManager.Initialize();
             rankingManager = GameObject.Find("RankingPanel").GetComponent<RankingManager>();

@@ -3,6 +3,9 @@ using UnityEngine;
 using DG.Tweening;
 using static VisualizerSystem.ProblemSolvedEvent;
 using static TreeScripts.TreeGenerator;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace TreeScripts
 {
@@ -11,7 +14,7 @@ namespace TreeScripts
         [SerializeField]
         Transform icon;
 
-        [Range(0, 1)]
+        [SerializeField, Range(0, 1)]
         float progress = 0f;
 
         Material material;
@@ -22,11 +25,13 @@ namespace TreeScripts
         public Dictionary<Genre, float> cumulativePercentage;
         bool isGrow = false;
 
+        [SerializeField]
         Vector3 originalScale;
 
         void Start() {
             originalScale = transform.localScale;
         }
+
         public void SetActive(bool flag)
         {
             isGrow = flag;
@@ -94,6 +99,19 @@ namespace TreeScripts
                 GrowTree();
             }, progress, 0.7f * animationTime).SetEase(Ease.OutQuart));
         }
+#if UNITY_EDITOR
+        [ContextMenu("SaveMesh")]
+        void SaveMesh()
+        {
+            AssetDatabase.CreateAsset(GetComponent<MeshFilter>().mesh, $"Assets/TreeGenerator/Resources/{name}.asset");
+            AssetDatabase.SaveAssets();
+        }
+        public void SetProgress(float p) {
+            this.progress = p;
+            originalScale = new Vector3(1f, 1f, 1f);
+            GrowTree();
+        }
     }
+#endif
 
 }

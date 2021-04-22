@@ -5,7 +5,7 @@ using UnityEngine;
 public class TreePlanter : MonoBehaviour
 {
   [SerializeField]
-  GameObject tree;
+  GameObject[] trees;
   [SerializeField]
   Transform treeParent;
   [SerializeField]
@@ -35,7 +35,7 @@ public class TreePlanter : MonoBehaviour
 
       if (Input.GetMouseButtonDown(0))
       {
-        Transform treeInstance = Instantiate(tree, treeParent).transform;
+        Transform treeInstance = Instantiate(trees[Random.Range(0, trees.Length)], treeParent).transform;
         treeInstance.position = hit_info.point;
         treeInstance.rotation = quat;
         Transform fakeTreeInstance = Instantiate(fakeTree, fakeTreeParent).transform;
