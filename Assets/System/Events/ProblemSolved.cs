@@ -1,4 +1,5 @@
 ﻿using System;
+using RankingScript;
 using UnityEngine;
 using UserScripts;
 
@@ -7,9 +8,11 @@ namespace VisualizerSystem
     public class ProblemSolvedEvent
     {
         static UserManager userManager;
-        public ProblemSolvedEvent(UserManager manager)
+        static RankingManager rankingManager;
+        public ProblemSolvedEvent(UserManager UManager, RankingManager RManager)
         {
-            userManager = manager;
+            userManager = UManager;
+            rankingManager = RManager;
         }
         [Serializable]
         private class EventDetail
@@ -41,6 +44,8 @@ namespace VisualizerSystem
 
                 try { userManager.AddScore(e.data.userId, e.data.genre, e.data.point); }
                 catch (MissingFieldException err) { Debug.LogError(err); }
+                try { rankingManager.Update(userManager.usersDictionary[e.data.userId]); }
+                catch (Exception err) { Debug.LogError(err); }
                 return;
             }
         }

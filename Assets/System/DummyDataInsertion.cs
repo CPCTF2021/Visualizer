@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using RankingScript;
 using UnityEngine;
 using UserScripts;
 
@@ -10,9 +10,11 @@ namespace VisualizerSystem
         [SerializeField]
         Texture texture;
         UserManager userManager;
+        RankingManager rankingManager;
         void Start()
         {
             userManager = GetComponent<UserManager>();
+            rankingManager = GameObject.Find("RankingPanel").GetComponent<RankingManager>();
             StartCoroutine("MakeTrees");
             StartCoroutine("AddPoint");
         }
@@ -30,7 +32,8 @@ namespace VisualizerSystem
             for (int i = 0; i < 150; i++)
             {
                 userManager.AddUser($"name{Mathf.Pow(1.5f, i)}", i.ToString(), texture);
-                yield return new WaitForSeconds(0.5f);
+                rankingManager.AddUser(userManager.usersDictionary[i.ToString()]);
+                yield return new WaitForSeconds(2f);
             }
         }
 
@@ -40,8 +43,11 @@ namespace VisualizerSystem
             for (int i = 0; i < 500; i++)
             {
                 string v = Random.Range(0, userManager.usersDictionary.Count - 1).ToString();
-                userManager.AddScore(v, (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 10), Random.Range(100, 1000));
-                yield return new WaitForSeconds(Random.Range(2f, 4f));
+                var genre = (VisualizerSystem.ProblemSolvedEvent.Genre)Random.Range(0, 10);
+                var score = Random.Range(100, 1000);
+                userManager.AddScore(v, genre, score);
+                rankingManager.Update(userManager.usersDictionary[v]);
+                yield return new WaitForSeconds(Random.Range(3f, 4f));
             }
         }
     }

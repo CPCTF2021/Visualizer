@@ -17,6 +17,7 @@ namespace RankingScript
                 name = user.name;
                 icon = user.icon;
                 scores = user.scores;
+                totalScore = user.totalScore;
             }
             public int ranking = 0;
         }
@@ -32,7 +33,7 @@ namespace RankingScript
         {
             if (changed)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 10 && i < ranking.Count; i++)
                 {
                     rankingEntries[i].SetPlayer(ranking[i].ranking, ranking[i].name, ranking[i].totalScore);
                 }
@@ -51,9 +52,10 @@ namespace RankingScript
             Sort();
             changed = true;
         }
-        public void Update(RankingUser data)
+        public void Update(User data)
         {
-            ranking[ranking.FindIndex(user => user.id == data.id)] = data;
+            RankingUser ru = new RankingUser(data);
+            ranking[ranking.FindIndex(user => user.id == data.id)] = ru;
             Sort();
             changed = true;
         }

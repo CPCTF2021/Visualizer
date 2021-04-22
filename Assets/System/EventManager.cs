@@ -10,7 +10,6 @@ namespace VisualizerSystem
         TimeAdjuster = 0,
         UserCreated = 1,
         ProblemSolved = 2,
-        RankingUpdated = 3,
     }
     [Serializable]
     public class Event<T>
@@ -33,8 +32,7 @@ namespace VisualizerSystem
         private static extern void Close();
 
         [SerializeField]
-        // static string WS_URI = "wss://cpctf.space/ws/visualizer";
-        static string WS_URI = "ws://localhost:3000";
+        static string WS_URI = "wss://cpctf.space/ws/visualizer";
 
         public delegate void Handler(EventType type, string msg);
         private Handler _handler;
