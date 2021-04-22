@@ -9,6 +9,16 @@ namespace RankingScript
         public Text nameText;
         public Text scoreText;
 
+        [ContextMenu("up font size")]
+        public void UpFontSize()
+        {
+            int tmp = rankText.fontSize;
+            tmp += 2;
+            rankText.fontSize = tmp;
+            nameText.fontSize = tmp;
+            scoreText.fontSize = tmp;
+        }
+
         public void SetPlayer(int rank, string name, int score)
         {
             rankText.text = rank.ToString();
