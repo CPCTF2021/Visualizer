@@ -1460,32 +1460,7 @@ PrefabInstance:
     - target: {fileID: 6761374487724926356, guid: aa830870acf51a94596536546020c09f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 340
-      objectReference: {fileID: 0}
-    - target: {fileID: 6761374487724926356, guid: aa830870acf51a94596536546020c09f,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -200
-      objectReference: {fileID: 0}
-    - target: {fileID: 6761374487724926378, guid: aa830870acf51a94596536546020c09f,
-        type: 3}
-      propertyPath: m_Text
-      value: timer
-      objectReference: {fileID: 0}
-    - target: {fileID: 6761374487724926378, guid: aa830870acf51a94596536546020c09f,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6761374487724926378, guid: aa830870acf51a94596536546020c09f,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6761374487724926378, guid: aa830870acf51a94596536546020c09f,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
+      value: 344
       objectReference: {fileID: 0}
     - target: {fileID: 6761374487724926378, guid: aa830870acf51a94596536546020c09f,
         type: 3}
