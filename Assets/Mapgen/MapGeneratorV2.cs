@@ -20,6 +20,7 @@ namespace Map
         [Range(-1, 1)]
         public float continentHeightOffset = 0f;
         public float continentSharpness = 1f;
+        public float continentHeight = 1f;
         public float continentNoiseScale = 1f;
 
         public float oceanFloorSmoothing = 1f;
@@ -128,6 +129,7 @@ namespace Map
             meshBuilder.SetFloat("continentNoiseScale", setting.continentNoiseScale);
             meshBuilder.SetFloat("continentHeightOffset", setting.continentHeightOffset);
             meshBuilder.SetFloat("continentSharpness", setting.continentSharpness);
+            meshBuilder.SetFloat("continentHeight", setting.continentHeight);
 
             meshBuilder.SetFloat("oceanFloorSmoothing", setting.oceanFloorSmoothing);
             meshBuilder.SetFloat("oceanDepthMultiplier", setting.oceanDepthMultiplier);
