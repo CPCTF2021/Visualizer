@@ -10,7 +10,6 @@ mergeInto(LibraryManager.library, {
       messages = new Array();
 
       ws.onmessage = function (e) {
-        console.log(e);
         messages.push(e.data);
       };
       ws.onopen = function () {
@@ -27,7 +26,6 @@ mergeInto(LibraryManager.library, {
   },
   PopMessage: function () {
     var msg = "";
-    console.log(messages.length);
 
     if (messages.length > 0) {
       msg = messages.shift();
