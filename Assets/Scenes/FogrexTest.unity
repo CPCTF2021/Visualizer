@@ -1091,6 +1091,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 94c806b391c61f34782c08d4547f0424, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 203217eaf69c61c44a1cd55220ce7a7a, type: 3}
+--- !u!4 &536058474 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3054335174393748114, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
+    type: 3}
+  m_PrefabInstance: {fileID: 701807687}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &617196672 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 13de87369dd495e4e95b3723abd7a6c3,
@@ -2811,6 +2817,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3054335174393748114, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054335174393748114, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.845
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054335174393748114, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.845
+      objectReference: {fileID: 0}
+    - target: {fileID: 3054335174393748114, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.845
+      objectReference: {fileID: 0}
     - target: {fileID: 3095696384404533775, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -3125,6 +3151,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876702473878084266, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4005066294883267302, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
         type: 3}
@@ -4408,7 +4439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac271615356f404986d07060a295c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treeParent: {fileID: 1060970055}
+  treeParent: {fileID: 536058474}
   users: []
   usedTree: 
   cameraAnimator: {fileID: 278234003}
@@ -4703,12 +4734,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d84b2ac674badda458bb0b2396665f6f, type: 3}
---- !u!4 &1060970055 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7406865666510743919, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
-    type: 3}
-  m_PrefabInstance: {fileID: 701807687}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1114790750 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8637376608382422053, guid: b526d6b7c1aee424eb09eb09352f19aa,

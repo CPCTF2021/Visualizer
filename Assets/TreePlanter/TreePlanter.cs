@@ -41,6 +41,7 @@ public class TreePlanter : MonoBehaviour
         Transform fakeTreeInstance = Instantiate(fakeTree, fakeTreeParent).transform;
         fakeTreeInstance.position = hit_info.point;
         fakeTreeInstance.rotation = quat;
+        Debug.Log(treeParent.childCount);
       }
       else
       {
@@ -54,6 +55,7 @@ public class TreePlanter : MonoBehaviour
     {
       Destroy(treeParent.GetChild(treeParent.childCount - 1).gameObject);
       Destroy(fakeTreeParent.GetChild(fakeTreeParent.childCount - 1).gameObject);
+      Debug.Log(treeParent.childCount);
     }
   }
 }
