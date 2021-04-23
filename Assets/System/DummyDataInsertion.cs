@@ -33,8 +33,8 @@ namespace VisualizerSystem
             {
                 userManager.AddUser($"name{Mathf.Pow(1.5f, i)}", i.ToString(), texture);
                 rankingManager.AddUser(userManager.usersDictionary[i.ToString()]);
-            }
                 yield return new WaitForSeconds(2f);
+            }
         }
 
         IEnumerator AddPoint()
@@ -47,7 +47,7 @@ namespace VisualizerSystem
                 var score = Random.Range(100, 1000);
                 userManager.AddScore(v, genre, score);
                 rankingManager.Update(userManager.usersDictionary[v]);
-                yield return new WaitForSeconds(Random.Range(0.1f, 0.2f));
+                yield return new WaitForSeconds(Random.Range(2f, 3f));
             }
         }
     }
