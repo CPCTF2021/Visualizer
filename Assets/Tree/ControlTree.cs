@@ -30,6 +30,8 @@ namespace TreeScripts
 
         void Start() {
             originalScale = transform.localScale;
+            this.progress = 0f;
+            GrowTree();
         }
 
         public void SetActive(bool flag)
@@ -111,7 +113,7 @@ namespace TreeScripts
             originalScale = new Vector3(1f, 1f, 1f);
             GrowTree();
         }
-    }
 #endif
+    }
 
 }
