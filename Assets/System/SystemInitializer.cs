@@ -58,7 +58,7 @@ namespace VisualizerSystem
         {
             public string id;
             public string name;
-            public string iconURL;
+            public string iconUrl;
             public List<Score> scores;
         }
         [Serializable]
@@ -67,9 +67,9 @@ namespace VisualizerSystem
             public Genre genre;
             public float score;
         }
-        void Perse()
+        async void Perse()
         {
-            string json = "[{\"id\":\"userid\",\"name\":\"username\",\"iconURL\":\"URL\",\"scores\":[{\"genre\":0,\"score\":23},{\"genre\":1,\"score\":2.5},{\"genre\":2,\"score\":2.6},{\"genre\":3,\"score\":2.7},{\"genre\":4,\"score\":2.4},{\"genre\":5,\"score\":2.5},{\"genre\":6,\"score\":2.6},{\"genre\":7,\"score\":2.7},{\"genre\":8,\"score\":2.4},{\"genre\":9,\"score\":2.5}]},{\"id\":\"userid-2\",\"name\":\"username\",\"iconURL\":\"URL\",\"scores\":[{\"genre\":0,\"score\":2.4},{\"genre\":1,\"score\":2.5},{\"genre\":2,\"score\":2.6},{\"genre\":3,\"score\":2.7},{\"genre\":4,\"score\":2.4},{\"genre\":5,\"score\":2.5},{\"genre\":6,\"score\":2.6},{\"genre\":7,\"score\":2.7},{\"genre\":8,\"score\":2.4},{\"genre\":9,\"score\":2.5}]},{\"id\":\"userid-3\",\"name\":\"username\",\"iconURL\":\"URL\",\"scores\":[{\"genre\":0,\"score\":2.4},{\"genre\":1,\"score\":2.5},{\"genre\":2,\"score\":2.6},{\"genre\":3,\"score\":2.7},{\"genre\":4,\"score\":2.4},{\"genre\":5,\"score\":2.5},{\"genre\":6,\"score\":2.6},{\"genre\":7,\"score\":2.7},{\"genre\":8,\"score\":1000},{\"genre\":9,\"score\":2.5}]}]";
+            string json = "[{\"id\":\"userid\",\"name\":\"username\",\"iconUrl\":\"http://exampl.com\",\"scores\":[{\"genre\":0,\"score\":23},{\"genre\":1,\"score\":2.5},{\"genre\":2,\"score\":2.6},{\"genre\":3,\"score\":2.7},{\"genre\":4,\"score\":2.4},{\"genre\":5,\"score\":2.5},{\"genre\":6,\"score\":2.6},{\"genre\":7,\"score\":2.7},{\"genre\":8,\"score\":2.4},{\"genre\":9,\"score\":2.5}]},{\"id\":\"userid-2\",\"name\":\"username\",\"iconUrl\":\"http://exampl.com\",\"scores\":[{\"genre\":0,\"score\":2.4},{\"genre\":1,\"score\":2.5},{\"genre\":2,\"score\":2.6},{\"genre\":3,\"score\":2.7},{\"genre\":4,\"score\":2.4},{\"genre\":5,\"score\":2.5},{\"genre\":6,\"score\":2.6},{\"genre\":7,\"score\":2.7},{\"genre\":8,\"score\":2.4},{\"genre\":9,\"score\":2.5}]},{\"id\":\"userid-3\",\"name\":\"username\",\"iconUrl\":\"http://exampl.com\",\"scores\":[{\"genre\":0,\"score\":2.4},{\"genre\":1,\"score\":2.5},{\"genre\":2,\"score\":2.6},{\"genre\":3,\"score\":2.7},{\"genre\":4,\"score\":2.4},{\"genre\":5,\"score\":2.5},{\"genre\":6,\"score\":2.6},{\"genre\":7,\"score\":2.7},{\"genre\":8,\"score\":1000},{\"genre\":9,\"score\":2.5}]}]";
             List<UserResponse> res = JsonHelper.FromJson<UserResponse>(json); ;
             List<User> users = new List<User>(res.Count);
             foreach (UserResponse user in res)
@@ -83,7 +83,7 @@ namespace VisualizerSystem
                 Texture2D texture = new Texture2D(5, 5);
                 tmp.name = user.name;
                 tmp.id = user.id;
-                tmp.icon = texture;
+                tmp.icon = await FetchIcon(user.iconUrl);
                 tmp.scores = scores;
                 users.Add(tmp);
             }
@@ -104,7 +104,11 @@ namespace VisualizerSystem
                     scores.Add(score.genre, score.score);
                 }
                 var tmp = new User();
-                tmp.SetUser(user.name, user.id, await FetchIcon(user.iconURL), scores);
+                Texture2D texture = new Texture2D(5, 5);
+                tmp.name = user.name;
+                tmp.id = user.id;
+                tmp.icon = await FetchIcon(user.iconUrl);
+                tmp.scores = scores;
                 users.Add(tmp);
             }
             try { userManager.AddUsers(users); }
