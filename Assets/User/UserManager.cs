@@ -44,7 +44,6 @@ namespace UserScripts
             }
             usersDictionary = new Dictionary<string, User>();
             notificationManager = GameObject.Find("Notification").GetComponent<NotificationManager>();
-            treeGenerator = GetComponent<TreeGenerator>();
         }
 
         // 既存Userの反映
@@ -68,8 +67,7 @@ namespace UserScripts
 
             if (fullyUsed) throw new IndexOutOfRangeException();
 
-            // 起動時に、木にユーザーを割当するため
-            treeGenerator.SetMesh(users[index].GetComponent<ControlTree>());
+            users[index].GetComponent<ControlTree>().ResetTree();
             users[index].SetUser(name, id, icon, scores);
             usersDictionary.Add(id, users[index]);
         }
@@ -111,10 +109,10 @@ namespace UserScripts
         IEnumerator DoAnimation()
         {
             isAnimation = true;
-            cameraAnimator.MoveToTarget();
+            cameraAnimator.MoveToTarget(2f);
             UserQueueData userQueueData = userQueue.Dequeue();
             cameraAnimator.ChangeTarget(userQueueData.user.GetPosition());
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(2f);
             float t;
             while (true)
             {
@@ -126,8 +124,8 @@ namespace UserScripts
                 userQueueData = userQueue.Dequeue();
                 cameraAnimator.ChangeTarget(userQueueData.user.GetPosition());
             }
-            cameraAnimator.LeaveFromTarget();
-            yield return new WaitForSeconds(0.7f);
+            cameraAnimator.LeaveFromTarget(1f);
+            yield return new WaitForSeconds(1f);
             if(userQueue.Count >= 1) yield return DoAnimation();
             isAnimation = false;
         }

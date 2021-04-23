@@ -12,6 +12,7 @@ float2 continentShapeSeed;
 float continentHeightOffset;
 float continentNoiseScale;
 float continentSharpness;
+float continentHeight;
 
 float oceanFloorSmoothing;
 float oceanDepthMultiplier;
@@ -94,10 +95,10 @@ float heightCalculate (in float2 pos)
 
     float oceanFloorShape = continentShape * 0.15;
     continentShape = smoothMax(continentShape, oceanFloorShape, oceanFloorSmoothing) - 0.4 + continentHeightOffset;
-    continentShape = (continentShape < 0.0) ? continentShape * (1 + oceanDepthMultiplier) : pow(abs(continentShape) * continentSharpness, 2.0);
+    continentShape = (continentShape < 0.0) ? continentShape * (1 + oceanDepthMultiplier) : pow(abs(continentShape) * continentHeight , continentSharpness);
 
     float mountainMask = gain(noise(pos * mountainMaskScale + float2(50, 50) + mountainMaskSeed) + mountainMaskOffset, mountainMaskGain);
-    float mountainShape = (noise(pos * mountainNoiseScale + float2(70, 70) + mountainNoiseSeed)* 0.2) * max(mountainMask, abs(continentShape) * 2.0);
+    float mountainShape = (noise(pos * mountainNoiseScale + float2(70, 70) + mountainNoiseSeed)* 0.2) * max(mountainMask, saturate(continentShape) * 3.0);
     mountainShape = pow(mountainShape * mountainSharpness, 2.0);
     return continentShape + mountainShape * mountainHeightScale;
 }

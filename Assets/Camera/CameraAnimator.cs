@@ -54,7 +54,7 @@ namespace CameraScripts
                 normal * Mathf.Cos(phi * 5f) * treeAround + binormal * Mathf.Sin(phi * 5f) * treeAround,
                 progress) * treeAroundRadius;
 
-            theta = (theta + Mathf.PI * 0.001f) % (Mathf.PI * 2f);
+            theta = (theta + Mathf.PI * 0.0017f) % (Mathf.PI * 2f);
             phi = (phi + Mathf.PI * 0.001f) % (Mathf.PI * 2f);
             camTransform.LookAt(Vector3.Lerp(Vector3.zero, target.normalized * targetHeight * 0.5f, progress), Vector3.Lerp(Vector3.up, target, progress));
             camTransform.position = camTransform.position + Vector3.Lerp(radius * 0.5f * camTransform.right, Vector3.zero, progress);
@@ -66,7 +66,7 @@ namespace CameraScripts
             postProcessing.SetProgress(progress);
         }
 
-        public Sequence MoveToTarget()
+        public Sequence MoveToTarget(float t)
         {
             if (sequence != null) sequence.Kill(false);
             treeAroundRadius = 1.5f;
@@ -74,8 +74,8 @@ namespace CameraScripts
             sequence.Append(DOTween.To(() => progress, (val) =>
             {
                 progress = val;
-            }, 1f, 0.7f));
-            rankingMove.RightMove();
+            }, 1f, t));
+            rankingMove.RightMove(t);
 
             return sequence;
         }
@@ -84,7 +84,7 @@ namespace CameraScripts
         {
             target = pos;
             float radius = pos.magnitude;
-            targetHeight = radius * 2.0f + 0.6f * treeAround;
+            targetHeight = radius * 2.0f + 0.1f * treeAround;
             Vector3 dir = pos / radius;
             targetTheta = Mathf.Acos(dir.y);
             if (pos.z == 0) targetPhi = 0f;
@@ -94,13 +94,13 @@ namespace CameraScripts
             PositionCalculate();
         }
         
-        public void LeaveFromTarget()
+        public void LeaveFromTarget(float t)
         {
             sequence.Append(DOTween.To(() => progress, (val) =>
             {
                 progress = val;
-            }, 0f, 0.7f));
-            rankingMove.LeftMove();
+            }, 0f, t));
+            rankingMove.LeftMove(t);
         }
     }
 }

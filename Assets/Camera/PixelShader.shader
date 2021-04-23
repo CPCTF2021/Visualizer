@@ -63,7 +63,7 @@
                 float2 uv = floor(i.uv * segment) / segment + float2(1.0, 1.0) / segment * 0.5;
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, uv);
-                float colorStep = lerp(_ColorStep, 256.0, _Progress);
+                float colorStep = lerp(_ColorStep, 16.0, _Progress);
                 float lumin = 0.298912 * col.r + 0.586611 * col.g + 0.114478 * col.b;
                 float luminStepped = floor(lumin * colorStep) / (colorStep - 1);
                 // luminStepped = luminStepped * 0.8 + 0.2;

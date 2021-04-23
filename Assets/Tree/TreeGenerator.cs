@@ -20,8 +20,6 @@ namespace TreeScripts
         [SerializeField]
         GameObject leave;
         [SerializeField]
-        Transform treeParent;
-        [SerializeField]
         int num, segmentNum, branchNum;
         [SerializeField]
         float radius, branchLength, stemRadius;

@@ -28,11 +28,11 @@ namespace UserScripts
         {
             Sequence sequence = DOTween.Sequence();
             sequence.Append(DOTween.To(() => 0f, (val) => {
-                rotateSpeed = (val * 30f + 1f) * Mathf.PI * 0.1f;
+                rotateSpeed = (val * 10f + 1f) * Mathf.PI * 0.1f;
                 transform.localScale = new Vector3(0.1f, 0.1f, 0.1f) * (val * 1f + 1f);
             }, 1f, 0.5f * animationTime).SetEase(Ease.OutBack));
             sequence.Append(DOTween.To(() => 1f, (val) => {
-                rotateSpeed = (val * 30f + 1f) * Mathf.PI * 0.1f;
+                rotateSpeed = (val * 10f + 1f) * Mathf.PI * 0.1f;
                 transform.localScale = new Vector3(0.1f, 0.1f, 0.1f) * (val * 1f + 1f);
             }, 0f, 0.4f * animationTime).SetEase(Ease.InQuart));
             sequence.AppendInterval(0.5f);
