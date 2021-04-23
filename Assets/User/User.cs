@@ -26,7 +26,7 @@ namespace UserScripts
         {
             controlTree = GetComponent<ControlTree>();
             userIcon.SetUpVector(transform.position.normalized);
-        }
+       }
 
         public float Gamma(float x)
         {
