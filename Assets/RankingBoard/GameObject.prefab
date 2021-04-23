@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.50980395, g: 0.7411765, b: 0.9529412, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -138,6 +139,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8980392, g: 0.36862746, b: 0.36862746, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -216,6 +218,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.50980395, g: 0.7411765, b: 0.9529412, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -294,6 +297,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.50980395, g: 0.7411765, b: 0.9529412, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -368,7 +372,6 @@ MonoBehaviour:
   thisPos: {fileID: 7054929385106773610}
   rightPosX: 400
   leftPosX: -50
-  animTime: 1
 --- !u!114 &7054929385106773608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +445,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8980392, g: 0.36862746, b: 0.36862746, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -520,6 +524,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8980392, g: 0.36862746, b: 0.36862746, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -598,6 +603,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.50980395, g: 0.7411765, b: 0.9529412, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -838,6 +844,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.50980395, g: 0.7411765, b: 0.9529412, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -916,6 +923,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.50980395, g: 0.7411765, b: 0.9529412, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -941,6 +949,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7054929385106773610}
     m_Modifications:
+    - target: {fileID: 6890735834260554315, guid: 3e99ef4dbf7bd7848a8f9f87bc7f558e,
+        type: 3}
+      propertyPath: m_Text
+      value: 05:45:24.000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6890735834260554315, guid: 3e99ef4dbf7bd7848a8f9f87bc7f558e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 226d7ae4cb8df4d0bb60e9134f143b99,
+        type: 3}
     - target: {fileID: 6890735834260554315, guid: 3e99ef4dbf7bd7848a8f9f87bc7f558e,
         type: 3}
       propertyPath: m_FontData.m_Alignment
@@ -1034,12 +1053,12 @@ PrefabInstance:
     - target: {fileID: 6890735834260554357, guid: 3e99ef4dbf7bd7848a8f9f87bc7f558e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 326
+      value: 540
       objectReference: {fileID: 0}
     - target: {fileID: 6890735834260554357, guid: 3e99ef4dbf7bd7848a8f9f87bc7f558e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 105
+      value: 239
       objectReference: {fileID: 0}
     - target: {fileID: 6890735834260554357, guid: 3e99ef4dbf7bd7848a8f9f87bc7f558e,
         type: 3}
