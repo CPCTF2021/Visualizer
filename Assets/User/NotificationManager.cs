@@ -46,7 +46,7 @@ namespace UserScripts
         public void Add(string name, Genre genre , float point)
         {
             Text text = Instantiate(notification, transform).GetComponent<Text>();
-            text.text = $"{name}   +{point}pts".Replace (' ', '\u00A0');
+            text.text = $"{name.ToUpper()}   +{point}pts".Replace (' ', '\u00A0');
             text.color = GENRE_TO_COLOR[(int)genre];
             transforms.Add(new Notification(text.rectTransform));
             for(int i=1;i<transforms.Count;i++)

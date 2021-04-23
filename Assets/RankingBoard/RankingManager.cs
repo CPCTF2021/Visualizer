@@ -14,7 +14,7 @@ namespace RankingScript
             public RankingUser(User user)
             {
                 id = user.id;
-                name = user.name;
+                name = user.name.ToUpper();
                 icon = user.icon;
                 scores = user.scores;
                 totalScore = user.totalScore;
