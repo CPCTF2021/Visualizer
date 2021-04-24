@@ -20,7 +20,7 @@ namespace TreeScripts {
                 TreeGenerator treeGenerator = GetComponent<TreeGenerator>();
                 treeGenerator.MakeTree();
                 treeGenerator.SetMesh(controlTree);
-                //controlTree.SetProgress(1f);
+                // controlTree.SetProgress(1f);
                 yield return new WaitForSeconds(1f);
                 pos += 2f;
             }
