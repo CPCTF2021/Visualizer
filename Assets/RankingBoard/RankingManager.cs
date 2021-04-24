@@ -35,7 +35,7 @@ namespace RankingScript
             {
                 for (int i = 0; i < 10 && i < ranking.Count; i++)
                 {
-                    rankingEntries[i].SetPlayer(ranking[i].ranking, ranking[i].name, ranking[i].totalScore);
+                    rankingEntries[i].SetPlayer(ranking[i].name, ranking[i].totalScore);
                 }
                 changed = false;
             }
