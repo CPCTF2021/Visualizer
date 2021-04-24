@@ -7,6 +7,8 @@
 
 using UnityEngine;
 using System.Collections;
+
+[ExecuteInEditMode]
 public class OrbitControl : MonoBehaviour
 {
   public Transform target;

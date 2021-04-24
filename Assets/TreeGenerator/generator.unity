@@ -346,7 +346,7 @@ MonoBehaviour:
   num: 150
   segmentNum: 3
   branchNum: 8
-  radius: 8
+  radius: 5
   branchLength: 2
   stemRadius: 0.1
 --- !u!4 &2078071513

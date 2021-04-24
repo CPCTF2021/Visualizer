@@ -101,7 +101,7 @@
                 o.vertex = UnityObjectToClipPos(float4(o.vertex.x, o.vertex.y, o.vertex.z, 1.0));
                 // v.vertex = UnityObjectToClipPos(v.vertex);
                 // v.vertex = v.vertex;
-                o.shade = (saturate(dot(UnityObjectToWorldNormal(v.normal).xyz, _WorldSpaceLightPos0.xyz)) * 0.8 + 0.2) * _MainColor;
+                o.shade = (saturate(dot(UnityObjectToWorldNormal(v.normal).xyz, _WorldSpaceLightPos0.xyz)) * 0.6 + 0.4) * _MainColor;
 
                 return o;
             };

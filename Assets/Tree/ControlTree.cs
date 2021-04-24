@@ -109,6 +109,7 @@ namespace TreeScripts
             AssetDatabase.SaveAssets();
         }
         public void SetProgress(float p) {
+            Debug.Log(p);
             this.progress = p;
             originalScale = new Vector3(1f, 1f, 1f);
             GrowTree();
