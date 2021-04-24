@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using static VisualizerSystem.ProblemSolvedEvent;
 using System.Linq;
+using System.Threading;
 
 namespace VisualizerSystem
 {
@@ -96,18 +97,27 @@ namespace VisualizerSystem
         {
             List<UserResponse> res = await FetchUsers();
             List<User> users = new List<User>(res.Count);
+            var tasks = new List<Task<Texture2D>>();
+            var semaphore = new SemaphoreSlim(30, 30);
             foreach (UserResponse user in res)
             {
+                await semaphore.WaitAsync();
+                tasks.Add(FetchIcon(user.iconUrl));
+                semaphore.Release(1);
+            }
+            var icons = await Task.WhenAll(tasks);
+            for (int i = 0; i < users.Count; i++)
+            {
                 var scores = new Dictionary<Genre, float>();
-                foreach (Score score in user.scores)
+                foreach (Score score in res[i].scores)
                 {
                     scores.Add(score.genre, score.score);
                 }
                 var tmp = new User();
                 Texture2D texture = new Texture2D(5, 5);
-                tmp.name = user.name;
-                tmp.id = user.id;
-                tmp.icon = await FetchIcon(user.iconUrl);
+                tmp.name = res[i].name;
+                tmp.id = res[i].id;
+                tmp.icon = icons[i];
                 tmp.scores = scores;
                 users.Add(tmp);
             }

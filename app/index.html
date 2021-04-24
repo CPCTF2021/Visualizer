@@ -2,8 +2,31 @@
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
+
+    <meta property="og:site_name" content="CPCTF2021" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CPCTF2021" />
+    <meta property="og:description" content="競技プログラミングとCTFを主に新入生や、そうじゃないひとたちにも体験してもらおう！！という試みです。" />
+    <meta property="og:url" content="https://cpctf.space/" />
+    <meta property="og:image" content="https://cpctf.space/ogp.png" />
+    <meta property="article:publisher" content="https://www.facebook.com/traPtitech" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CPCTF2021" />
+    <meta name="twitter:description" content="競技プログラミングとCTFを主に新入生や、そうじゃないひとたちにも体験してもらおう！！という試みです。" />
+    <meta name="twitter:url" content="https://cpctf.space/" />
+    <meta name="twitter:image" content="https://cpctf.space/ogp.png" />
+    <meta name="twitter:site" content="@traPtitech" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="315" />
+
+    <link rel="icon" type="image/png" href="/favicon_16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon_64x64.png" sizes="64x64" />
+    <link rel="icon" type="image/png" href="/favicon_128x128.png" sizes="128x128" />
+    <meta name="theme-color" content="#34d399">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | Visualizer</title>
+    <script src="./progress.js"></script>
     <style>
       html {
         width: 100%;
@@ -19,6 +42,7 @@
         align-items: center;
       }
       #unity-container {
+        position: relative;
         height: 56.25vw;
         width: 177.78vh;
         max-height: 100vh;
@@ -28,11 +52,12 @@
         width: 100%;
         height: 100%;
       }
+
     </style>
   </head>
   <body>
     <div id="unity-container">
-      <canvas id="unity-canvas" width=960 height=600></canvas>
+      <canvas id="unity-canvas" width=1920 height=1080></canvas>
     </div>
     <script src="Build/app.loader.js"></script>
     <script>
