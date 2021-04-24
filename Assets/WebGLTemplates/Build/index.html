@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | {{{ PRODUCT_NAME }}}</title>
+    <script src="./progress.js"></script>
     <style>
       html {
         width: 100%;
@@ -19,6 +20,7 @@
         align-items: center;
       }
       #unity-container {
+        position: relative;
         height: 56.25vw;
         width: 177.78vh;
         max-height: 100vh;
@@ -28,11 +30,33 @@
         width: 100%;
         height: 100%;
       }
+      #unity-progress-wrapper {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+      #unity-progress {
+        position: relative;
+        width: 600px;
+        height: 338px;
+        overflow: hidden;
+      }
+      #unity-progress-image {
+        position: absolute;
+      }
     </style>
   </head>
   <body>
     <div id="unity-container">
       <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}}></canvas>
+      <div id="unity-progress-wrapper">
+        <div id="unity-progress"><img id="unity-progress-image" src="./progress.jpg" /></div>
+      </div>
     </div>
     <script src="Build/{{{ LOADER_FILENAME }}}"></script>
     <script>

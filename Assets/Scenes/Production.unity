@@ -3250,6 +3250,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.845
       objectReference: {fileID: 0}
+    - target: {fileID: 3054335174393748117, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6413529260810437880, guid: 0d95ed69b1f6ecd4c9878d48621092e4,
         type: 3}
       propertyPath: m_Name
@@ -4582,7 +4587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1755923217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5593,7 +5598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2854140018812948731
 Transform:
   m_ObjectHideFlags: 0
