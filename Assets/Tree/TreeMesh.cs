@@ -68,25 +68,25 @@ namespace TreeScripts {
         leaveProgress.Add(branchIndex / (float)branchNum);
       }
       for(int i=0;i<segmentNum-1;i++) {
-        for(int j=0;j<5;j++) {
-          float rad1 = delta + j / 5f * Mathf.PI * 2f;
-          float rad2 = delta + (j+1) / 5f * Mathf.PI * 2f;
+        for(int j=0;j<3;j++) {
+          float rad1 = delta + j / 3f * Mathf.PI * 2f;
+          float rad2 = delta + (j+1) / 3f * Mathf.PI * 2f;
           Vector3 downRingNormal1 = prevCoord.normal * Mathf.Cos(rad1) + prevCoord.binormal * Mathf.Sin(rad1);
           Vector3 downRingNormal2 = prevCoord.normal * Mathf.Cos(rad2) + prevCoord.binormal * Mathf.Sin(rad2);
           Vector3 downRing1 = downRingNormal1 * radius + offset;
           Vector3 downRing2 = downRingNormal2 * radius + offset;
-          Vector3 upRingNormal1 = coord.normal * Mathf.Cos(rad1 + Mathf.PI / 5f) + coord.binormal * Mathf.Sin(rad1 + Mathf.PI / 5f);
-          Vector3 upRingNormal2 = coord.normal * Mathf.Cos(rad2 + Mathf.PI / 5f) + coord.binormal * Mathf.Sin(rad2 + Mathf.PI / 5f);
+          Vector3 upRingNormal1 = coord.normal * Mathf.Cos(rad1) + coord.binormal * Mathf.Sin(rad1);
+          Vector3 upRingNormal2 = coord.normal * Mathf.Cos(rad2) + coord.binormal * Mathf.Sin(rad2);
           Vector3 upRing1 = upRingNormal1 * radius + offset2;
           Vector3 upRing2 = upRingNormal2 * radius + offset2;
           vertices.Add(downRing1);vertices.Add(upRing1);vertices.Add(downRing2);
           vertices.Add(upRing1);vertices.Add(upRing2);vertices.Add(downRing2);
-          triangles.Add(indexOffset + i * 30 + j * 6 + 0);
-          triangles.Add(indexOffset + i * 30 + j * 6 + 1);
-          triangles.Add(indexOffset + i * 30 + j * 6 + 2);
-          triangles.Add(indexOffset + i * 30 + j * 6 + 3);
-          triangles.Add(indexOffset + i * 30 + j * 6 + 4);
-          triangles.Add(indexOffset + i * 30 + j * 6 + 5);
+          triangles.Add(indexOffset + i * 18 + j * 6 + 0);
+          triangles.Add(indexOffset + i * 18 + j * 6 + 1);
+          triangles.Add(indexOffset + i * 18 + j * 6 + 2);
+          triangles.Add(indexOffset + i * 18 + j * 6 + 3);
+          triangles.Add(indexOffset + i * 18 + j * 6 + 4);
+          triangles.Add(indexOffset + i * 18 + j * 6 + 5);
           float downProgress = 1f - (branchIndex + i / (float)(segmentNum - 1)) / (float)branchNum;
           float upProgress = 1f - (branchIndex + (i + 1) / (float)(segmentNum - 1)) / (float)branchNum;
           uv2.Add(new Vector2(downProgress, downRingNormal1.x));uv3.Add(new Vector2(downRingNormal1.y, downRingNormal1.z));
@@ -99,7 +99,7 @@ namespace TreeScripts {
         if(i == segmentNum - 1) break;
         offset = offset2;
         offset2 += coord.front / (float)(branchNum * segmentNum) * branchLength;
-        delta += Mathf.PI / 5f;
+        // delta += Mathf.PI / 3f;
         prevCoord = coord.Copy();
         coord.Rotate(0f * (branchIndex / (float)branchNum));
       }
