@@ -11,41 +11,95 @@
         Tags { "RenderType"="Opaque" }
         LOD 200
 
-        CGPROGRAM
-        // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard fullforwardshadows
+        Pass {
+            Tags { "LightMode"="ShadowCaster" "RenderType"="Opaque" "Queue"="Geometry" }
+  		    ZWrite On
+  		    ColorMask 0
 
-        // Use shader model 3.0 target, to get nicer looking lighting
-        #pragma target 3.0
+            // CGPROGRAM
 
-        sampler2D _MainTex;
+            // #pragma vertex vert
+            // #pragma fragment frag
 
-        struct Input
-        {
-            float2 uv_MainTex;
-        };
+            // struct appdata 
+            // {
+            //     float4 vertex : POSITION;
+            // };
 
-        half _Glossiness;
-        half _Metallic;
+            // struct v2f
+            // {
+            //     float4 vertex : SV_POSITION;
+            // };
 
-        // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-        // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-        // #pragma instancing_options assumeuniformscaling
-        UNITY_INSTANCING_BUFFER_START(Props)
-            UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
-        UNITY_INSTANCING_BUFFER_END(Props)
+            // #include "UnityCG.cginc"
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
-            // Albedo comes from a texture tinted by color
-            fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-            o.Albedo = c.rgb;
-            // Metallic and smoothness come from slider variables
-            o.Metallic = _Metallic;
-            o.Smoothness = _Glossiness;
-            o.Alpha = c.a;
+            // UNITY_INSTANCING_BUFFER_START(Props)
+
+            //     UNITY_DEFINE_INSTANCED_PROP(float, _Radius)
+            //     UNITY_DEFINE_INSTANCED_PROP(float, _Progress)
+
+            // UNITY_INSTANCING_BUFFER_END(Props)
+
+            // v2f vert(appdata v) {
+            //     v2f o;
+            //     o.vertex = UnityObjectToClipPos(v.vertex);
+            //     return o;
+            // }
+
+            // fixed4 frag(v2f o):COLOR
+            // {
+            //     return float4(1.0, 1.0, 1.0, 1.0);
+            // }
+
+            // ENDCG
         }
-        ENDCG
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_fog
+            #pragma multi_compile_instancing
+            #pragma target 3.0
+            #include "UnityCG.cginc"
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                float4 normal : NORMAL;
+            };
+
+            struct v2f
+            {
+                float4 vertex : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+                float4 shade : TEXCOORD0;
+            };
+
+            float4 _MainColor;
+
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
+            UNITY_INSTANCING_BUFFER_END(Props)
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+                UNITY_SETUP_INSTANCE_ID(v)
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.shade = (saturate(dot(UnityObjectToWorldNormal(v.normal).xyz, _WorldSpaceLightPos0.xyz)) * 0.6 + 0.4) * UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+
+                return o;
+            };
+
+            fixed4 frag (v2f v): SV_Target
+            {
+                return v.shade;
+            };
+            ENDCG
+        }
     }
     FallBack "Diffuse"
 }

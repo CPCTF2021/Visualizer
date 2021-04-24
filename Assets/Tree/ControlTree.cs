@@ -28,9 +28,17 @@ namespace TreeScripts
         [SerializeField]
         Vector3 originalScale;
 
+        MaterialPropertyBlock treeProperty;
+        List<MaterialPropertyBlock> leaveProperties;
+
         void Start() {
             originalScale = transform.localScale;
             this.progress = 0f;
+            treeProperty = new MaterialPropertyBlock();
+            leaveProperties = new List<MaterialPropertyBlock>();
+            leaveList.ForEach((obj) => {
+                leaveProperties.Add(new MaterialPropertyBlock());
+            });
             GrowTree();
         }
 
@@ -40,12 +48,12 @@ namespace TreeScripts
         }
         void GrowTree()
         {
-            MaterialPropertyBlock props = new MaterialPropertyBlock();
+            treeProperty.Clear();
             //木の設定
             progress = Mathf.Max(Mathf.Min(progress, 1f), 0f);
-            props.SetFloat("_Radius", radius);
-            props.SetFloat("_Progress", progress);
-            GetComponent<MeshRenderer>().SetPropertyBlock(props);
+            treeProperty.SetFloat("_Radius", radius);
+            treeProperty.SetFloat("_Progress", progress);
+            GetComponent<MeshRenderer>().SetPropertyBlock(treeProperty);
             transform.localScale = Vector3.Scale(new Vector3(progress, progress, progress), originalScale);
             for (int i = 0; i < leaveList.Count; i++)
             {
@@ -61,13 +69,13 @@ namespace TreeScripts
             for (int i = 0; i < leaveList.Count; i++)
             {
                 // 葉の設定
-                MaterialPropertyBlock props2 = new MaterialPropertyBlock();
+                leaveProperties[i].Clear();
                 while (index + 1 < 10 && cumulativePercentage[(Genre)(index + 1)] < i / (float)leaveList.Count)
                 {
                     index++;
                 }
-                props2.SetColor("_Color", GENRE_TO_COLOR[index]);
-                leaveList[i].gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(props2);
+                leaveProperties[i].SetColor("_Color", GENRE_TO_COLOR[index]);
+                leaveList[i].gameObject.GetComponent<MeshRenderer>().SetPropertyBlock(leaveProperties[i]);
             }
         }
 
@@ -75,10 +83,10 @@ namespace TreeScripts
         {
             material = GetComponent<Renderer>().material;
             // 木をprogress0にリセット
-            MaterialPropertyBlock props = new MaterialPropertyBlock();
-            props.SetFloat("_Radius", radius);
-            props.SetFloat("_Progress", 0f);
-            GetComponent<MeshRenderer>().SetPropertyBlock(props);
+            treeProperty.Clear();
+            treeProperty.SetFloat("_Radius", radius);
+            treeProperty.SetFloat("_Progress", 0f);
+            GetComponent<MeshRenderer>().SetPropertyBlock(treeProperty);
             transform.localScale = Vector3.zero;
             for (int i = 0; i < leaveList.Count; i++)
             {
@@ -109,6 +117,7 @@ namespace TreeScripts
             AssetDatabase.SaveAssets();
         }
         public void SetProgress(float p) {
+            Debug.Log(p);
             this.progress = p;
             originalScale = new Vector3(1f, 1f, 1f);
             GrowTree();

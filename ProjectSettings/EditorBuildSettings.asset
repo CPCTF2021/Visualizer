@@ -5,12 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Tree/Tree.unity
-    guid: 6310943d791d3a7418f82ae70a3a44e5
-  - enabled: 0
-    path: Assets/Scenes/FogrexTest.unity
-    guid: 8b52094a179a7b545afdbd3ee023e9d3
   - enabled: 1
     path: Assets/SplashScreen/splashscreen.unity
     guid: f3098c1ef3cdbfa45bccf0ef842145df
