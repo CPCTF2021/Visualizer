@@ -101,9 +101,7 @@ namespace UserScripts
         public void AddScore(string id, Genre genre, float score)
         {
             User user;
-            if (!usersDictionary.TryGetValue(id, out user)) {
-                throw new MissingFieldException();
-            }
+            if (!usersDictionary.TryGetValue(id, out user)) return;
             usersDictionary[id].scores[genre] += score;
             usersDictionary[id].totalScore += (int)score;
             UserQueueData userQueueData;
