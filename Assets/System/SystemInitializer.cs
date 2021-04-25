@@ -19,6 +19,7 @@ namespace VisualizerSystem
         RankingManager rankingManager;
         Timer timer;
         static string BASE_URL = "https://cpctf.space";
+        bool flag = false;
         async void Start()
         {
             // GetComponent<TreeGenerator>().MakeTree();
@@ -41,11 +42,12 @@ namespace VisualizerSystem
             ProblemSolvedEvent problemSolvedEvent = new ProblemSolvedEvent(userManager, rankingManager);
             eventManager.Register(problemSolvedEvent.Handler);
 #endif
+            flag = true;
         }
         void Update()
         {
 #if !UNITY_EDITOR
-            eventManager.Handle();
+            if(flag) eventManager.Handle();
 #endif
         }
         void OnDestroy()
