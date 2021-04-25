@@ -47,7 +47,7 @@ namespace UserScripts
         }
 
         // 既存Userの反映
-        public void AddUser(string name, string id, Texture icon, Dictionary<Genre, float> scores)
+        public void AddUser(string name, string id, Dictionary<Genre, float> scores)
         {
             int count = users.Count;
             int index = UnityEngine.Random.Range(0, count);
@@ -68,24 +68,33 @@ namespace UserScripts
             if (fullyUsed) throw new IndexOutOfRangeException();
 
             users[index].GetComponent<ControlTree>().ResetTree();
-            users[index].SetUser(name, id, icon, scores);
+            users[index].SetUser(name, id, scores);
             usersDictionary.Add(id, users[index]);
+        }
+
+        public void AddUserIcon(string id, Texture icon)
+        {
+            User user;
+            if(usersDictionary.TryGetValue(id, out user))
+            {
+                user.SetUserIcon(icon);
+            }
         }
 
         public void AddUsers(List<User> users)
         {
             foreach (User user in users)
             {
-                AddUser(user.name, user.id, user.icon, user.scores);
+                AddUser(user.name, user.id, user.scores);
             }
         }
 
         // 新規Userの追加
-        public void AddUser(string name, string id, Texture icon)
+        public void AddUser(string name, string id)
         {
             var zero = new Dictionary<Genre, float>();
             foreach (Genre g in Enum.GetValues(typeof(Genre))) zero[g] = 0;
-            AddUser(name, id, icon, zero);
+            AddUser(name, id, zero);
         }
 
         // ポイントを加える

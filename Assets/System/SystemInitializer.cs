@@ -19,14 +19,14 @@ namespace VisualizerSystem
         RankingManager rankingManager;
         Timer timer;
         static string BASE_URL = "https://cpctf.space";
-        void Start()
+        async void Start()
         {
             // GetComponent<TreeGenerator>().MakeTree();
             userManager = GetComponent<UserManager>();
             userManager.Initialize();
-            Sync();
             rankingManager = GameObject.Find("RankingPanel").GetComponent<RankingManager>();
             timer = GameObject.Find("Timer").GetComponent<Timer>();
+            await Sync();
             
 #if !UNITY_EDITOR
 
@@ -68,31 +68,7 @@ namespace VisualizerSystem
             public Genre genre;
             public float score;
         }
-        async void Perse()
-        {
-            string json = "[{\"id\":\"userid\",\"name\":\"username\",\"iconUrl\":\"http://exampl.com\",\"scores\":[{\"genre\":0,\"score\":23},{\"genre\":1,\"score\":2.5},{\"genre\":2,\"score\":2.6},{\"genre\":3,\"score\":2.7},{\"genre\":4,\"score\":2.4},{\"genre\":5,\"score\":2.5},{\"genre\":6,\"score\":2.6},{\"genre\":7,\"score\":2.7},{\"genre\":8,\"score\":2.4},{\"genre\":9,\"score\":2.5}]},{\"id\":\"userid-2\",\"name\":\"username\",\"iconUrl\":\"http://exampl.com\",\"scores\":[{\"genre\":0,\"score\":2.4},{\"genre\":1,\"score\":2.5},{\"genre\":2,\"score\":2.6},{\"genre\":3,\"score\":2.7},{\"genre\":4,\"score\":2.4},{\"genre\":5,\"score\":2.5},{\"genre\":6,\"score\":2.6},{\"genre\":7,\"score\":2.7},{\"genre\":8,\"score\":2.4},{\"genre\":9,\"score\":2.5}]},{\"id\":\"userid-3\",\"name\":\"username\",\"iconUrl\":\"http://exampl.com\",\"scores\":[{\"genre\":0,\"score\":2.4},{\"genre\":1,\"score\":2.5},{\"genre\":2,\"score\":2.6},{\"genre\":3,\"score\":2.7},{\"genre\":4,\"score\":2.4},{\"genre\":5,\"score\":2.5},{\"genre\":6,\"score\":2.6},{\"genre\":7,\"score\":2.7},{\"genre\":8,\"score\":1000},{\"genre\":9,\"score\":2.5}]}]";
-            List<UserResponse> res = JsonHelper.FromJson<UserResponse>(json); ;
-            List<User> users = new List<User>(res.Count);
-            foreach (UserResponse user in res)
-            {
-                var scores = new Dictionary<Genre, float>();
-                foreach (Score score in user.scores)
-                {
-                    scores.Add(score.genre, score.score);
-                }
-                var tmp = new User();
-                Texture2D texture = new Texture2D(5, 5);
-                tmp.name = user.name;
-                tmp.id = user.id;
-                tmp.icon = await FetchIcon(user.iconUrl);
-                tmp.scores = scores;
-                users.Add(tmp);
-            }
-            try { userManager.AddUsers(users); }
-            catch (MissingFieldException err) { Debug.LogError(err); }
-            try { rankingManager.AddUsers(userManager.users.Where(user => user.id != "").ToList()); }
-            catch (ArgumentException err) { Debug.LogError(err); }
-        }
+
         // async void Sync()
         // {
         //     List<UserResponse> res = await FetchUsers();
@@ -126,7 +102,7 @@ namespace VisualizerSystem
         //     try { rankingManager.AddUsers(userManager.users.Where(user => user.id != "").ToList()); }
         //     catch (ArgumentException err) { Debug.LogError(err); }
         // }
-        async void Sync()
+        async Task Sync()
         {
             List<UserResponse> res = await FetchUsers();
             List<User> users = new List<User>(res.Count);
@@ -141,9 +117,9 @@ namespace VisualizerSystem
                 Texture2D texture = new Texture2D(5, 5);
                 tmp.name = user.name;
                 tmp.id = user.id;
-                tmp.icon = await FetchIcon(user.iconUrl);
                 tmp.scores = scores;
                 users.Add(tmp);
+                FetchIcon(user.id, user.iconUrl);
             }
             try { userManager.AddUsers(users); }
             catch (MissingFieldException err) { Debug.LogError(err); }
@@ -168,7 +144,7 @@ namespace VisualizerSystem
                 }
             }
         }
-        public async Task<Texture2D> FetchIcon(string iconUrl)
+        public async void FetchIcon(string id, string iconUrl)
         {
             using (UnityWebRequest req = UnityWebRequest.Get(iconUrl))
             {
@@ -187,7 +163,7 @@ namespace VisualizerSystem
                         Debug.LogError(iconUrl + ": IconLoadError");
                     }
                 }
-                return tex;
+                userManager.AddUserIcon(id, tex);
             }
         }
     }

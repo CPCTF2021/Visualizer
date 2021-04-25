@@ -33,11 +33,10 @@ namespace UserScripts
             return Mathf.Pow(x, 0.3f);
         }
 
-        public void SetUser(string name, string id, Texture icon, Dictionary<Genre, float> scores)
+        public void SetUser(string name, string id, Dictionary<Genre, float> scores)
         {
             this.name = name;
             this.id = id;
-            this.icon = icon;
             AddScore(scores);
 
             controlTree.SetActive(true);
@@ -45,6 +44,11 @@ namespace UserScripts
             controlTree.cumulativePercentage = cumulativePercentage;
             controlTree.AnimationTree(Gamma(totalScore / 10000f) * 0.7f + 0.3f, 1f);
             userIcon.gameObject.SetActive(true);
+        }
+
+        public void SetUserIcon(Texture icon)
+        {
+            this.icon = icon;
             userIcon.SetIcon(icon);
         }
 

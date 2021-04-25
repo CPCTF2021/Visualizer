@@ -31,7 +31,7 @@ namespace VisualizerSystem
             yield return new WaitForSeconds(1f);
             for (int i = 0; i < 30; i++)
             {
-                userManager.AddUser($"name{Mathf.Pow(1.5f, i)}", i.ToString(), texture);
+                userManager.AddUser($"name{Mathf.Pow(1.5f, i)}", i.ToString());
                 rankingManager.AddUser(userManager.usersDictionary[i.ToString()]);
                 yield return new WaitForSeconds(2f);
             }
